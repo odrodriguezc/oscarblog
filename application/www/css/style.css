@@ -1,0 +1,171 @@
+/******** GLOBAL *********/
+* {box-sizing:border-box}
+
+html {font-size: 62.5%
+
+}
+
+body {
+	font-family: Georgia, 'Times New Roman', Times, serif;
+	color: black;
+	font-size: 1.6rem;
+}
+
+/***** top shadow *******/
+body::before {
+    content: "";
+    position: fixed;
+    top: -10px;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    box-shadow: 0px 0 10px rgba(0, 0, 0, 0.8);
+    z-index: 100;
+}
+
+::selection {
+    background-color: #FFA;
+    color: #000;
+  }
+
+h1{
+    font-size: 2rem;
+    font-weight: bold;
+    padding: 1rem;
+}
+
+img {
+	max-width: 100%;
+}
+
+a {
+    color:  rgba(0, 0, 0,1);
+    text-decoration: none;
+}
+
+a:hover {
+    color:  rgba(0, 0, 0,0.5);
+
+
+}
+
+#logo-big {
+    max-width: 150px;
+}
+
+.nav-icon {
+    max-width: 2.5rem;
+    color: #F2E96B;
+}
+
+.container-80{
+    max-width: 80%;
+    margin: auto;
+    text-align: center;
+}
+
+.flex{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+}
+
+
+.element-invisible {
+    position: absolute !important;
+    height: 1px; width: 1px; 
+    overflow: hidden;
+    clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+    clip: rect(1px, 1px, 1px, 1px);
+  }
+
+/********** HEADER **********/
+
+div.bar{
+padding: 1rem;
+
+border-top: 1px solid rgba(0, 0, 0, 1);
+border-bottom: 1px solid  rgba(0, 0, 0, 1);
+}
+
+.top-bar, .network{
+    justify-content: space-between;
+}
+
+.network {
+    width: 30%;
+}
+
+.network a{
+    transition: all cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.network a:hover{
+    font-size: 1.8rem;
+}
+
+#search-text {
+    width: 100%;
+    border: none;
+}
+
+#search-text:focus {
+    opacity: 0.5;
+}
+
+.inner-header a {
+    justify-content: center;
+    align-items: center;
+    padding-top: 4rem;
+    padding-bottom: 1rem;
+}
+
+
+
+/********* MAIN HOME **********/
+main{
+    overflow: hidden;
+}
+
+section.blog {
+    width: 60%;
+    float: left;
+}
+
+aside.references {
+    width: 35%;
+    float: right;
+}
+
+article.publications {
+    overflow: auto;
+}
+
+article img{
+    max-width: 200px;
+}
+
+article img:nth-child(odd){
+    float: left;
+}
+
+article img:nth-child(even){
+    float: right;
+}
+
+
+/* tablet Portrait and Landscape */
+@media 
+  (min-device-width: 800px) 
+  and (max-device-width: 1280px) {
+
+}
+
+/* Phone Portrait and Landscape */
+@media screen 
+  and (device-width: 360px) 
+  and (device-height: 640px) 
+  and (-webkit-device-pixel-ratio: 2) {
+
+}
