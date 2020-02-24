@@ -1,14 +1,9 @@
 /******** GLOBAL *********/
 * {box-sizing:border-box}
 
-html {font-size: 62.5%
-
-}
-
 body {
-	font-family: Georgia, 'Times New Roman', Times, serif;
+	font-family: 'Playfair Display',Georgia, 'Times New Roman', Times, serif;
 	color: black;
-	font-size: 1.6rem;
 }
 
 /***** top shadow *******/
@@ -26,17 +21,53 @@ body::before {
 ::selection {
     background-color: #FFA;
     color: #000;
-  }
-
-h1{
-    font-size: 2rem;
-    font-weight: bold;
-    padding: 1rem;
 }
+ 
+/**** Typo sizes **********/
+/*html {font-size: 62.5%}*/
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    margin-bottom: .5rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    margin-bottom: .5rem;
+}
+
+.h1, h1{
+    font-size: 2.5rem;
+}
+
+.h2, h2 {
+    font-size: 2rem;
+}
+
+.h3, h3 {
+    font-size: 1.75rem;
+}
+
+.h4, h4 {
+    font-size: 1.5rem;
+}
+
+.h5, h5 {
+    font-size: 1.25rem;
+}
+
+.h6, h6 {
+    font-size: 1rem;
+}
+
+/************ Images *****/
 
 img {
 	max-width: 100%;
 }
+
+/******** Links *********/
 
 a {
     color:  rgba(0, 0, 0,1);
@@ -46,7 +77,33 @@ a {
 a:hover {
     color:  rgba(0, 0, 0,0.5);
 
+}
 
+/********** Formats *********/
+
+.publications code {
+    background-color: chocolate;
+    padding: 0 35px 0 0;
+    display: block;
+    min-height: 35px;
+    padding: 0 0 0 30px;
+}
+
+blockquote {
+    background: #f9f9f9;
+    border-left: 10px solid #ccc;
+    margin: 1.5em 10px;
+    padding: 0.5em 10px;
+    quotes: "\201C""\201D""\2018""\2019";
+}
+
+table {
+    border-collapse: collapse;
+    border-color: #CDCDCD;
+    border-style: solid;
+    border-width: 1px 0;
+    width: 100%;
+    text-align: center;
 }
 
 #logo-big {
@@ -55,14 +112,11 @@ a:hover {
 
 .nav-icon {
     max-width: 2.5rem;
-    color: #F2E96B;
 }
 
-.container-80{
-    max-width: 80%;
-    margin: auto;
-    text-align: center;
-}
+
+
+/********* Display *******/
 
 .flex{
     display: flex;
@@ -80,8 +134,14 @@ a:hover {
     clip: rect(1px, 1px, 1px, 1px);
   }
 
-/********** HEADER **********/
+ .container-80{
+    max-width: 80%;
+    margin: auto;
+    text-align: center;
+}
 
+
+/********** HEADER **********/
 div.bar{
 padding: 1rem;
 
@@ -122,7 +182,6 @@ border-bottom: 1px solid  rgba(0, 0, 0, 1);
 }
 
 
-
 /********* MAIN HOME **********/
 main{
     overflow: hidden;
@@ -140,19 +199,63 @@ aside.references {
 
 article.publications {
     overflow: auto;
+    margin-bottom: 3rem;
+    border-bottom: 1px solid black;
 }
 
-article img{
-    max-width: 200px;
+.publications img{
+    margin-top: 2rem;
+    max-width: 50%;
 }
 
-article img:nth-child(odd){
-    float: left;
+.go-up{
+    margin-bottom: 2rem;
 }
 
-article img:nth-child(even){
-    float: right;
+
+
+/*********** Footer ****************/
+
+/*********** carrousel *************/
+/* Blur effect and focus with hover */
+.blur div img {
+	-webkit-filter: blur(3px);
+	filter: blur(3px);
+	-webkit-transition: .3s ease-in-out;
+	transition: .3s ease-in-out;
 }
+.blur div:hover img {
+	-webkit-filter: blur(0);
+	filter: blur(0);
+}
+
+/* Leyend position over image */
+div.img-min{
+    position: relative;
+    width: 100%;
+    display: block;
+    overflow: hidden;
+    z-index: 0;
+}
+
+div.fluid-leyend{
+    position: absolute;
+    top: -50%;
+    left: 5%;
+    opacity: 0;
+    z-index: 2;
+    transition: all 0.6s ease;
+    color: #fff;
+}
+
+/* leyend motion */
+div.img-min:hover div.fluid-leyend{
+    opacity: 1;
+    top: 25%;
+}
+
+
+/********** Responsive  ***********/
 
 
 /* tablet Portrait and Landscape */
