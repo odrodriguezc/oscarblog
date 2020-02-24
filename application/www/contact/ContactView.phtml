@@ -1,22 +1,21 @@
 <!-- Main Content -->
-<section class="about container-80 main">
+<section class="contact container-80 main">
     <!-- Post Article -->
     <article class="post">
       <header class="post">
-        <h1 class="title">About </h1>
-        <h2 class="subtitle">Lorem ipsum dolor sit amet, consectetur adipisicing elit. </h2>
+        <h1 class="title">Contact </h1>
       </header>
       
       <section class="body-post">
         <img class="post-img img-big" src="<?= $wwwUrl ?>/images/upload/articles/test.png" alt="article">
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione accusantium ad consequatur dicta. Nobis eum impedit vero minima quod quibusdam non beatae omnis eligendi, eaque id aperiam. Quae, eos sunt?</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione accusantium ad consequatur dicta. Nobis eum impedit vero minima quod quibusdam non beatae omnis eligendi, eaque id aperiam. Quae, eos sunt?</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione accusantium ad consequatur dicta.</p>
       </section>
       
       <footer class="post">
         <aside class="post flex">
             <p class="post-references"><a class="open-modal" href="#modal-open"><i class="fas fa-share"></i>Share</a></p>
 
+            <!--Share Modal -->
             <div id="modal-open" class="modal-dialog">
               <div class="modal-content">
                 <a href="#close" title="Close" class="modal-close"><i class="fas fa-times"></i></a>
@@ -50,4 +49,14 @@
         </aside>
       </footer>
     </article>
+    <form class="contact" action="" method="post">
+
+        <input class="txt" type="text" name="name" id="name" placeholder="Name">
+    
+        <input class="txt" type="email" name="email" id="email" placeholder="Email">
+    
+        <textarea name="message" id="message" cols="30" rows="10" placeholder="Message"></textarea>
+        <input class="btn flat-button" type="submit" value="Send">
+    </form>
 </section>
+

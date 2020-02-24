@@ -39,6 +39,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .h1, h1{
     font-size: 2.5rem;
+    text-align: center;
 }
 
 .h2, h2 {
@@ -81,7 +82,7 @@ a:hover {
 
 /********** Formats *********/
 
-.publications code {
+.post code {
     background-color: chocolate;
     padding: 0 35px 0 0;
     display: block;
@@ -104,6 +105,10 @@ table {
     border-width: 1px 0;
     width: 100%;
     text-align: center;
+}
+
+ul{
+    list-style-type: none;
 }
 
 #logo-big {
@@ -140,6 +145,9 @@ table {
     text-align: center;
 }
 
+.main{
+    margin-top: 3rem;
+}
 
 /********** HEADER **********/
 div.bar{
@@ -162,7 +170,7 @@ border-bottom: 1px solid  rgba(0, 0, 0, 1);
 }
 
 .network a:hover{
-    font-size: 1.8rem;
+    font-size: 1.5rem;
 }
 
 #search-text {
@@ -190,33 +198,85 @@ main{
 section.blog {
     width: 60%;
     float: left;
+    margin-top: 2rem;
 }
 
-aside.references {
+aside.sidebar {
     width: 35%;
     float: right;
+    margin-top: 2rem;
 }
 
-article.publications {
+article.post {
     overflow: auto;
     margin-bottom: 3rem;
     border-bottom: 1px solid black;
 }
 
-.publications img{
+.post img{
+    display: block;
+    margin: 0 auto;
     margin-top: 2rem;
-    max-width: 50%;
+    max-width: 95%;
 }
 
-.go-up{
-    margin-bottom: 2rem;
+.go-up nav{
+    border-bottom: 1px solid black;
+    padding-bottom: 1rem;
 }
 
+/********* CONTACT ******************/
+form.contact{
+    text-align: center;
+    margin: 2rem;
+}
 
+form.contact input.txt, textarea{
+    display: block;
+    border: none;
+    border-bottom: 1px solid black;
+    width: 100%;
+    padding-top: 1rem;
+    margin-bottom: 1rem;
+    -webkit-transition: all 0.30s ease-in-out;
+  -moz-transition: all 0.30s ease-in-out;
+  -ms-transition: all 0.30s ease-in-out;
+  -o-transition: all 0.30s ease-in-out;
+}
+
+form.contact input:focus, textarea:focus{
+    background-color: none;
+    box-shadow: 0 0 5px rgb(25, 29, 31);
+    /*padding: 3px 0px 3px 3px;
+    margin: 5px 1px 3px 0px;*/
+    border: 1px solid rgb(33, 39, 41);
+}
+
+.flat-button{
+    border: 1px solid black ;
+    color: rgb(0, 0, 0);
+    background: #fff;
+    outline: none;
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    width: auto;
+    transition: all 1s ease-in-out;
+}
+
+.flat-button:hover{
+    background-color: black;
+    color: white;
+    box-shadow: 0 0 5px rgb(25, 29, 31);
+}
 
 /*********** Footer ****************/
 
 /*********** carrousel *************/
+
+section.carrousel{
+    background-color: black;
+}
 /* Blur effect and focus with hover */
 .blur div img {
 	-webkit-filter: blur(3px);
@@ -272,3 +332,66 @@ div.img-min:hover div.fluid-leyend{
   and (-webkit-device-pixel-ratio: 2) {
 
 }
+
+
+
+/************* Modals ********************/
+.modal-dialog {
+	position: fixed;
+	top: 50%;
+	right: 50%;
+	background: rgba(0,0,0,0.0);
+	z-index: 99999;
+	opacity:0;
+	-webkit-transition: opacity 400ms ease-in;
+	-moz-transition: opacity 400ms ease-in;
+	transition: opacity 400ms ease-in;
+	pointer-events: none;
+}
+
+.modal-dialog:target {
+	opacity:1;
+	pointer-events: auto;
+}
+
+.modal-dialog .modal-content {
+	width: 400px;
+    position: relative;
+    top: 50%;
+    left: 50%;
+	background: #fff;
+	background: -moz-linear-gradient(#fff, #999);
+	background: -webkit-linear-gradient(#fff, #999);
+    background: -o-linear-gradient(#fff, #999);
+    border-radius: 5pc;
+}
+
+.modal-dialog .modal-content ul{
+    padding: 0vh;
+}
+
+.modal-close {
+	background: #606061;
+	color: #FFFFFF;
+	line-height: 25px;
+	position: absolute;
+	right: -12px;
+	text-align: center;
+	top: -10px;
+	width: 24px;
+	text-decoration: none;
+	font-weight: bold;
+	-webkit-border-radius: 12px;
+	-moz-border-radius: 12px;
+	border-radius: 12px;
+	-moz-box-shadow: 1px 1px 3px #000;
+	-webkit-box-shadow: 1px 1px 3px #000;
+	box-shadow: 1px 1px 3px #000;
+}
+
+.modal-close:hover { background: #00d9ff; }
+
+
+
+
+
