@@ -7,6 +7,10 @@
     background-color: black;
 }
 
+.gallery h1{
+  color: white;
+}
+
 .heading {
     text-align: center;
     font-size: 2.0em;
@@ -82,4 +86,12 @@
 
 .opacity-low {
   opacity: 0.5;
+}
+
+.gallery.articles{
+  background-color: white;
+}
+
+.gallery.articles h1{
+  color: black;
 }
