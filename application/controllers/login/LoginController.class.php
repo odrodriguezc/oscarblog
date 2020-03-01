@@ -1,6 +1,6 @@
 <?php
 
-class UsersController
+class LoginController
 {
     public function httpGetMethod(Http $http, array $queryFields)
     {
@@ -10,22 +10,9 @@ class UsersController
     	 * L'argument $http est un objet permettant de faire des redirections etc.
     	 * L'argument $queryFields contient l'équivalent de $_GET en PHP natif.
     	 */
-
-		$tab['test'] = "je suis le admin";
-
-		/**
-		 * usermodel
-		 * instance du model users et stackage dans une variable
-		 */
-
-		 $userModel = new UsersModel();
-
-		 /**
-		  * Recouperation de la liste d'utilisateurs dans la BD
-		  */
-		$tab['usersList'] = $userModel->listAll();
-
+	
 		
+		$tab['test'] = "je suis le Home";
 		
 		
 		return $tab;

@@ -1,0 +1,10 @@
+insert into category (id, title, slug, content, parentId) values (1, 'Euphorbiaceae', 'Polygonaceae', 'Curabitur at ipsum ac tellus semper interdum. Mauris ullamcorper purus sit amet nulla. Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam.', 0);
+insert into category (id, title, slug, content, parentId) values (2, 'Clavariaceae', 'Cyperaceae', 'In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.', 0);
+insert into category (id, title, slug, content, parentId) values (3, 'Fabaceae', 'Acanthaceae', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.', 0);
+insert into category (id, title, slug, content, parentId) values (4, 'Myrtaceae', 'Hydrophyllaceae', 'In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.', 0);
+insert into category (id, title, slug, content, parentId) values (5, 'Asteraceae', 'Potamogetonaceae', 'Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.', 0);
+insert into category (id, title, slug, content, parentId) values (6, 'Pteridaceae', 'Gentianaceae', 'In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.', 0);
+insert into category (id, title, slug, content, parentId) values (7, 'Apiaceae', 'Roccellaceae', 'Fusce consequat. Nulla nisl. Nunc nisl.', 0);
+insert into category (id, title, slug, content, parentId) values (8, 'Asteraceae', 'Encalyptaceae', 'Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.', 0);
+insert into category (id, title, slug, content, parentId) values (9, 'Poaceae', 'Fabaceae', 'Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.', 0);
+insert into category (id, title, slug, content, parentId) values (10, 'Rosaceae', 'Rosaceae', 'Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius.', 0);

@@ -1,6 +1,6 @@
 <?php
 
-class UsersController
+class UserController
 {
     public function httpGetMethod(Http $http, array $queryFields)
     {
@@ -11,8 +11,6 @@ class UsersController
     	 * L'argument $queryFields contient l'équivalent de $_GET en PHP natif.
     	 */
 
-		$tab['test'] = "je suis le admin";
-
 		/**
 		 * usermodel
 		 * instance du model users et stackage dans une variable
@@ -21,11 +19,9 @@ class UsersController
 		 $userModel = new UsersModel();
 
 		 /**
-		  * Recouperation de la liste d'utilisateurs dans la BD
+		  * Recouperation de l'information correspondante a l'utilisateur recherché
 		  */
-		$tab['usersList'] = $userModel->listAll();
-
-		
+		$tab['user'] = $userModel->find($queryFields['id']);
 		
 		
 		return $tab;

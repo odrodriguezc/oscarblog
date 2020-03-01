@@ -1,0 +1,43 @@
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+<div class="row">
+    <!-- column -->
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-block">
+                <h4 class="card-title">Users</h4>
+                <h6 class="card-subtitle">Registered database users </h6>
+                <form class="search-box" action="" method="post">
+                    <input class="form-control" type="search" name="search-user" id="search-user" placeholder="Search & enter">
+                </form>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach($usersList as $user):?>
+                            <tr>
+                                <td><a href="<?= $requestUrl ?>/admin/user/?id=<?=$user['id']?>"><?=$user['id']?></a></td>
+                                <td><a href="<?= $requestUrl ?>/admin/user/?id=<?=$user['id']?>"><?=$user['firstName']. ' '. $user['lastName']?></td>
+                                <td><a href="<?= $requestUrl ?>/admin/user/?id=<?=$user['id']?>"><?=$user['username']?></td>
+                                <td><a href="mailto:<?=$user['email']?>"><?=$user['email']?></a></td>
+                                <td><?=$user['role']?></td>
+                            </tr>
+                        <?php endforeach;?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ============================================================== -->
+<!-- End PAge Content -->
+<!-- ============================================================== -->

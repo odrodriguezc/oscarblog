@@ -173,6 +173,7 @@ border-bottom: 1px solid  rgba(0, 0, 0, 1);
     font-size: 1.5rem;
 }
 
+
 #search-text {
     width: 100%;
     border: none;
@@ -308,6 +309,10 @@ div.fluid-leyend{
     color: #fff;
 }
 
+div.fluid-leyend h3{
+    font-size: 1rem;
+}
+
 /* leyend motion */
 div.img-min:hover div.fluid-leyend{
     opacity: 1;
@@ -319,20 +324,74 @@ div.img-min:hover div.fluid-leyend{
 
 
 /* tablet Portrait and Landscape */
-@media 
-  (min-device-width: 800px) 
-  and (max-device-width: 1280px) {
+@media only screen and (max-width: 1200px) {
 
+    section.blog {
+        width: 100%;
+        float: none;
+    }
+    
+    aside.sidebar {
+        width: 100%;
+        float: none;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    .blur div img {
+        -webkit-filter: blur(0);
+        filter: blur(0);
+    }
+
+    div.fluid-leyend {
+        position: absolute;
+        top: 5%;
+        left: 5%;
+        opacity: 0.8;
+        z-index: 2;
+        transition: all 0.6s ease;
+        color: #fff;
+    
+    }
 }
 
-/* Phone Portrait and Landscape */
-@media screen 
-  and (device-width: 360px) 
-  and (device-height: 640px) 
-  and (-webkit-device-pixel-ratio: 2) {
+@media only screen and (max-width: 750px) {
+
+    header div.top-bar{
+        display: block;
+    }
+
+    nav.nav-bar.network{
+        width: 100%;
+    }
+
+
+    section.blog {
+        width: 100%;
+        float: none;
+    }
+    
+   
+    aside.sidebar {
+        width: 100%;
+        float: none;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap
+    }
+
+    section.carrousel{
+        flex-wrap: wrap;
+    }
+
+    section.carrousel div.img-min{
+        width: 30%;
+    }
+
+
 
 }
-
 
 
 /************* Modals ********************/
