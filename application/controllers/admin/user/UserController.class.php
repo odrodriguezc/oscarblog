@@ -18,11 +18,14 @@ class UserController
 
 		 $userModel = new UsersModel();
 
-		 /**
-		  * Recouperation de l'information correspondante a l'utilisateur recherché
-		  */
+		/**
+		 * @var user array whit information of a particular user
+		 * @var roles array with the list of users roles 
+		 * 
+		 */
 		$tab['user'] = $userModel->find($queryFields['id']);
-		
+		$tab['roles'] = $userModel->role;
+	
 		
 		return $tab;
     }

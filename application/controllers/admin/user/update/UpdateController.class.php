@@ -1,6 +1,6 @@
 <?php
 
-class UsersController
+class UpdateController
 {
     public function httpGetMethod(Http $http, array $queryFields)
     {
@@ -18,17 +18,14 @@ class UsersController
 
 		 $userModel = new UsersModel();
 
-		 /**
-		  * 
-		  * @var userList array with all users information
-		  * @var roles array with the list of users roles
-		  * 
-		  */
-		$tab['usersList'] = $userModel->listAll();
+		/**
+		 * @var user array whit information of a particular user
+		 * @var roles array with the list of users roles 
+		 * 
+		 */
+		$tab['user'] = $userModel->find($queryFields['id']);
 		$tab['roles'] = $userModel->role;
-
-		
-		
+	
 		
 		return $tab;
     }

@@ -28,7 +28,7 @@
                                 <td><a href="<?= $requestUrl ?>/admin/user/?id=<?=$user['id']?>"><?=$user['firstName']. ' '. $user['lastName']?></td>
                                 <td><a href="<?= $requestUrl ?>/admin/user/?id=<?=$user['id']?>"><?=$user['username']?></td>
                                 <td><a href="mailto:<?=$user['email']?>"><?=$user['email']?></a></td>
-                                <td><?=$user['role']?></td>
+                                <td data-rol="<?=$user['role']?>"><?= array_search($user['role'], $roles)?></td>
                             </tr>
                         <?php endforeach;?>
                         </tbody>

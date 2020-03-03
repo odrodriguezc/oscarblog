@@ -28,7 +28,9 @@ class UsersModel
         $this->table = 'user';
 
         /* Role's definition */
-        $this->role = ['Reader','Reader','Author','Admin'];
+        $this->role = [ 'Reader'=> '1',
+                        'Author'=> '2',
+                        'Admin'=> '3'];
     }
 
     /** Retourne un tableau de tous les users en base

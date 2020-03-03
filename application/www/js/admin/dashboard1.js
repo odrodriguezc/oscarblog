@@ -80,7 +80,7 @@ $(function() {
             columns: [
                 ['Other', 30],
                 ['Desktop', 10],
-                ['Tablet', 40],
+                ['Tablet', 10],
                 ['Mobile', 50],
             ],
 
