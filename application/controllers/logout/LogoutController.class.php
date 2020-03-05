@@ -1,6 +1,6 @@
 <?php
 
-class AdminController
+class LogoutController
 {
     public function httpGetMethod(Http $http, array $queryFields)
     {
@@ -10,14 +10,12 @@ class AdminController
     	 * L'argument $http est un objet permettant de faire des redirections etc.
     	 * L'argument $queryFields contient l'équivalent de $_GET en PHP natif.
     	 */
-	
 		
-		/**
-		 * Initialisation de la session afin de dertminer is l'utilisateur est connecté et le role qui l'a été atribué
-		 */
+        $userSession = new UserSession();
+        $userSession->destroy();
+        /** Redirection vers la racine*/
+        $http->redirectTo('/');
 		
-		
-		return [];
     }
 
     public function httpPostMethod(Http $http, array $formFields)
@@ -30,5 +28,5 @@ class AdminController
     	 */
 
 		
-    }
+	}
 }

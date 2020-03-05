@@ -54,4 +54,27 @@ class UsersModel
     }
 
     
+    /** Trouve un user avec son Email
+     *
+     * @param string $email email du user
+     * @return Array Jeu d'enregistrement comportant le user trouvé
+     */
+    public function findByEmail($email)
+    {
+        return $this->dbh->queryOne('SELECT * FROM '.$this->table.' WHERE email = ?',[$email]);
+    }
+
+    /**
+     * Supprimer un user avec son id
+     * @param integer $id identifian du user
+     * @return void 
+     */
+
+     public function delete($id)
+     {
+         //probleme avec la cle etrangere qui nepermet pas de supprimer le row
+        return  $this->dbh->executeSQL('DELETE FROM '.$this->table.' WHERE id=?',[$id]);
+     }
+
+    
 }

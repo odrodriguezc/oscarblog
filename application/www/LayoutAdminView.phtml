@@ -29,6 +29,9 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <!-- Fontawesome -->
+    <script src="https://kit.fontawesome.com/a7f1e788fd.js" crossorigin="anonymous"></script>
     
     <!-- All Jquery -->
     <!-- ============================================================== -->
@@ -195,9 +198,23 @@
                 <!-- End Bread crumb and right sidebar toggle -->
                 <!-- ============================================================== -->
                 <!-- ============================================================== -->
-                
+
+                <!-- Afichage du flashbag -->
+                <?php
+                    if (isset($flashbag) && $flashbag != false) :
+                        foreach ($flashbag as $message) : ?>
+                            <div class="alert alert-warning alert-dismissible fade show"><?= $message ?>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        <?php
+                        endforeach;
+                    endif;
+                ?>
+
                 <!-- ============================================================== -->
-                <!-- Template inclution-->
+                <!--  Inclution de la view-->
                 <!-- ============================================================== -->
                 <!-- ============================================================== -->
                 <main>

@@ -1,6 +1,6 @@
 <?php
 
-class AdminController
+class DelController
 {
     public function httpGetMethod(Http $http, array $queryFields)
     {
@@ -10,14 +10,32 @@ class AdminController
     	 * L'argument $http est un objet permettant de faire des redirections etc.
     	 * L'argument $queryFields contient l'équivalent de $_GET en PHP natif.
     	 */
+
+		/**
+		 * usermodel
+		 * instance du model users et stackage dans une variable
+		 */
+		$userModel = new UsersModel();
+		
+		/** Suppression de la photo de profil de l'utilisateur */
+        /*$picture = $productModel->find($id);
+        $image = $picture['prod_picture'];
+        if($image != NULL && file_exists(WWW_PATH.'/uploads/products/'.$image)){
+            unlink(WWW_PATH.'/uploads/products/'.$image);
+        }*/
+
+		$userModel->delete($queryFields['id']);
+
+		/**
+		 * Flashbag et Redirectionnement
+		 * 
+		 */
+		$flashbag = new Flashbag();
+		$flashbag->add('L\'utilisateur a bien été supprimé');
+		
+		$http->redirectTo('admin/users/');
 	
 		
-		/**
-		 * Initialisation de la session afin de dertminer is l'utilisateur est connecté et le role qui l'a été atribué
-		 */
-		
-		
-		return [];
     }
 
     public function httpPostMethod(Http $http, array $formFields)

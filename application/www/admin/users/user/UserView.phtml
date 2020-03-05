@@ -1,0 +1,131 @@
+<!-- ============================================================== -->
+<!-- User view contenu -->
+<!-- ============================================================== -->
+<!-- Row -->
+<div class="row">
+    <!-- Column -->
+    <div class="col-lg-4 col-xlg-3 col-md-5">
+        <div class="card">
+            <div class="card-block text-center">
+                <div class="m-t-30"> 
+                    <img src="<?= $wwwUrl ?>/assets/images/users/5.jpg" class="img-circle" width="150" />
+                    <div class="form-horizontal form-material">
+                        <input class="card-title m-t-10 form-control form-control-line text-center" type="text" id="username" name="username" value="<?=$user['username']?>" readonly>
+                        <h6 id="roleLabel" class="card-subtitle" data-rol="<?=$user['role']?>"><?= array_search($user['role'], $roles)?><span id="status"> - Actif(ve)</span></h6>
+                    </div>
+                    <div class="row text-center justify-content-md-center">
+                        <div class="col-4">
+                            <a href="javascript:void(0)" class="link">
+                                <i class="icon-people"></i> 
+                                <span class="font-medium">254</span>
+                            </a>
+                        </div>
+                        <div class="col-4">
+                            <a href="javascript:void(0)" class="link">
+                                <i class="icon-picture"></i>   
+                                <span class="font-medium">54</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="card">
+                <div class="card-block text-center">
+                    <a id="editBtn" class="btn btn-success" href="<?= $requestUrl ?>/admin/users/edit/?id=<?=$user['id']?>">Modifier</a>
+                    <button id="deleteBtn" class="btn btn-danger" data-toggle="modal" data-target="#delUserModal" href="#">Supprimer</button>
+                </div>
+            </div>
+    </div>
+        <!-- Column -->
+        <!-- Column - Block contenant l'information personnelle de l'utilisateur -->
+    <div class="col-lg-8 col-xlg-9 col-md-7">
+        <div class="card">
+            <div class="card-block">
+                <div class="form-horizontal form-material">
+                    <div class="form-group">
+                        <label class="col-md-12" for="fullname">Fullname</label>
+                        <div class="col-md-12">
+                            <input class="form-control form-control-line readonly" type="text" name="fullname" id="fullname"  value="<?=$user['firstname'].' '.$user['lastname']?>" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="col-md-12">Email</label>
+                        <div class="col-md-12">
+                            <input class="form-control form-control-line readonly" type="email" value="<?=$user['email']?>"  name="email" id="email" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-12" for="phone">Phone No.</label>
+                        <div class="col-md-12">
+                            <input class="form-control form-control-line readonly" type="text" name="phone" id="phone" value="<?=$user['passwordHash']?>" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-md-12" for="regiteredAt">Registered at</label>
+                        <div class="col-md-12">
+                            <input class="form-control form-control-line" type="text" name="registerdAt" id="registeredAt" value="<?=$user['registeredAt']?>" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-12" for="lastLogin">Last Login</label>
+                        <div class="col-md-12">
+                            <input class="form-control form-control-line" type="text" name="lastLogin" id="lastLogin" value="<?=$user['lastLogin']?>" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-12" for="intro">Intro</label>
+                        <div class="col-md-12">
+                            <textarea rows="5" class="form-control form-control-line readonly" name="intro" id="intro" readonly><?=$user['intro']?></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-12" for="profile">Profile</label>
+                        <div class="col-md-12">
+                            <textarea rows="5" class="form-control form-control-line readonly" name="profile" id="profile" readonly><?=$user['profile']?></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <a class="btn btn-success" href="<?= $requestUrl ?>/admin/users/edit/?id=<?=$user['id']?>">Modifier</a>
+                        <button id="deleteBtn" class="btn btn-danger" data-toggle="modal" data-target="#delUserModal" href="#">Supprimer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Column -->
+</div>
+
+
+<!--  Modal pour confirmer la suppresion de l'utilisateur -->
+<div class="modal fade" id="delUserModal" tabindex="-1" role="dialog" aria-labelledby="delUserModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="delUserModalLabel">Supprimer l'utilisateur</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>La suppresion de l'utilisateur entrainera aussi la suppresion de tous leurs publications.<span>Etes-vous sur de vouloir supprimer l'utilisateur ?</span></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <a class="btn btn-success" id="updateBtnModal" href="<?= $requestUrl ?>/admin/users/del/?id=<?=$user['id']?>">Confirmer</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Row -->
+<!-- ============================================================== -->
+<!-- End PAge Content -->
+<!-- ============================================================== -->
+
+
+<!-- ============================================================== -->
+<!-- Script for this page -->
+<!-- ============================================================== -->
+<script src="<?= $wwwUrl ?>/js/admin/class/user.class.js"></script>
+<script src="<?= $wwwUrl ?>/js/admin/main.js"></script>

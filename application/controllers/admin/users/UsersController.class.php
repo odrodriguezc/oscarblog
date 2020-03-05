@@ -20,17 +20,17 @@ class UsersController
 
 		 /**
 		  * 
-		  * @var userList array with all users information
-		  * @var roles array with the list of users roles
+		  * @var userList array liste des utilisateurs
+		  * @var roles array liste des roles conus
 		  * 
 		  */
-		$tab['usersList'] = $userModel->listAll();
-		$tab['roles'] = $userModel->role;
+		$gateway['usersList'] = $userModel->listAll();
+		$gateway['roles'] = $userModel->role;
 
 		
 		
 		
-		return $tab;
+		return $gateway;
     }
 
     public function httpPostMethod(Http $http, array $formFields)

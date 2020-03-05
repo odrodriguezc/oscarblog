@@ -17,16 +17,7 @@ function swithUpdateView(){
     $("#updateBtn").removeAttr("disabled");
 };
 
-/**
- * @function cancelUpdate
- * Revert the swithUpdateView function effects
- */
-function cancelUpdate() {
-    $("#userRole, #passwordGroup, #confirmPasswordGroup, #btnUpdateGroup").addClass("d-none");
-    $("#editBtn, #roleLabel").removeClass("d-none");
-    $(".readonly").addAttr("readonly");
-    $("#updateBtn").addAttr("disabled");
-}
+
 
 
 
@@ -36,6 +27,5 @@ function cancelUpdate() {
 
 $(document).ready(function(){
     $("#editBtn").on("click", swithUpdateView);
-    $("#cancelBtn").on("click", cancelUpdate);
 
 });

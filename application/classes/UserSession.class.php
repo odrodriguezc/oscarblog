@@ -11,14 +11,17 @@ class UserSession
 			}
 		}
 
-		public function create($userId, $firstName, $lastName, $email)
+		public function create($id, $username, $firstname, $lastname, $email, $role, $status)
 		{
 			// Construction de la session utilisateur.
 			$_SESSION['user'] = array(
-								'id' => $userId,
-								'firstname' => $firstName,
-								'lastname' => $lastName,
+								'id' => $id,
+								'username' => $username,
+								'firstname' => $firstname,
+								'lastname' => $lastname,
 								'email' => $email,
+								'role'=> $role,
+								'status'=> $status,
 								'connected' => true);
 
 		}
@@ -30,27 +33,44 @@ class UserSession
 			session_destroy();
 		}
 
-		final public function createOrder($orderId)
+		final public function createPost($postId)
 		{
 			// Construction de la session utilisateur.
-			$_SESSION['order'] = $orderId;
+			$_SESSION['post'] = $postId;
 		}
 
 
-
-		final public function getOrderId()
+		final public function getPostId()
 		{
-			if($this->isAuthenticated() == false || !isset($_SESSION['order']))
+			if($this->isAuthenticated() == false || !isset($_SESSION['post']))
 			{
 				return null;
 			}
 
-			return $_SESSION['order'];
+			return $_SESSION['post'];
 		}
 
-		public function getEmail(){}
+		public function getUsername(){
 
-		public function getFirstName(){
+			if($this->isAuthenticated() == false || !isset($_SESSION['user']))
+			{
+				return null;
+			}
+
+			return $_SESSION['user']['Username'];
+		}
+
+		public function getEmail(){
+
+			if($this->isAuthenticated() == false || !isset($_SESSION['user']))
+			{
+				return null;
+			}
+
+			return $_SESSION['user']['email'];
+		}
+
+		public function getfirstname(){
 			
 			if($this->isAuthenticated() == false || !isset($_SESSION['user']))
 			{
@@ -66,20 +86,20 @@ class UserSession
 			{
 				return null;
 			}
-			return $this->getFirstName().$this->getLastName();
+			return $this->getfirstname().$this->getlastname();
 		}
 
-		public function getLastName(){
+		public function getlastname(){
 
 			if($this->isAuthenticated() == false || !isset($_SESSION['user']))
 			{
 				return null;
 			}
 
-			return $_SESSION['user']['lastName'];
+			return $_SESSION['user']['lastname'];
 		}
 
-		public function getUserId(){
+		public function getId(){
 
 			if($this->isAuthenticated() == false || !isset($_SESSION['user']))
 			{
@@ -87,6 +107,26 @@ class UserSession
 			}
 
 			return $_SESSION['user']['id'];
+		}
+
+		public function getRole(){
+
+			if($this->isAuthenticated() == false || !isset($_SESSION['user']))
+			{
+				return null;
+			}
+
+			return $_SESSION['user']['role'];
+		}
+
+		public function getStatus(){
+
+			if($this->isAuthenticated() == false || !isset($_SESSION['user']))
+			{
+				return null;
+			}
+
+			return $_SESSION['user']['status'];
 		}
 
 		public function isAuthenticated(){

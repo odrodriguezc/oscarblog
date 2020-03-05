@@ -14,21 +14,24 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Name</th>
                                 <th>Username</th>
                                 <th>Email</th>
                                 <th>Role</th>
+                                <th>Status</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                         <?php foreach($usersList as $user):?>
                             <tr>
-                                <td><a href="<?= $requestUrl ?>/admin/user/?id=<?=$user['id']?>"><?=$user['id']?></a></td>
-                                <td><a href="<?= $requestUrl ?>/admin/user/?id=<?=$user['id']?>"><?=$user['firstName']. ' '. $user['lastName']?></td>
-                                <td><a href="<?= $requestUrl ?>/admin/user/?id=<?=$user['id']?>"><?=$user['username']?></td>
+                                <td data-userId="<?=$user['id']?>"><a href="<?= $requestUrl ?>/admin/users/user/?id=<?=$user['id']?>"><?=$user['username']?></td>
                                 <td><a href="mailto:<?=$user['email']?>"><?=$user['email']?></a></td>
-                                <td data-rol="<?=$user['role']?>"><?= array_search($user['role'], $roles)?></td>
+                                <td data-UseRole="<?=$user['role']?>"><?= array_search($user['role'], $roles)?></td>
+                                <td><?=$user['status']?></td>
+                                <td>
+                                    <a class="editLink mr-1"href="<?= $requestUrl ?>/admin/users/edit/?id=<?=$user['id']?>"><i class="fas fa-user-edit"></i></a>
+                                    <a class="delLink ml-1" data-toggle="modal" data-target="#delUserModal" href="#delUserModal"><i class="fas fa-trash-alt"></i></span>
+                                </td>
                             </tr>
                         <?php endforeach;?>
                         </tbody>
@@ -37,6 +40,27 @@
             </div>
         </div>
     </div>
+</div>
+
+<!--  Modal pour confirmer la suppretion de l'utilisateur -->
+<div class="modal fade" id="delUserModal" tabindex="-1" role="dialog" aria-labelledby="delUserModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="delUserModalLabel">Supprimer l'utilisateur</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>La suppresion de l'utilisateur entrainera aussi la suppresion de tous leurs publications.<span>Etes-vous sur de vouloir supprimer l'utilisateur ?</span></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <a class="btn btn-success" id="updateBtnModal" href="<?= $requestUrl ?>/admin/users/del/?id=<?=$user['id']?>">Confirmer</a>
+      </div>
+    </div>
+  </div>
 </div>
 <!-- ============================================================== -->
 <!-- End PAge Content -->

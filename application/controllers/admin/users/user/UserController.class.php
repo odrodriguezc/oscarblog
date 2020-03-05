@@ -17,17 +17,22 @@ class UserController
 		 */
 
 		 $userModel = new UsersModel();
+		 $flashbag = new FlashBag();
 
-		/**
-		 * @var user array whit information of a particular user
-		 * @var roles array with the list of users roles 
-		 * 
-		 */
-		$tab['user'] = $userModel->find($queryFields['id']);
-		$tab['roles'] = $userModel->role;
-	
+		 /**
+		  * 
+		  * @var user array information correspondante à l'utilisateur recherché
+		  * @var roles array liste de roles conus
+		  * 
+		  */
+
+		$gateway['roles'] = $userModel->role;
+		$gateway['user'] = $userModel->find($queryFields['id']);
+
 		
-		return $tab;
+		
+		
+		return $gateway;
     }
 
     public function httpPostMethod(Http $http, array $formFields)

@@ -121,6 +121,7 @@ ul{
 
 
 
+
 /********* Display *******/
 
 .flex{
@@ -269,6 +270,32 @@ form.contact input:focus, textarea:focus{
     background-color: black;
     color: white;
     box-shadow: 0 0 5px rgb(25, 29, 31);
+}
+
+/*********** Login ******************/
+body.login{
+    background-color: black;
+}
+
+div.container.login{
+    position: absolute;
+    top: 25%;
+    max-width: 50%;
+    justify-content: center;
+    border-radius: 3px;
+    border: 1px solid black;
+    background-color: white;
+}
+
+.login-title{
+    margin-bottom: 3rem;
+    margin-top: 1rem;
+    text-align: left;
+}
+
+input.login.flat-button{
+    margin-top: 2rem;
+    text-align: left;
 }
 
 /*********** Footer ****************/
