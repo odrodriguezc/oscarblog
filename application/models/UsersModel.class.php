@@ -69,12 +69,31 @@ class UsersModel
      * @param integer $id identifian du user
      * @return void 
      */
-
      public function delete($id)
      {
          //probleme avec la cle etrangere qui nepermet pas de supprimer le row
         return  $this->dbh->executeSQL('DELETE FROM '.$this->table.' WHERE id=?',[$id]);
      }
 
+     /** Modifie un utilisateur en base
+     *
+     * @param integer $id identifiant de l'utilisateur
+     * @param string $username nom d'utilisateur 
+     * @param string $firstname prenom
+     * @param string $lastname nom
+     * @param string $email email
+     * @param string $password mot de pass
+     * @param string $phone telephone
+     * @param string $intro description courte
+     * @param string $profil description longue
+     * @param int $role role
+     * @param string $status status
+     * @param string $avatar image
+     * @return void
+     */
+    public function update($username, $firstname, $lastname, $email, $password, $phone, $intro, $profile, $role, $status, $avatar, $id)
+    {
+        $this->dbh->executeSQL('UPDATE '.$this->table.' SET username=?, firstname=?, lastname=?, email=?, passwordHash=?, phone=?, intro=?, profile=?, role=?, status=?, avatar=? WHERE id=?',[$username, $firstname, $lastname, $email, $password, $phone, $intro, $profile, $role, $status, $avatar, $id]); 
+    }
     
 }

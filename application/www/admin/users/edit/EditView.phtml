@@ -6,92 +6,110 @@
     <!-- Column -->
     <div class="col-lg-4 col-xlg-3 col-md-5">
         <div class="card">
-            <form id="formUpdate" class="form-horizontal form-material" action="<?= $requestUrl ?>/admin/users/edit/" method="post" enctype="multipart/form-data">
-                <div class="card-block text-center">
-                    <div class="m-t-30"> 
-                        <img src="<?= $wwwUrl ?>/assets/images/users/5.jpg" class="img-circle" width="150"/>
-                        <input class="form-control-file" type="file" name="avatar" id="avatar" accept="image/png,image/jpeg,image/gif">
-                        <input class="card-title m-t-10 form-control form-control-line text-center " type="text" id="username" name="username" value="<?=$username?>" >
-                        <select class="form-control form-control-line text-center " name="userRole" id="userRole">
-                            <?php foreach ($roles as $key => $value) :?>
-                                <option value="<?=$value ?>" <?= $retSelection = ($value == $role) ? 'selected' : '' ; ?> ><?= $key?></option>
-                            <?php endforeach ?>
-                        </select>
-                        <div class="row text-center justify-content-md-center">
-                            <div class="col-4">
-                                <a href="javascript:void(0)" class="link"><i class="icon-people"></i> <span class="font-medium">254</span></a>
-                            </div>
-                            <div class="col-4"><a href="javascript:void(0)" class="link"><i class="icon-picture"></i> <span class="font-medium">54</span></a>
-                            </div>
-                        </div>
-                    </div>
+          <form id="formUpdate" class="form-horizontal form-material" action="<?= $requestUrl ?>/admin/users/edit/" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="<?=$id?>">
+            <div class="card-block text-center">
+              <div class="m-t-30"> 
+                <?php if(!is_null($originalAvatar)):?>
+                <img class="img-circle" width="150" src="<?= $wwwUrl ?>/assets/images/users/<?=$originalAvatar?>"/>
+                <?php else:?>
+                <img class="img-circle" width="150" src="<?= $wwwUrl ?>/assets/images/users/5.jpg" />
+                <?php endif;?>
+                <input class="form-control-file" type="file" name="avatar" id="avatar" accept="image/png,image/jpeg,image/gif">
+                <!--input caché pour passer l'index originalAvatar-->
+                <input type="hidden" name="originalAvatar" value="<?=$originalAvatar?>">
+                <input class="card-title m-t-10 form-control form-control-line text-center " type="text" id="username" name="username" value="<?=$username?>" >
+                <select class="form-control form-control-line text-center " name="role" id="role">
+                  <?php foreach ($roles as $key => $value) :?>
+                  <option value="<?=$role?>" <?= $retSelection = ($value == $role) ? 'selected' : '' ; ?> ><?= $key?></option>
+                  <?php endforeach ?>
+                </select>
+                <select class="form-control form-control-line text-center " name="status" id="status">
+                  <option value="actif">Actif</option>
+                  <option value="inactif">Inactif</option>
+                </select>
+                <div class="row text-center justify-content-md-center">
+                  <div class="col-4">
+                    <a href="javascript:void(0)" class="link"><i class="icon-people"></i> <span class="font-medium">254</span></a>
+                  </div>
+                  <div class="col-4">
+                    <a href="javascript:void(0)" class="link"><i class="icon-picture"></i> <span class="font-medium">54</span></a>
+                  </div>
                 </div>
-        </div>
-            <div class="card">
-                <div class="card-block text-center">
-                <a class="btn btn-danger" data-toggle="modal" data-target="#delUserModal" href="#delUserModal">Supprimer</a>
                 </div>
             </div>
+          </div>
+        <div class="card">
+            <div class="card-block text-center">
+            <a class="btn btn-danger" data-toggle="modal" data-target="#delUserModal" href="#delUserModal">Supprimer</a>
+            </div>
+        </div>
     </div>
-        <!-- Column -->
-        <!-- Column -->
-        <div class="col-lg-8 col-xlg-9 col-md-7">
-            <div class="card">
-                <div class="card-block">
-                    <div class="form-horizontal form-material">
-                        <div class="form-group">
-                            <label class="col-md-12" for="fullname">Fullname</label>
-                            <div class="col-md-12">
-                                <input class="form-control form-control-line " type="text" name="fullname" id="fullname"  value="<?=$firstname.' '.$lastname?>" >
-                            </div>
+    <!-- Column -->
+    <!-- Column -->
+    <div class="col-lg-8 col-xlg-9 col-md-7">
+        <div class="card">
+            <div class="card-block">
+                <div class="form-horizontal form-material">
+                    <div class="form-group">
+                        <label class="col-md-12" for="firsname">Firstname</label>
+                        <div class="col-md-12">
+                            <input class="form-control form-control-line " type="text" name="firstname" id="firstname"  value="<?=$firstname?>">
                         </div>
-                        <div class="form-group">
-                            <label for="email" class="col-md-12">Email</label>
-                            <div class="col-md-12">
-                                <input class="form-control form-control-line " type="email" value="<?=$email?>"  name="email" id="email" >
-                            </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-12" for="lastname">Lastname</label>
+                      <div class="col-md-12">
+                        <input class="form-control form-control-line " type="text" name="lastname" id="lastname"  value="<?=$lastname?>" >
+                      </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="col-md-12">Email</label>
+                        <div class="col-md-12">
+                            <input class="form-control form-control-line " type="email" value="<?=$email?>"  name="email" id="email" >
                         </div>
-                        <div id="passwordGroup" class="form-group ">
-                            <label class="col-md-12" for="password">Password</label>
-                            <div class="col-md-12">
-                                <input class="form-control form-control-line " type="password" name="password" id="password" value="<?=$passwordHash?>">
-                            </div>
+                    </div>
+                    <div id="passwordGroup" class="form-group ">
+                        <label class="col-md-12" for="password">Password</label>
+                        <div class="col-md-12">
+                            <input class="form-control form-control-line " type="password" name="password" id="password" value="" placeholder="Tapez le nouveau mot de passe">
                         </div>
-                        <div id="confirmPasswordGroup" class="form-group " >
-                            <label class="col-md-12" for="confirmPassword">Confirm Password</label>
-                            <div class="col-md-12">
-                                <input class="form-control form-control-line " type="password" name="confirmPassword" id="confirmPassword" value="<?=$passwordHash?>" >
-                            </div>
+                    </div>
+                    <div id="confirmPasswordGroup" class="form-group " >
+                        <label class="col-md-12" for="confirmPassword">Confirm Password</label>
+                        <div class="col-md-12">
+                            <input class="form-control form-control-line " type="password" name="confirmPassword" id="confirmPassword" value="" placeholder="Tapez le nouveau mot de passe" >
                         </div>
-                        <div class="form-group">
-                            <label class="col-md-12" for="phone">Phone No.</label>
-                            <div class="col-md-12">
-                                <input class="form-control form-control-line " type="text" name="phone" id="phone" value="<?=$phone?>" >
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-12" for="phone">Phone No.</label>
+                        <div class="col-md-12">
+                            <input class="form-control form-control-line " type="text" name="phone" id="phone" value="<?=$phone?>" >
                         </div>
-                        <div class="form-group">
-                            <label class="col-md-12" for="intro">Intro</label>
-                            <div class="col-md-12">
-                                <textarea rows="5" class="form-control form-control-line " name="intro" id="intro" ><?=$intro?></textarea>
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-12" for="intro">Intro</label>
+                        <div class="col-md-12">
+                            <textarea rows="5" class="form-control form-control-line " name="intro" id="intro" ><?=$intro?></textarea>
                         </div>
-                        <div class="form-group">
-                            <label class="col-md-12" for="profile">Profile</label>
-                            <div class="col-md-12">
-                                <textarea rows="5" class="form-control form-control-line " name="profile" id="profile" ><?=$profile?></textarea>
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-12" for="profile">Profile</label>
+                        <div class="col-md-12">
+                            <textarea rows="5" class="form-control form-control-line " name="profile" id="profile" ><?=$profile?></textarea>
                         </div>
+                    </div>
 
-                        <div id="btnUpdateGroup" class="form-group ">
-                            <div class="col-sm-12">
-                                <a class="btn btn-success" data-toggle="modal" data-target="#updateConfirmModal"href="#updateConfirmModal" >Envoyer</a>
-                                <a class="btn btn-primary" href="#cancelModal" data-toggle="modal" data-target="#cancelModal">Annuler</a>
-                            </div>
+                    <div id="btnUpdateGroup" class="form-group ">
+                        <div class="col-sm-12">
+                            <a class="btn btn-success" data-toggle="modal" data-target="#updateConfirmModal"href="#updateConfirmModal" >Envoyer</a>
+                            <a class="btn btn-primary" href="#cancelModal" data-toggle="modal" data-target="#cancelModal">Annuler</a>
                         </div>
                     </div>
                 </div>
-             </div>
-        </div>
+            </div>
+          </div>
+    </div>
     <!-- Column -->
 </div>
 

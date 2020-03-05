@@ -14,6 +14,6 @@ class UsersForm extends Form
         $this->addFormField('profile');
         $this->addFormField('role');
         $this->addFormField('status');
-        $this->addFormField('avatar');
+        $this->addFormField('originalAvatar');
     }
 }

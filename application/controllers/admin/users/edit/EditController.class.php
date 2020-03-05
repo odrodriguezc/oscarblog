@@ -41,7 +41,7 @@ class EditController
 						'profile' => $user['profile'],
 						'role' => $user['role'],
 						'status' => $user['status'],
-						'avatar' => $user['avatar'] ));
+                        'originalAvatar' => $user['avatar']));
 		$gateway['_form'] = $form;
 		
 		return $gateway;
@@ -60,30 +60,46 @@ class EditController
         {
             /** Récupération de la photo originale */
             if ($http->hasUploadedFile('avatar')) {
-                $avatar = $http->moveUploadedFile('avatar','/assets/images/users/'); //On déplace la photo à l'endroit désiré(le chemin est relatif par rapport au dossier www)et on stocke dans la variable photo le nom du fichier
+                $avatar = $http->moveUploadedFile('avatar','/assets/images/users/'); //On déplace la photo à l'endroit désiré(le chemin est relatif par rapport au dossier www)et on stocke dans la variable avatar le nom du fichier
                 /** On supprime l'ancienne image */
-                if($formFields['originalavatar']!=NULL && file_exists(WWW_PATH.'/assets/images/users/'.$formFields['originalavatar'])){
-                    unlink(WWW_PATH.'/uploads/products/'.$formFields['originalavatar']);
+                if($formFields['originalAvatar']!=NULL && file_exists(WWW_PATH.'/assets/images/users/'.$formFields['originalAvatar'])){
+                    unlink(WWW_PATH.'/assets/images/users/'.$formFields['originalAvatar']);
                 }
             } else {
-                $avatar = $formFields['originalavatar']; // Le nom de l'image reste le nom qui était là à l'origine
+                $avatar = $formFields['originalAvatar']; // Le nom de l'image reste le nom qui était là à l'origine
             }
             
             /** Vérification des données 
              * C'est le contrôleur qui contrôle les données et non le modèle !
              * Si les champs sont vides on lance un exception pour réafficher le formulaire et les erreurs !
             */
-             /** On vérifie que tous les champs sont remplis sauf subtitle*/
+             /** On vérifie que tous les champs sont remplis sauf */
             foreach($formFields as $index=>$formField)
             {
                 if (empty($formField) && ($index != 'intro' || $index != 'profile' ))
                     throw new DomainException('Merci de remplir tous les champs !');
             }
 
+            /**Verification de l'egalité des mot de passe */
+            /*if ($formField['password'] != $formField['confirmPassword']) {
+                throw new DomainException('Les mot de passe doit etre identique !');
+            }*/
+
             
             /** Enregistrer les données dans la base de données */
-            $UsersModel = new UsersModel();
-            $UsersModel->update($formFields['id'], $formFields['name'], $formFields['subtitle'],$formFields['description'], $formFields['price'],$formFields['tva'], $avatar,$formFields['categoryId']);
+            $usersModel = new UsersModel();
+            $usersModel->update($formFields['username'], 
+                                $formFields['firstname'],
+                                $formFields['lastname'],
+                                $formFields['email'],
+                                $formFields['password'],
+                                $formFields['phone'],
+                                $formFields['intro'],
+                                $formFields['profile'],
+                                $formFields['role'],
+                                $formFields['status'],
+                                $avatar,
+                                $formFields['id']);
             
             /** Ajout du flashbag */
             $flashbag = new Flashbag();
@@ -100,23 +116,15 @@ class EditController
              */
 
             /** Réaffichage du formulaire avec un message d'erreur. */
-            $form = new ProductsForm();
+            $form = new UsersForm();
             /** On bind nos données $_POST ($formFields) avec notre objet formulaire */
             $form->bind($formFields);
             $form->setErrorMessage($exception->getMessage());
-
-             /** On sélectionne toutes les catégories pour les afficher dans le form */
-            $modelCat = new CategoriesModel();
-            $categories = $modelCat->listAll();
-
-            return [ 
-               	'title'=>'Editer un produit',
-			    'active'=>'editProduct',
-                '_form' => $form,
-                'categories' => $categories
-            ]; 
+ 
+            return   ['_form' => $form,
+                    'roles' => $usersModel->role
+            ];
+        
         }
-
-		$http->redirectTo('admin/users/user/?id=1');
     }
 }
