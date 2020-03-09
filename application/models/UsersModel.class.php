@@ -27,13 +27,13 @@ class UsersModel
         $this->dbh = new Database();
         $this->table = 'user';
 
-        /* Role's definition */
-        $this->role = [ 'Reader'=> '1',
-                        'Author'=> '2',
-                        'Admin'=> '3'];
+        /* Definitios des roles */
+        $this->role = [ 'Author'=> 1,
+                        'Editor'=> 2,
+                        'Admin'=> 3];
     }
 
-    /** Retourne un tableau de tous les users en base
+    /** Retourner un tableau de tous les users en base
      *
      * @param void
      * @return Array Jeu d'enregistrement représentant tous les users en base
@@ -43,7 +43,7 @@ class UsersModel
         return $this->dbh->query('SELECT * FROM '.$this->table);
     }
 
-    /** Trouve un user avec son ID
+    /** Trouver un user avec son ID
      *
      * @param integer $id identifiant du user
      * @return Array Jeu d'enregistrement comportant le user trouvé
@@ -54,7 +54,7 @@ class UsersModel
     }
 
     
-    /** Trouve un user avec son Email
+    /** Trouver un user avec son Email
      *
      * @param string $email email du user
      * @return Array Jeu d'enregistrement comportant le user trouvé
@@ -71,9 +71,29 @@ class UsersModel
      */
      public function delete($id)
      {
-         //probleme avec la cle etrangere qui nepermet pas de supprimer le row
         return  $this->dbh->executeSQL('DELETE FROM '.$this->table.' WHERE id=?',[$id]);
      }
+
+    /** Ajouter un produit en base
+     *
+     * @param string $firstname
+     * @param string $lastname
+     * @param string $username
+     * @param string $email
+     * @param string $password
+     * @param string $phone
+     * @param string $intro
+     * @param string $profil
+     * @param int $role
+     * @param string $status
+     * @param string $image
+     * @param date $registeredAtDate date de creation de l'utilisateur
+     * @return void
+     */
+    public function add($username, $firstname, $lastname, $email, $password, $phone, $intro, $profile, $role, $status, $avatar, $registeredAtDate) 
+    {
+        return $this->dbh->executeSQL('INSERT INTO '.$this->table.' (username, firstname, lastname, email, passwordHash, phone, intro, profile, role, status, avatar, registeredAt) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',[$username, $firstname, $lastname, $email, $password, $phone, $intro, $profile, $role, $status, $avatar, $registeredAtDate]);
+    }
 
      /** Modifie un utilisateur en base
      *
@@ -94,6 +114,16 @@ class UsersModel
     public function update($username, $firstname, $lastname, $email, $password, $phone, $intro, $profile, $role, $status, $avatar, $id)
     {
         $this->dbh->executeSQL('UPDATE '.$this->table.' SET username=?, firstname=?, lastname=?, email=?, passwordHash=?, phone=?, intro=?, profile=?, role=?, status=?, avatar=? WHERE id=?',[$username, $firstname, $lastname, $email, $password, $phone, $intro, $profile, $role, $status, $avatar, $id]); 
+    }
+
+    /** Update Login de l'utilisateur connecté
+     * @param  integer $id 
+     * @return void
+     */
+    public function updateLogin(int $id)
+    {   
+        $Logindate = date('Y-m-d, H:i:s');
+        $this->dbh->executeSQL('UPDATE '.$this->table.' SET lastLogin=? WHERE id=?', [$Logindate, $id]);
     }
     
 }

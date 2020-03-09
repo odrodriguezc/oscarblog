@@ -11,10 +11,16 @@ class LoginController
     	 * L'argument $queryFields contient l'équivalent de $_GET en PHP natif.
     	 */
 	
-		/**
-		 * Determiner si l'utilisateur est deja contcte ou pas. s'il est deja conecté l'envoyer vers admin
-		 */
-		
+		/** 
+		  * UserSession - instance de la classe session
+		  * 
+		  * - isAutheticated va nous permettre de savoir si l'utilisateur est connecté 
+		*/
+		$userSession = new UserSession();
+		if ($userSession->isAuthenticated()==true) 
+			/** Redirection vers l'admin */
+			$http->redirectTo('/admin/');
+		else
 		
 		
 		return ['_raw_template' => '',
@@ -31,6 +37,13 @@ class LoginController
     	 * L'argument $http est un objet permettant de faire des redirections etc.
     	 * L'argument $formFields contient l'équivalent de $_POST en PHP natif.
     	 */
+
+        $userSession = new UserSession();
+		if ($userSession->isAuthenticated()==true) 
+			/** Redirection vers l'admin */
+			$http->redirectTo('/admin/');
+		else
+		
 
 		try
         {
@@ -52,6 +65,9 @@ class LoginController
 			/**Password check */
             if(!$user || !password_verify($formFields['password'],$user['passwordHash']))
                 throw new DomainException('Email ou mot de passe incorrects !');
+
+            /** Update last-login */
+            $userModel->updateLogin($user['id']);
 
             /** Construction de la session utilisateur*/
             $userSession = new UserSession();

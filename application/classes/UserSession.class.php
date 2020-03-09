@@ -129,9 +129,22 @@ class UserSession
 			return $_SESSION['user']['status'];
 		}
 
+		/**
+		 * isAuthenticated - Determine si l'itilisateur est connecté
+		 */
 		public function isAuthenticated(){
 
 			return (isset($_SESSION['user']['connected'])) ? true : false;
+		}
+
+		/**
+		 * isAuthorized - Determine si le role de l'utilisateur lui permet d'acceder à une fonctionalité donnée
+		 * 
+		 * @var array $authorizedRoles
+		 * @return bool true si l'utilisateur est authorisé ou false s'il ne l'ai pas
+		 */
+		public function isAuthorized(array $authorizedRoles){
+			return in_array(intval($_SESSION['user']['role']),$authorizedRoles,$strict = true);
 		}
 
 

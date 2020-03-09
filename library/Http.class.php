@@ -88,6 +88,19 @@ class Http
 		header('Location: http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].$_SERVER['SCRIPT_NAME'].$url);
 		exit();
 	}
+
+	/**
+	 * Redirect to Referer - permet de renvoyer vers la page referer
+	 * 
+	 */
+	public function redirectToRef()
+	{
+		if (isset($_SERVER['HTTP_REFERER'])) 
+			header("location: {$_SERVER['HTTP_REFERER']}");
+		else
+			$this->redirectTo('/');
+	}
+
 	public function sendJsonResponse($data)
 	{
         echo json_encode($data);
