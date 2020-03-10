@@ -31,7 +31,7 @@ class CategoriesModel
      */
     public function listAll() 
     {
-        return $this->dbh->query('SELECT * FROM '.$this->table);
+        return $this->dbh->query('SELECT c1.id, c1.title, c2.title as parent, c1.parentId, COUNT(p.postId) as post FROM '.$this->table.' c1 LEFT JOIN '.$this->table.' c2 ON c1.parentId = c2.id LEFT JOIN post_category p ON c1.id = p.categoryId GROUP BY c1.id,c2.id ORDER BY c1.title, c1.parentId');
     }
 
     /** Ajoute une catégorie en base
@@ -79,4 +79,55 @@ class CategoriesModel
     {
         $this->dbh->executeSQL('DELETE FROM '.$this->table.' WHERE cat_id=?',[$id]);
     }
+
+    /** Function récursive (qui s'appelle elle même) permettant de trier le tableau des catégories
+ * C'est un exercice algorithmique. Principe de récursivité
+ * @param array $categories le tableau (jeu d'enregistrement) des catégories
+ * @param mixed $parent l'id du parent s'il existe ou null
+ */
+function orderCategories($categories,$parent=null)
+{
+    $tree = array();
+
+    foreach($categories as $index=>$categorie)
+    {
+        //var_dump($categorie['cat_parent'].' '.$parent);
+        if($categorie['parentId']==$parent)
+        {
+            $childrens = $this->orderCategories($categories,$categorie['id']);
+            if(count($childrens)>0)
+                $categorie['childrens'] = $childrens;
+            //var_dump($categorie);
+            $tree[] = $categorie;
+        }
+        
+    }
+
+    return $tree;
+}
+
+    /** Function récursive (qui s'appelle elle même) permettant de trier le tableau des catégories
+     * Cette fonction de créée pas de sous tableau mais donne un niveau de hérarchie et ordonne le tableau
+     * @param array $categories le tableau (jeu d'enregistrement) des catégories
+     * @param mixed $parent l'id du parent s'il existe ou null
+     * @param mixed $level le niveau de hiérarchie
+     */
+    function orderCategoriesLevel($categories,$parent=null,$level=0)
+    {
+        $tree = array();
+        foreach($categories as $index=>$categorie)
+        {
+            if($categorie['parentId']==$parent)
+            {
+                $categorie['level'] = $level;
+                $tree[] = $categorie;
+                $childrens = $this->orderCategoriesLevel($categories,$categorie['id'],$level+1);
+                
+                if(count($childrens)> 0)
+                    $tree = array_merge($tree,$childrens);
+            }
+        }
+        return $tree;
+    }
+
 }

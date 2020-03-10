@@ -1,0 +1,63 @@
+ <!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-block">
+                <h3><?=$article['title']?></h3>
+                <h6><?=$article['metaTitle']?></h6>
+                <span>Par  <a href=""><?=$article['author_name']?></a></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-block">
+                <article>
+                    <figure>
+                        <img src="<?=$article['picture']?>" alt="<?=$article['title']?>">
+                    </figure>
+                <?=$article['content']?>
+                </article>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-block">
+                <h4>Stats</h4>
+                <span><i class="far fa-thumbs-up"></i><?=$article['like']?></span>
+                <span><i class="far fa-thumbs-down"></i><?=$article['dislike']?></span>
+                <span><i class="far fa-share-square"></i><?=$article['share']?></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="card">
+            <div class="card-block">
+                <h4>Timeline</h4>
+                <p>Date de creation: <span><?=$article['createdAt']?></span></p>
+                <p>Date de publication: <span><?=$article['publishedAt']?></span></p>
+                <p>Dernier modification: <span><?=$article['updatedAt']?></span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-block">
+                <a class="btn btn-success" href="<?= $requestUrl ?>/admin/articles/edit/?id=<?=$article['id']?>">Modifier</a>
+                <a id="deleteBtn" class="btn btn-danger" data-toggle="modal" data-target="#delArticleModal" href="#">Supprimer</a>
+            </div>
+        </div>
+    </div>
+</div>

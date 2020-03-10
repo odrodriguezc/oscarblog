@@ -11,7 +11,7 @@ class UserSession
 			}
 		}
 
-		public function create($id, $username, $firstname, $lastname, $email, $role, $status)
+		public function create($id, $username, $firstname, $lastname, $email, $role, $status, $avatar)
 		{
 			// Construction de la session utilisateur.
 			$_SESSION['user'] = array(
@@ -22,6 +22,7 @@ class UserSession
 								'email' => $email,
 								'role'=> $role,
 								'status'=> $status,
+								'avatar' => $avatar,
 								'connected' => true);
 
 		}
@@ -57,7 +58,7 @@ class UserSession
 				return null;
 			}
 
-			return $_SESSION['user']['Username'];
+			return $_SESSION['user']['username'];
 		}
 
 		public function getEmail(){
@@ -117,6 +118,16 @@ class UserSession
 			}
 
 			return $_SESSION['user']['role'];
+		}
+
+		public function getAvatar(){
+
+			if($this->isAuthenticated() == false || !isset($_SESSION['user']))
+			{
+				return null;
+			}
+
+			return $_SESSION['user']['avatar'];
 		}
 
 		public function getStatus(){

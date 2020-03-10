@@ -1,0 +1,71 @@
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+<div class="row">
+    <!-- column -->
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-block">
+                <h4 class="card-title">Articles</h4>
+                <h6 class="card-subtitle">Tous les articles</h6>
+                <div class="row" >
+                  <form class="search-box" action="jquery" method="post">
+                    <input class="form-control" type="search" name="search-user" id="search-user" placeholder="Search & enter">
+                  </form>
+                  <a class="btn btn-primary" href="<?= $requestUrl ?>/admin/articles/new/">Ajouter +</a>
+                </div>
+               
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Crée</th>
+                                <th>Publiée</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach($articlesList as $article):?>
+                            <tr>
+                                <td data-articleId="<?=$article['id']?>"><a href="<?= $requestUrl ?>/admin/articles/article/?id=<?=$article['id']?>"><?=$article['title']?></td>
+                                <td data-userId=<?=$article['author_id']?>><?=$article['author_name']?></td>
+                                <td><?=$article['createdAt']?></td>
+                                <td><?=$article['published']?></td>
+                                <td>
+                                    <a class="editLink mr-1"href="<?= $requestUrl ?>/admin/articles/edit/?id=<?=$article['id']?>"><i class="fas fa-user-edit"></i></a>
+                                    <a class="delLink ml-1" data-toggle="modal" data-target="#delArticleModal" href="#delArticleModal"><i class="fas fa-trash-alt"></i></span>
+                                </td>
+                            </tr>
+                        <?php endforeach;?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--  Modal pour confirmer la suppretion de l'article -->
+<div class="modal fade" id="delArticleModal" tabindex="-1" role="dialog" aria-labelledby="delArticleModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="delArticleModalLabel">Supprimer l'article</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Etes-vous sur de vouloir supprimer l'article <span><?=$article['title']?></span>?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <a class="btn btn-success" id="updateBtnModal" href="<?= $requestUrl ?>/admin/articles/del/?id=<?=$article['id']?>">Confirmer</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ============================================================== -->
+<!-- End PAge Content -->
+<!-- ============================================================== -->

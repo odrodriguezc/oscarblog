@@ -1,6 +1,6 @@
 <?php
 
-class UsersController
+class ArticleController
 {
     public function httpGetMethod(Http $http, array $queryFields)
     {
@@ -9,40 +9,34 @@ class UsersController
     	 *
     	 * L'argument $http est un objet permettant de faire des redirections etc.
     	 * L'argument $queryFields contient l'équivalent de $_GET en PHP natif.
-		*/
+    	*/
 
 		/** 
 		  * UserSession - instance de la classe session
 		  * 
 		  * - isAutheticated va nous permettre de savoir si l'utilisateur est connecté 
-		  * - isAuthorized va nous permettre de determiner si le rol de l'utilisateur lui permet d'acceder à la function
 		*/
 		$userSession = new UserSession();
 		if ($userSession->isAuthenticated()==false) 
 			/** Redirection vers le login */
 			$http->redirectTo('/login/');
-
-		if ($userSession->isAuthorized([2,3])==false)
-			/** Redirection vers le dashboard */
-			$http->redirectTo('/login/');
+        
+        if ($userSession->isAuthorized([1,2,3])==false)
+            /** Redirection vers le referer */
+            header("location: {$_SERVER['HTTP_REFERER']}");
 		
-		/**
-		 * usermodel
-		 * instance du model users et stackage dans une variable
-		 */
-		 $userModel = new UsersModel();
+
+		$articlesModel = new ArticlesModel();
+		$flashbag = new FlashBag();
 
 		 /**
 		  * 
-		  * @var userList array liste des utilisateurs
-		  * @var roles array liste des roles conus
+		  * @var article array information correspondante à l'article recherché
 		  * 
 		  */
-		$gateway['usersList'] = $userModel->listAll();
-		$gateway['roles'] = $userModel->role;
 
-		
-		
+		$gateway['article'] = $articlesModel->find($queryFields['id']);
+
 		
 		return $gateway;
     }

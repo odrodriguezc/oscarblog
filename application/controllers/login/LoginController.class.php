@@ -79,7 +79,8 @@ class LoginController
                 $user['lastname'],
 				$user['email'],
 				$user['role'],
-				$user['status']
+				$user['status'],
+				$user['avatar']
             );
 
             /** Flashbag */

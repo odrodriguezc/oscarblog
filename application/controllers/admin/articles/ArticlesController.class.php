@@ -9,13 +9,26 @@ class ArticlesController
     	 *
     	 * L'argument $http est un objet permettant de faire des redirections etc.
     	 * L'argument $queryFields contient l'équivalent de $_GET en PHP natif.
-    	 */
+		*/
+
+		/** 
+		  * UserSession - instance de la classe session
+		  * 
+		  * - isAutheticated va nous permettre de savoir si l'utilisateur est connecté 
+		*/
+		$userSession = new UserSession();
+		if ($userSession->isAuthenticated()==false) 
+			/** Redirection vers le login */
+			$http->redirectTo('/login/');
+        
+        if ($userSession->isAuthorized([1,2,3])==false)
+            /** Redirection vers le referer */
+			header("location: {$_SERVER['HTTP_REFERER']}");
 	
-		
-		$tab['test'] = "je suis le admin";
-		
-		
-		return $tab;
+		$ArticlesModel = new ArticlesModel();
+
+		$gateway['articlesList'] = $ArticlesModel->listAll();
+		return $gateway;
     }
 
     public function httpPostMethod(Http $http, array $formFields)
