@@ -39,13 +39,13 @@ class CategoriesController
 			foreach($categories as $category)
 		{
 			if($category['post'] > 0)
-				$classBadge = 'badge-success';
+				$classBadge = 'badge-primary';
 			else
-				$classBadge = 'badge-light';
+				$classBadge = 'badge-primary';
 			
-			$html.= '<li class="list-group-item">'.$category['title'].' <a href="'.$url.'/admin/categories/edit/?id='.$category['id'].'"><i class="far fa-edit"></i></a> 
-				<a href="<?= $requestUrl ?>/admin/categories/del/?id='.$category['id'].'" data-toggle="modal" data-target="#delCatModal"><i class="icon-trash"></i></a>
-			<span class="badge badge-pill '.$classBadge.'">'.$category['post'].' article(s)</span>';
+			$html.= '<li class="list-group-item d-flex justify-content-between align-items-center">'.$category['title'].' <span><a href="'.$url.'/admin/categories/edit/?id='.$category['id'].'"><i class="far fa-edit"></i></a> 
+				<a href="#delCatModal" data-id='.$category['id'].' data-toggle="modal" data-target="#delCatModal"><i class="icon-trash"></i></a>
+			<span class="badge badge-pill '.$classBadge.'">'.$category['post'].' article(s)</span></span>';
 			if(isset($category['childrens']))
 				$html.= displayListeCategorie($category['childrens'], $url);
 			$html.= '</li>';

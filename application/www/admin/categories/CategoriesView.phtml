@@ -1,2 +1,33 @@
-<?= displayListeCategorie($catList, $requestUrl); ?>
+<div class="card">
+    <?= displayListeCategorie($catList, $requestUrl); ?>
+</div>
 
+<div class="card mt-3">
+    <div class="card-block text-center">
+        <a id="addBtn" class="btn btn-success" href="<?= $requestUrl ?>/admin/categories/new/">Ajouter</a>
+    </div>
+</div>
+
+
+<!--  Modal pour confirmer la suppretion de l'utilisateur -->
+<div class="modal fade" id="delCatModal" tabindex="-1" role="dialog" aria-labelledby="delCatModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="delCatModalLabel">Supprimer l'utilisateur</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>La suppresion de la categorie entrainera aussi la suppresion de tous leurs subcategories.<span>Etes-vous sur de vouloir supprimer la categorie ?</span></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <a class="btn btn-success" id="delLinkModal" href="<?= $requestUrl ?>/admin/categories/del/?id=">Confirmer</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="<?= $wwwUrl ?>/js/admin/categories.js"></script>

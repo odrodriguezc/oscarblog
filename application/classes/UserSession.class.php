@@ -100,6 +100,14 @@ class UserSession
 			return $_SESSION['user']['lastname'];
 		}
 
+		/**
+		 * Get User id
+		 * 
+		 * Permet d'obtenir l'id de l'utilisateur connecté dans la session
+		 * 
+		 * @return int renvoi l'id de l'utilisateur 
+		 * 
+		 */
 		public function getId(){
 
 			if($this->isAuthenticated() == false || !isset($_SESSION['user']))

@@ -21,31 +21,12 @@ class NewController
 			/** Redirection vers le login */
 			$http->redirectTo('/login/');
 		
-		if ($userSession->isAuthorized([3])==false)
+		if ($userSession->isAuthorized([1,2,3])==false)
 		/** Redirection vers le dashboard */
-		$http->redirectTo('/login/');
+			$http->redirectTo('/login/');
 
-		/**
-		 * usermodel
-		 * instance du model users et stackage dans une variable
-		 */
 
-		 $userModel = new UsersModel();
-
-		 /**
-		  * 
-		  *
-		  * @var roles array with the list of users roles
-		  * @var _form Array contenat les variables fournis par la class UsersForm
-		  */
-		$gateway = ['roles' => $userModel->role,
-					'_form' => new UsersForm(),
-		];
-
-		
-		
-		
-		return $gateway;
+		return ['_form' => new ArticlesForm()];; 
     }
 
     public function httpPostMethod(Http $http, array $formFields)
@@ -73,50 +54,36 @@ class NewController
 			 /** Image uploadée
             *   On la déplace sinon on affecte à NULL pour la saisie en base
             */
-            if ($http->hasUploadedFile('avatar'))
-                $avatar = $http->moveUploadedFile('avatar','/assets/images/users/');
+            if ($http->hasUploadedFile('picture'))
+                $picture = $http->moveUploadedFile('picture','/assets/images/articles/');
             else 
-				$avatar = NULL;
+				$picture = NULL;
 			
 			  /** On vérifie que tous les champs sont remplis sauf */
 			  foreach($formFields as $index=>$formField)
 			  {
-				  if (empty($formField) && ($index != 'intro' || $index != 'profile' ))
+				  if (empty($formField) && ($index != 'metaTitle' || $index != 'picture' ))
 					  throw new DomainException('manque'.$index.'' );
 			  }
   
-			  /**Verification de l'egalité des mot de passe */
-			  /*if ($formField['password'] != $formField['confirmPassword']) {
-				  throw new DomainException('Les mot de passe doit etre identique !');
-			  }*/
-
-			  /**Chifrage du mot de pass avec la methode HASH */
-			  $passwordHash = password_hash($formFields['password'], PASSWORD_DEFAULT);
-  
-			  $registeredAtDate = date('Y-m-d');
+			  $authorId = $userSession->getId();
 
 			  /** Enregistrer les données dans la base de données */
-			  $usersModel = new UsersModel();
-			  $usersModel->add($formFields['username'], 
-								$formFields['firstname'],
-								$formFields['lastname'],
-								$formFields['email'],
-								$passwordHash,
-								$formFields['phone'],
-								$formFields['intro'],
-								$formFields['profile'],
-								$formFields['role'],
-								$formFields['status'],
-								$avatar,
-								$registeredAtDate
+			  $ArticlesModel = new ArticlesModel();
+			  $ArticlesModel->add($formFields['title'], 
+								$formFields['metaTitle'],
+								$formFields['summary'],
+								$formFields['content'],
+								$picture,
+								$authorId
 								);
 			  
 			  /** Ajout du flashbag */
 			  $flashbag = new Flashbag();
-			  $flashbag->add('L\'utilisateur a bien été ajouté');
+			  $flashbag->add('L\'article a bien été ajouté');
 			  
 			  /** Redirection vers la liste */
-			  $http->redirectTo('admin/users/');
+			  $http->redirectTo('admin/articles/');
 
 
 		}
@@ -128,15 +95,13 @@ class NewController
 		 */
 		
 			 /** Réaffichage du formulaire avec un message d'erreur. */
-			 $form = new UsersForm();
+			 $form = new ArticlesForm();
 			 /** On bind nos données $_POST ($formFields) avec notre objet formulaire */
 			 $form->bind($formFields);
 			 $form->setErrorMessage($exception->getMessage());
 			
-			 $usersModel = new UsersModel();
-			 return   ['_form' => $form,
-					 'roles' => $usersModel->role
-			 ];
+			 $ArticlesModel = new ArticlesModel();
+			 return   ['_form' => $form];
 
 		}
     }

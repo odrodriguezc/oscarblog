@@ -60,7 +60,6 @@ class ArticlesModel
      * @param integer $id
      * @param string $title
      * @param string $metaTitle
-     * @param string $slug 
      * @param string $summary
      * @param int $published
      * @param string $content
@@ -68,22 +67,11 @@ class ArticlesModel
      * @param integer $authorId   
      * @return void
      */
-    public function add(int $id, string $title, string $metaTitle, string $slug, string $summary, int $published, string $content, string $picture, int $authorId) 
-    {
-        $createdAt = date('Y-m-d, H:i:s');
-        return $this->dbh->executeSQL('INSERT INTO '.$this->table.' (id, title, metaTitle, slug, summary, published, createdAt, content, picture, author_id) VALUES (?,?,?,?,?,?,?,?,?,?)',[$id, $title, $metaTitle, $slug, $summary, $published, $createdAt, $content, $picture, $authorId]);
-    }
-
-     
-
-    /** Update Login de l'utilisateur connecté
-     * @param  integer $id 
-     * @return void
-     */
-    public function updateLogin(int $id)
+    public function add(string $title, string $metaTitle, string $summary, string $content, string $picture, int $authorId) 
     {   
-        $Logindate = date('Y-m-d, H:i:s');
-        $this->dbh->executeSQL('UPDATE '.$this->table.' SET lastLogin=? WHERE id=?', [$Logindate, $id]);
+        $slug = $title;
+        $createdAt = date('Y-m-d, H:i:s');
+        return $this->dbh->executeSQL('INSERT INTO '.$this->table.' (title, metaTitle, slug, summary, createdAt, content, picture, author_id) VALUES (?,?,?,?,?,?,?,?)',[$title, $metaTitle, $slug, $summary, $createdAt, $content, $picture, $authorId]);
     }
-    
+
 }
