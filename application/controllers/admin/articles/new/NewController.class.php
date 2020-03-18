@@ -47,17 +47,19 @@ class NewController
 		if ($userSession->isAuthenticated()==false) 
 			/** Redirection vers le login */
 			$http->redirectTo('/login/');
-		else
+		if ($userSession->isAuthorized([1,2,3])==false)
+		/** Redirection vers le dashboard */
+			$http->redirectTo('/login/');
 		
 		try
 		{
 			 /** Image uploadée
-            *   On la déplace sinon on affecte à NULL pour la saisie en base
+            *   On la déplace sinon on affecte à l'image par defaut pour la saisie en base
             */
             if ($http->hasUploadedFile('picture'))
                 $picture = $http->moveUploadedFile('picture','/assets/images/articles/');
             else 
-				$picture = NULL;
+				$picture = 'default_picture.jpg';
 			
 			  /** On vérifie que tous les champs sont remplis sauf */
 			  foreach($formFields as $index=>$formField)

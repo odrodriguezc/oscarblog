@@ -40,7 +40,7 @@ class EditController
 		$gateway['roles'] = $userModel->role;
 
 		/**
-		 * Instance du formulair user et passage de l'information  de l'utilisateur dans la BD 
+		 * Instance du formulair user et passage de l'information  de l'utilisateur dans la vue à l'exception du password pour des raison de securité 
 		 */
 		$form = new UsersForm();
 		$form->bind(array('id'=>$user['id'],
@@ -48,7 +48,6 @@ class EditController
 						'firstname' => $user['firstname'],
 						'lastname' => $user['lastname'],
 						'email' => $user['email'],
-						'passwordHash' => $user['passwordHash'],
 						'phone' => $user['phone'],
 						'intro' => $user['intro'],
 						'profile' => $user['profile'],
@@ -83,13 +82,18 @@ class EditController
             /** Redirection vers le dashboard */
             $http->redirectTo('/admin/');
 
+        $usersModel = new UsersModel();
+        //recuperation de l'utilisateur en BD pour en extraire apres le password
+        $user = $usersModel->find($formFields['id']);
+
 		try
         {
             /** Récupération de la photo originale */
             if ($http->hasUploadedFile('avatar')) {
                 $avatar = $http->moveUploadedFile('avatar','/assets/images/users/'); //On déplace la photo à l'endroit désiré(le chemin est relatif par rapport au dossier www)et on stocke dans la variable avatar le nom du fichier
                 /** On supprime l'ancienne image */
-                if($formFields['originalAvatar']!=NULL && file_exists(WWW_PATH.'/assets/images/users/'.$formFields['originalAvatar'])){
+                if($formFields['originalAvatar']!=NULL && file_exists(WWW_PATH.'/assets/images/users/'.     $formFields['originalAvatar']))
+                {
                     unlink(WWW_PATH.'/assets/images/users/'.$formFields['originalAvatar']);
                 }
             } else {
@@ -104,22 +108,19 @@ class EditController
             foreach($formFields as $index=>$formField)
             {
                 if (empty($formField) && ($index != 'intro' || $index != 'profile' ))
-                    throw new DomainException('Merci de remplir tous les champs !');
+                    throw new DomainException('Merci de remplir de remplir le champ '.$index .' !');
             }
 
-            /**Verification de l'egalité des mot de passe */
-            /*if ($formField['password'] != $formField['confirmPassword']) {
-                throw new DomainException('Les mot de passe doit etre identique !');
-            }*/
+            //passage du meme password
+            $passwordHash = $user['passwordHash'];
 
-            
+
             /** Enregistrer les données dans la base de données */
-            $usersModel = new UsersModel();
             $usersModel->update($formFields['username'], 
                                 $formFields['firstname'],
                                 $formFields['lastname'],
                                 $formFields['email'],
-                                $formFields['password'],
+                                $passwordHash,
                                 $formFields['phone'],
                                 $formFields['intro'],
                                 $formFields['profile'],

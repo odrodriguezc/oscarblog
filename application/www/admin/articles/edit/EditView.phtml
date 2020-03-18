@@ -1,0 +1,94 @@
+ <!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+<?php if ($errorMessage != ''):?>
+    <div class="alert alert-danger"><?=$errorMessage?></div>
+<?php endif; ?>
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-block">
+                <div class="form-horizontal form-material">
+                <form id="newArticle" class="form-horizontal form-material" action="<?= $requestUrl ?>/admin/articles/new/" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="title">Titre</label>
+                        <input class="form-control form-control-line " type="text" name="title" id="title" value="<?=$title?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="metaTitle">Subtitre</label>
+                        <input class="form-control form-control-line " type="text" name="metaTitle" id="metaTitle" value="<?=$metaTitle?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="summary">Resumé</label>
+                        <textarea class="form-control form-control-line " type="text" name="summary" id="content" ><?=$summary?></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="content">Contenu</label>
+                        <textarea class="form-control form-control-line " type="text" name="content" id="content" ><?=$content?></textarea>
+                    </div>
+                    <div class="form-group">
+                        <?php if(!is_null($originalPicture)):?>
+                            <img class="img-fluid"  src="<?= $wwwUrl ?>/assets/images/articles/<?=$originalPicture?>"/>
+                        <?php else:?>
+                            <img class="img-fluid" width="" src="<?= $wwwUrl ?>/assets/images/users/5.jpg" />
+                        <?php endif;?>
+                        <!--input caché pour passer l'index originalPicture-->
+                        <input type="hidden" name="originalPicture" value="<?=$originalPicture?>">
+                        <input class="form-control-file" type="file" name="picture" id="picture" accept="image/png,image/jpeg,image/gif">
+                    </div>
+                    <div id="btnUpdateGroup" class="form-group ">
+                        <a class="btn btn-success" data-toggle="modal" data-target="#addConfirmModal"href="#addConfirmModal" >Envoyer</a>
+                        <a class="btn btn-primary" href="#cancelModal" data-toggle="modal" data-target="#cancelModal">Annuler</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--  Modal pour confirmer l'ajout d'un nouveau article -->
+<div class="modal fade" id="addConfirmModal" tabindex="-1" role="dialog" aria-labelledby="addConfirmModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="addConfirmModalLabel">Confirmes le nouveau article</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>L'article <span>xxxx</span> sera ajouté à la base de donnés.Etes vous sur de vouloir bien les enregistrer ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Non</button>
+        <input class="btn btn-success" type="submit" name="add" id="addBtnModal" value="Envoyer">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--  Modal pour confirmer l'annulation de l'ajout -->
+<div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="cancelModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="cancelModalLabel">Cancel changes</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Les modifications efectués ne seron pas sauvergardées. Etes-vous sur de vouloir annuler l'enregistrement des changements?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Non</button>
+        <a class="btn btn-success" href="<?= $requestUrl ?>/admin/articles/">Yes</a>
+      </div>
+    </div>
+  </div>
+</div>
+</form>

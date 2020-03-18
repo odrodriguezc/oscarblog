@@ -13,7 +13,7 @@
                 <?php if(!is_null($originalAvatar)):?>
                 <img class="img-circle" width="150" src="<?= $wwwUrl ?>/assets/images/users/<?=$originalAvatar?>"/>
                 <?php else:?>
-                <img class="img-circle" width="150" src="<?= $wwwUrl ?>/assets/images/users/5.jpg" />
+                <img class="img-circle" width="150" src="<?= $wwwUrl ?>/assets/images/users/default_avatar.jpg" />
                 <?php endif;?>
                 <input class="form-control-file" type="file" name="avatar" id="avatar" accept="image/png,image/jpeg,image/gif">
                 <!--input caché pour passer l'index originalAvatar-->
@@ -67,18 +67,6 @@
                         <label for="email" class="col-md-12">Email</label>
                         <div class="col-md-12">
                             <input class="form-control form-control-line " type="email" value="<?=$email?>"  name="email" id="email" >
-                        </div>
-                    </div>
-                    <div id="passwordGroup" class="form-group ">
-                        <label class="col-md-12" for="password">Password</label>
-                        <div class="col-md-12">
-                            <input class="form-control form-control-line " type="password" name="password" id="password" value="" placeholder="Tapez le nouveau mot de passe">
-                        </div>
-                    </div>
-                    <div id="confirmPasswordGroup" class="form-group " >
-                        <label class="col-md-12" for="confirmPassword">Confirm Password</label>
-                        <div class="col-md-12">
-                            <input class="form-control form-control-line " type="password" name="confirmPassword" id="confirmPassword" value="" placeholder="Tapez le nouveau mot de passe" >
                         </div>
                     </div>
                     <div class="form-group">

@@ -25,36 +25,32 @@ class EditController
             /** Redirection vers le referer */
             header("location: {$_SERVER['HTTP_REFERER']}");
 
-		/**
-		 * usermodel
-		 * instance du model users et stackage dans une variable
-		 */
-		 $userModel = new UsersModel();
+
+        
+        $articlesModel = new ArticlesModel();
+
+		$article = $articlesModel->find($queryFields['id']);
+
 
 		/**
-		 * @var user array whit information of a particular user
-		 * @var roles array with the list of users roles 
-		 * 
+		 * Instance du formulair article et passage de l'information  de l'utilisateur dans la BD 
 		 */
-		$user = $userModel->find($queryFields['id']);
-		$gateway['roles'] = $userModel->role;
-
-		/**
-		 * Instance du formulair user et passage de l'information  de l'utilisateur dans la BD 
-		 */
-		$form = new UsersForm();
-		$form->bind(array('id'=>$user['id'],
-						'username' => $user['username'], 
-						'firstname' => $user['firstname'],
-						'lastname' => $user['lastname'],
-						'email' => $user['email'],
-						'passwordHash' => $user['passwordHash'],
-						'phone' => $user['phone'],
-						'intro' => $user['intro'],
-						'profile' => $user['profile'],
-						'role' => $user['role'],
-						'status' => $user['status'],
-                        'originalAvatar' => $user['avatar']));
+		$form = new ArticlesForm();
+        $form->bind(array('id'=> $article['id'],
+                        'title'=> $article['title'],
+                        'metaTitle'=> $article['metaTitle'],
+                        'summary'=> $article['summary'],
+                        'published'=> $article['published'],
+                        'createdAt'=> $article['createdAt'],
+                        'publishedAt'=> $article['publishedAt'],
+                        'content'=> $article['content'],
+                        'picture'=> $article['picture'],
+                        'like'=> $article['like'],
+                        'dislike'=> $article['dislike'],
+                        'share'=> $article['share'],
+                        'author_id'=> $article['author_id'],
+                        'originalPicture' => $article['picture']
+        ));
 		$gateway['_form'] = $form;
 		
 		return $gateway;
@@ -67,7 +63,7 @@ class EditController
     	 *
     	 * L'argument $http est un objet permettant de faire des redirections etc.
     	 * L'argument $formFields contient l'équivalent de $_POST en PHP natif.
-    	 */
+    	*/
 
         /** 
 		  * UserSession - instance de la classe session
@@ -86,14 +82,14 @@ class EditController
 		try
         {
             /** Récupération de la photo originale */
-            if ($http->hasUploadedFile('avatar')) {
-                $avatar = $http->moveUploadedFile('avatar','/assets/images/users/'); //On déplace la photo à l'endroit désiré(le chemin est relatif par rapport au dossier www)et on stocke dans la variable avatar le nom du fichier
+            if ($http->hasUploadedFile('picture')) {
+                $picture = $http->moveUploadedFile('picture','/assets/images/articles/'); //On déplace la photo à l'endroit désiré(le chemin est relatif par rapport au dossier www)et on stocke dans la variable picture le nom du fichier
                 /** On supprime l'ancienne image */
-                if($formFields['originalAvatar']!=NULL && file_exists(WWW_PATH.'/assets/images/users/'.$formFields['originalAvatar'])){
-                    unlink(WWW_PATH.'/assets/images/users/'.$formFields['originalAvatar']);
+                if($formFields['originalPicture']!=NULL && file_exists(WWW_PATH.'/assets/images/articles/'.$formFields['originalPicture'])){
+                    unlink(WWW_PATH.'/assets/images/users/'.$formFields['originalPicture']);
                 }
             } else {
-                $avatar = $formFields['originalAvatar']; // Le nom de l'image reste le nom qui était là à l'origine
+                $picture = $formFields['originalpicture']; // Le nom de l'image reste le nom qui était là à l'origine
             }
             
             /** Vérification des données 
@@ -103,37 +99,26 @@ class EditController
              /** On vérifie que tous les champs sont remplis sauf */
             foreach($formFields as $index=>$formField)
             {
-                if (empty($formField) && ($index != 'intro' || $index != 'profile' ))
+                if (empty($formField) && ($index != 'summary' || $index != 'picture' ))
                     throw new DomainException('Merci de remplir tous les champs !');
             }
-
-            /**Verification de l'egalité des mot de passe */
-            /*if ($formField['password'] != $formField['confirmPassword']) {
-                throw new DomainException('Les mot de passe doit etre identique !');
-            }*/
-
             
             /** Enregistrer les données dans la base de données */
-            $usersModel = new UsersModel();
-            $usersModel->update($formFields['username'], 
-                                $formFields['firstname'],
-                                $formFields['lastname'],
-                                $formFields['email'],
-                                $formFields['password'],
-                                $formFields['phone'],
-                                $formFields['intro'],
-                                $formFields['profile'],
-                                $formFields['role'],
-                                $formFields['status'],
-                                $avatar,
-                                $formFields['id']);
+            $articlesModel = new ArticlesModel();
+            $articlesModel->update($formFields['id'],
+                                $formFields['title'], 
+                                $formFields['metaTitle'],
+                                $formFields['summary'],
+                                $formFields['content'],
+                                $picture
+                                );
             
             /** Ajout du flashbag */
             $flashbag = new Flashbag();
-            $flashbag->add('L\'utilisateur a bien été modifiée');
+            $flashbag->add('L\'article a bien été modifiée');
             
             /** Redirection vers la liste */
-            $http->redirectTo('admin/users/');
+            $http->redirectTo('admin/articles/');
         }
          catch(DomainException $exception)
         {
@@ -143,13 +128,12 @@ class EditController
              */
 
             /** Réaffichage du formulaire avec un message d'erreur. */
-            $form = new UsersForm();
+            $form = new ArticlesForm();
             /** On bind nos données $_POST ($formFields) avec notre objet formulaire */
             $form->bind($formFields);
             $form->setErrorMessage($exception->getMessage());
  
-            return   ['_form' => $form,
-                    'roles' => $usersModel->role
+            return   ['_form' => $form
             ];
         
         }

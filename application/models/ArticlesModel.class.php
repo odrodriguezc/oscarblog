@@ -57,11 +57,9 @@ class ArticlesModel
 
     /** Ajouter un post en base
      *
-     * @param integer $id
      * @param string $title
      * @param string $metaTitle
      * @param string $summary
-     * @param int $published
      * @param string $content
      * @param string $picture
      * @param integer $authorId   
@@ -72,6 +70,24 @@ class ArticlesModel
         $slug = $title;
         $createdAt = date('Y-m-d, H:i:s');
         return $this->dbh->executeSQL('INSERT INTO '.$this->table.' (title, metaTitle, slug, summary, createdAt, content, picture, author_id) VALUES (?,?,?,?,?,?,?,?)',[$title, $metaTitle, $slug, $summary, $createdAt, $content, $picture, $authorId]);
+    }
+
+    /**
+     * Mofifier un article
+     * 
+     * @param int $id
+     * @param string $title
+     * @param string $metaTitle
+     * @param string $summary
+     * @param string $content
+     * @param string $picture
+     * @return int $updatedId id du dernier article updated
+     */
+    public function update(int $id, string $title, string $metaTitle, string $summary, string $content, string $picture )
+    {
+        $slug = $title;
+        $this->dbh->executeSQL('UPDATE '.$this->table.' SET title=?, slug=? metaTitle=?, summary=?, content=,  picture=? WHERE id=?',[$title, $slug, $metaTitle, $summary, $content, $picture, $id]); 
+
     }
 
 }

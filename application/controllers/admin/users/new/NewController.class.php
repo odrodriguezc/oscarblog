@@ -86,9 +86,9 @@ class NewController
 			  }
   
 			  /**Verification de l'egalité des mot de passe */
-			  /*if ($formField['password'] != $formField['confirmPassword']) {
+			  if ($formField['password'] != $formField['confirmPassword']) {
 				  throw new DomainException('Les mot de passe doit etre identique !');
-			  }*/
+			  }
 
 			  /**Chifrage du mot de pass avec la methode HASH */
 			  $passwordHash = password_hash($formFields['password'], PASSWORD_DEFAULT);

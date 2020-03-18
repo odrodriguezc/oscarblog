@@ -76,13 +76,13 @@ ENGINE = InnoDB;
 -- Table `blog`.`post_comment`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `blog`.`post_comment` (
-  `id` INT NOT NULL AUTO_INCREMENT,
+  `id` BIGINT(20) UNSIGNED  NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(255) NOT NULL,
   `published` INT(1) NOT NULL,
   `createdAt` DATETIME NOT NULL,
   `pubishedAt` DATETIME NULL,
   `content` TEXT NOT NULL,
-  `postId` BIGINT(20) NOT NULL,
+  `postId` BIGINT(20) UNSIGNED  NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_post_comment_post1_idx` (`postId` ASC) ,
   CONSTRAINT `fk_post_comment_post1`
@@ -97,12 +97,12 @@ ENGINE = InnoDB;
 -- Table `blog`.`category`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `blog`.`category` (
-  `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `id` BIGINT(20) UNSIGNED  NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(75) NOT NULL,
   `metaTitle` VARCHAR(100) NULL,
   `slug` VARCHAR(255) NOT NULL,
   `content` TEXT NULL,
-  `parentId` BIGINT(20) NOT NULL,
+  `parentId` BIGINT(20) UNSIGNED  NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `title_UNIQUE` (`title` ASC) ,
   UNIQUE INDEX `slug_UNIQUE` (`slug` ASC) ,
@@ -119,8 +119,8 @@ ENGINE = InnoDB;
 -- Table `blog`.`post_category`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `blog`.`post_category` (
-  `categoryId` BIGINT(20) NOT NULL,
-  `postId` BIGINT(20) NOT NULL,
+  `categoryId` BIGINT(20) UNSIGNED NOT NULL,
+  `postId` BIGINT(20) UNSIGNED NOT NULL,
   PRIMARY KEY (`categoryId`, `postId`),
   INDEX `fk_postCategory_post1_idx` (`postId` ASC) ,
   CONSTRAINT `fk_postCategory_category1`
@@ -140,7 +140,7 @@ ENGINE = InnoDB;
 -- Table `blog`.`tag`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `blog`.`tag` (
-  `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(75) NOT NULL,
   `metaTitle` VARCHAR(100) NULL,
   `slug` VARCHAR(255) NOT NULL,
@@ -155,8 +155,8 @@ ENGINE = InnoDB;
 -- Table `blog`.`post_tag`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `blog`.`post_tag` (
-  `postId` BIGINT(20) NOT NULL,
-  `tagId` BIGINT(20) NOT NULL,
+  `postId` BIGINT(20) UNSIGNED NOT NULL,
+  `tagId` BIGINT(20) UNSIGNED NOT NULL,
   PRIMARY KEY (`postId`, `tagId`),
   INDEX `fk_post_tag_tag1_idx` (`tagId` ASC) ,
   CONSTRAINT `fk_post_tag_post1`
@@ -176,10 +176,10 @@ ENGINE = InnoDB;
 -- Table `blog`.`post_meta`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `blog`.`post_meta` (
-  `id` INT(20) NOT NULL AUTO_INCREMENT,
+  `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `key` VARCHAR(255) NOT NULL,
   `content` TEXT NULL,
-  `postId` BIGINT(20) NOT NULL,
+  `postId` BIGINT(20) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_post_meta_post1_idx` (`postId` ASC) ,
   CONSTRAINT `fk_post_meta_post1`
