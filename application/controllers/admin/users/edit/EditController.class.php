@@ -99,35 +99,44 @@ class EditController
             } else {
                 $avatar = $formFields['originalAvatar']; // Le nom de l'image reste le nom qui était là à l'origine
             }
+             
+            //On vérifie que tous les champs obligatoires sont remplis 
+            if ($formFields['username']==='' || $formFields['email']==='') 
+                throw new DomainException('Merci de remplir de remplir le champ tous les champs obligatoires: mail et username!');
+
+            //securisation de la donné 
+            $data = DataValidation::formFilter($formFields);
             
-            /** Vérification des données 
-             * C'est le contrôleur qui contrôle les données et non le modèle !
-             * Si les champs sont vides on lance un exception pour réafficher le formulaire et les erreurs !
-            */
-             /** On vérifie que tous les champs sont remplis sauf */
-            foreach($formFields as $index=>$formField)
-            {
-                if (empty($formField) && ($index != 'intro' || $index != 'profile' ))
-                    throw new DomainException('Merci de remplir de remplir le champ '.$index .' !');
-            }
+            //username 
+            if (DataValidation::usernameValidate($data['username'])===false)
+                throw new DomainException('Le nom d\'utilisateur est invalide. Il doit contenir entre 5 et 36 caracteres alphanumeriques, pas d\'espaces, pas de symboles especiaux');
+
+            // format attendu : courriel
+            if (!filter_var( $data['email'], FILTER_VALIDATE_EMAIL))
+                throw new DomainException ('Le courriel n\'est pas valide. Il doit être au format unnom@undomaine.uneextension.');
+
+            //phone 
+            if ($data['phone']!='')
+                if (DataValidation::phoneValidate($data['phone'])===false)
+                    throw new DomainException('Le numero de telephonoe n\'est pas valide');
 
             //passage du meme password
             $passwordHash = $user['passwordHash'];
 
 
             /** Enregistrer les données dans la base de données */
-            $usersModel->update($formFields['username'], 
-                                $formFields['firstname'],
-                                $formFields['lastname'],
-                                $formFields['email'],
+            $usersModel->update($data['username'], 
+                                $data['firstname'],
+                                $data['lastname'],
+                                $data['email'],
                                 $passwordHash,
-                                $formFields['phone'],
-                                $formFields['intro'],
-                                $formFields['profile'],
-                                $formFields['role'],
-                                $formFields['status'],
+                                $data['phone'],
+                                $data['intro'],
+                                $data['profile'],
+                                $data['role'],
+                                $data['status'],
                                 $avatar,
-                                $formFields['id']);
+                                $data['id']);
             
             /** Ajout du flashbag */
             $flashbag = new Flashbag();
@@ -138,11 +147,6 @@ class EditController
         }
          catch(DomainException $exception)
         {
-            /** DomainException est un type d'exception prédéfinie par PHP (valeur en dehors des limites selon la doc, on l'utilise donc ici pour ça !)
-             *   On a choisi ce type d'exception dans l'arbre généalogique des exceptions fournies par PHP. On aurait pu faire notre propre class
-             *   Exemple : class FormValideException extends Exception {}
-             */
-
             /** Réaffichage du formulaire avec un message d'erreur. */
             $form = new UsersForm();
             /** On bind nos données $_POST ($formFields) avec notre objet formulaire */
@@ -151,7 +155,7 @@ class EditController
  
             return   ['_form' => $form,
                     'roles' => $usersModel->role
-            ];
+                ];
         
         }
     }

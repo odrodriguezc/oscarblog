@@ -1,13 +1,16 @@
 <!-- ============================================================== -->
 <!-- Start Page Content -->
 <!-- ============================================================== -->
+<?php if ($errorMessage != ''):?>
+    <div class="alert alert-danger"><?=$errorMessage?></div>
+<?php endif; ?>
 <!-- Row -->
 <div class="row">
     <!-- Column -->
     <div class="col-lg-4 col-xlg-3 col-md-5">
         <div class="card">
           <form id="formUpdate" class="form-horizontal form-material" action="<?= $requestUrl ?>/admin/users/edit/" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="id" value="<?=$id?>">
+            <input type="hidden" name="id" value="<?=$id?>" readonly>
             <div class="card-block text-center">
               <div class="m-t-30"> 
                 <?php if(!is_null($originalAvatar)):?>
@@ -18,7 +21,7 @@
                 <input class="form-control-file" type="file" name="avatar" id="avatar" accept="image/png,image/jpeg,image/gif">
                 <!--input caché pour passer l'index originalAvatar-->
                 <input type="hidden" name="originalAvatar" value="<?=$originalAvatar?>">
-                <input class="card-title m-t-10 form-control form-control-line text-center " type="text" id="username" name="username" value="<?=$username?>" >
+                <input class="card-title m-t-10 form-control form-control-line text-center " type="text" id="username" name="username" required  maxlength="50" value="<?=$username?>" >
                 <select class="form-control form-control-line text-center " name="role" id="role">
                   <?php foreach ($roles as $key => $value) :?>
                   <option value="<?=$role?>" <?= $retSelection = ($value == $role) ? 'selected' : '' ; ?> ><?= $key?></option>
@@ -54,25 +57,25 @@
                     <div class="form-group">
                         <label class="col-md-12" for="firsname">Firstname</label>
                         <div class="col-md-12">
-                            <input class="form-control form-control-line " type="text" name="firstname" id="firstname"  value="<?=$firstname?>">
+                            <input class="form-control form-control-line " type="text" name="firstname" id="firstname" maxlength="100" value="<?=$firstname?>">
                         </div>
                     </div>
                     <div class="form-group">
                       <label class="col-md-12" for="lastname">Lastname</label>
                       <div class="col-md-12">
-                        <input class="form-control form-control-line " type="text" name="lastname" id="lastname"  value="<?=$lastname?>" >
+                        <input class="form-control form-control-line " type="text" name="lastname" id="lastname"  maxlength="100" value="<?=$lastname?>" >
                       </div>
                     </div>
                     <div class="form-group">
                         <label for="email" class="col-md-12">Email</label>
                         <div class="col-md-12">
-                            <input class="form-control form-control-line " type="email" value="<?=$email?>"  name="email" id="email" >
+                            <input class="form-control form-control-line " type="email" required value="<?=$email?>"  name="email" id="email" >
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-12" for="phone">Phone No.</label>
                         <div class="col-md-12">
-                            <input class="form-control form-control-line " type="text" name="phone" id="phone" value="<?=$phone?>" >
+                            <input class="form-control form-control-line " type="text" name="phone" id="phone" maxlength="100" value="<?=$phone?>" >
                         </div>
                     </div>
                     <div class="form-group">

@@ -12,10 +12,10 @@ class HomeController
     	 */
 	
 		
-		$tab['test'] = "je suis le Home";
+	
 		
 		
-		return $tab;
+		return ;
     }
 
     public function httpPostMethod(Http $http, array $formFields)

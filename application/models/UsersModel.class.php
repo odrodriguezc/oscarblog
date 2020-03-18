@@ -74,7 +74,7 @@ class UsersModel
         return  $this->dbh->executeSQL('DELETE FROM '.$this->table.' WHERE id=?',[$id]);
      }
 
-    /** Ajouter un produit en base
+    /** Ajouter un user en base
      *
      * @param string $firstname
      * @param string $lastname
@@ -87,11 +87,11 @@ class UsersModel
      * @param int $role
      * @param string $status
      * @param string $image
-     * @param date $registeredAtDate date de creation de l'utilisateur
      * @return void
      */
-    public function add($username, $firstname, $lastname, $email, $password, $phone, $intro, $profile, $role, $status, $avatar, $registeredAtDate) 
+    public function add($username, $firstname, $lastname, $email, $password, $phone, $intro, $profile, $role, $status, $avatar) 
     {
+        $registeredAtDate = date('Y-m-d');
         return $this->dbh->executeSQL('INSERT INTO '.$this->table.' (username, firstname, lastname, email, passwordHash, phone, intro, profile, role, status, avatar, registeredAt) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',[$username, $firstname, $lastname, $email, $password, $phone, $intro, $profile, $role, $status, $avatar, $registeredAtDate]);
     }
 

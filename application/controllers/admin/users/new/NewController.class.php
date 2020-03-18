@@ -50,12 +50,6 @@ class NewController
 
     public function httpPostMethod(Http $http, array $formFields)
     {
-    	/*
-    	 * Méthode appelée en cas de requête HTTP POST
-    	 *
-    	 * L'argument $http est un objet permettant de faire des redirections etc.
-    	 * L'argument $formFields contient l'équivalent de $_POST en PHP natif.
-    	 */
 
 		/** 
 		  * UserSession - instance de la classe session
@@ -78,22 +72,35 @@ class NewController
             else 
 				$avatar = NULL;
 			
-			  /** On vérifie que tous les champs sont remplis sauf */
-			  foreach($formFields as $index=>$formField)
-			  {
-				  if (empty($formField) && ($index != 'intro' || $index != 'profile' ))
-					  throw new DomainException('manque'.$index.'' );
-			  }
-  
-			  /**Verification de l'egalité des mot de passe */
-			  if ($formField['password'] != $formField['confirmPassword']) {
-				  throw new DomainException('Les mot de passe doit etre identique !');
-			  }
+			    //On vérifie que tous les champs obligatoires sont remplis 
+				if ($formFields['username']==='' || $formFields['email']==='' || $formFields['password']==='' || $formFields['confirmPassword']==='') 
+					throw new DomainException('Merci de remplir de remplir le champ tous les champs obligatoires: mail, username et mot de passe');
+				
+				//securisation de la donné 
+				$data = DataValidation::formFilter($formFields);
 
-			  /**Chifrage du mot de pass avec la methode HASH */
-			  $passwordHash = password_hash($formFields['password'], PASSWORD_DEFAULT);
-  
-			  $registeredAtDate = date('Y-m-d');
+				 //username 
+				if (DataValidation::usernameValidate($data['username'])===false)
+					throw new DomainException('Le nom d\'utilisateur est invalide. Il doit contenir entre 5 et 36 caracteres alphanumeriques, pas d\'espaces, pas de symboles especiaux');
+ 
+				// format attendu : courriel
+				if (!filter_var( $data['email'], FILTER_VALIDATE_EMAIL))
+					throw new DomainException ('Le courriel n\'est pas valide. Il doit être au format unnom@undomaine.uneextension.');
+ 
+				//phone 
+				if ($data['phone']!='')
+					if (DataValidation::phoneValidate($data['phone'])===false)
+						throw new DomainException('Le numero de telephonoe n\'est pas valide');
+
+			  	/**Verification de l'egalité des mot de passe */
+				if (DataValidation::passwordValidation($data['password'], $data['confirmPassword'])===false)
+			  	{
+					throw new DomainException('Les mot de passe doit etre identique !');
+				} else {
+					 /**Chifrage du mot de pass avec la methode HASH */
+					 $passwordHash = password_hash($data['password'], PASSWORD_DEFAULT);
+				}
+				  
 
 			  /** Enregistrer les données dans la base de données */
 			  $usersModel = new UsersModel();
@@ -107,8 +114,7 @@ class NewController
 								$formFields['profile'],
 								$formFields['role'],
 								$formFields['status'],
-								$avatar,
-								$registeredAtDate
+								$avatar
 								);
 			  
 			  /** Ajout du flashbag */
