@@ -26,23 +26,23 @@ class UsersController
 			/** Redirection vers le dashboard */
 			$http->redirectTo('/login/');
 		
+
+		$userModel = new UsersModel();
+		$flashbag = new FlashBag();
+
 		/**
-		 * usermodel
-		 * instance du model users et stackage dans une variable
+		 * gateway 
+		 * 
+		 * variable tableau qui nous permet d'organiser le passage des variables à la vue
+		 * 
+		 * @var  array liste des utilisateurs
+		 * @var  array liste des roles conus
+		 * @var array messages du flashbag
 		 */
-		 $userModel = new UsersModel();
-
-		 /**
-		  * 
-		  * @var userList array liste des utilisateurs
-		  * @var roles array liste des roles conus
-		  * 
-		  */
-		$gateway['usersList'] = $userModel->listAll();
-		$gateway['roles'] = $userModel->role;
-
-		
-		
+		$gateway = ['usersList' => $userModel->listAll(),
+					'roles' => $userModel->role,
+					'flashbag' => $flashbag->fetchMessages()
+					];
 		
 		return $gateway;
     }

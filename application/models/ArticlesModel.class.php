@@ -86,8 +86,23 @@ class ArticlesModel
     public function update(int $id, string $title, string $metaTitle, string $summary, string $content, string $picture )
     {
         $slug = $title;
-        $this->dbh->executeSQL('UPDATE '.$this->table.' SET title=?, slug=? metaTitle=?, summary=?, content=,  picture=? WHERE id=?',[$title, $slug, $metaTitle, $summary, $content, $picture, $id]); 
+        $this->dbh->executeSQL('UPDATE '.$this->table.' SET title=?, slug=?, metaTitle=?, summary=?, content=?, picture=? WHERE id=?',[$title, $slug, $metaTitle, $summary, $content, $picture, $id]); 
 
     }
+
+    /**
+     * findByTitle 
+     * 
+     * - Cherche un article dans la BDD en prenant comme parametre de recherche le titre
+     * 
+     * @param string $title - nouvau titre saisi par l'author 
+     * @return array|bool jeu d'enregistrement de la requete | false
+     * 
+     */
+    public function findByTitle(string $title)
+    {
+       return $this->dbh->queryOne("SELECT * FROM $this->table WHERE title=?",[$title]);
+    }
+
 
 }

@@ -89,27 +89,31 @@ class EditController
                     unlink(WWW_PATH.'/assets/images/users/'.$formFields['originalPicture']);
                 }
             } else {
-                $picture = $formFields['originalpicture']; // Le nom de l'image reste le nom qui était là à l'origine
+                $picture = $formFields['originalPicture']; // Le nom de l'image reste le nom qui était là à l'origine
             }
             
-            /** Vérification des données 
-             * C'est le contrôleur qui contrôle les données et non le modèle !
-             * Si les champs sont vides on lance un exception pour réafficher le formulaire et les erreurs !
-            */
-             /** On vérifie que tous les champs sont remplis sauf */
-            foreach($formFields as $index=>$formField)
-            {
-                if (empty($formField) && ($index != 'summary' || $index != 'picture' ))
-                    throw new DomainException('Merci de remplir tous les champs !');
-            }
+            //verifications des champs obligatoires
+			DataValidation::obligatoryFields(['title' => $formFields['title'],
+            'summary' => $formFields['summary'],
+            'content' => $formFields['content']
+            ]);
+
+            //securisation de la donné 
+			$data = DataValidation::formFilter($formFields);
+
+			//longueur des champs
+			DataValidation::lengts($data['title'], 'Titre', 255);
+			DataValidation::lengts($data['metaTitle'], 'Soustitre', 255);
+			DataValidation::lengts($data['summary'], 'Resumé', 500);
+			DataValidation::lengts($data['content'], 'Contenu', 50000);
             
             /** Enregistrer les données dans la base de données */
             $articlesModel = new ArticlesModel();
-            $articlesModel->update($formFields['id'],
-                                $formFields['title'], 
-                                $formFields['metaTitle'],
-                                $formFields['summary'],
-                                $formFields['content'],
+            $articlesModel->update($data['id'],
+                                $data['title'], 
+                                $data['metaTitle'],
+                                $data['summary'],
+                                $data['content'],
                                 $picture
                                 );
             

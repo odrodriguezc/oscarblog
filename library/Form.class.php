@@ -4,6 +4,8 @@ abstract class Form
 {
     private $errorMessage;
 
+    private $validationErrors;
+
     private $formFields;
 
 
@@ -12,7 +14,8 @@ abstract class Form
 
     public function __construct()
     {
-        $this->errorMessage = null;
+        $this->errorMessage = array();
+        $this->validationErrors = array();
         $this->formFields   = array();
     }
 
@@ -53,4 +56,5 @@ abstract class Form
     {
         $this->errorMessage = $errorMessage;
     }
+
 }

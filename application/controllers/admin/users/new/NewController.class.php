@@ -84,9 +84,18 @@ class NewController
 
 				 //username 
 				DataValidation::username($data['username']);
- 
+				
+				//verification d'unicité du username
+				$usersModel = new usersModel();
+				if ($usersModel->findByUsername($data['username'])!=false)
+					throw new DomainException("le nom d'utilisateur {$data['username']} est déjà existant");
+
 				// format attendu : courriel
 				DataValidation::email($data['email']);
+
+				//verification d'unicité du username
+				if ($usersModel->findByEmail($data['email'])!=false)
+					throw new DomainException("le mail {$data['email']} est déjà existant");
 
 				//password
 				if(DataValidation::password($data['password'], $data['confirmPassword']))  
@@ -96,8 +105,7 @@ class NewController
 				//phone 
 				if ($data['phone']!='')
 					DataValidation::phone($data['phone']);
-						
-
+				
 			 	 /** Enregistrer les données dans la base de données */
 			  	$usersModel = new UsersModel();
 			  	$usersModel->add($formFields['username'], 
@@ -113,12 +121,12 @@ class NewController
 								$avatar
 								);
 			  
-			  /** Ajout du flashbag */
-			  $flashbag = new Flashbag();
-			  $flashbag->add('L\'utilisateur a bien été ajouté');
-			  
-			  /** Redirection vers la liste */
-			  $http->redirectTo('admin/users/');
+			/** Ajout du flashbag */
+			$flashbag = new Flashbag();
+			$flashbag->add('L\'utilisateur a bien été ajouté');
+			
+			/** Redirection vers la liste */
+			$http->redirectTo('admin/users/');
 
 		}
 		catch(DomainException $exception)

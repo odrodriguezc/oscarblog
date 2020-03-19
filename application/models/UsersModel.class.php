@@ -57,11 +57,21 @@ class UsersModel
     /** Trouver un user avec son Email
      *
      * @param string $email email du user
-     * @return Array Jeu d'enregistrement comportant le user trouvé
+     * @return array Jeu d'enregistrement comportant le user trouvé
      */
     public function findByEmail($email)
     {
         return $this->dbh->queryOne('SELECT * FROM '.$this->table.' WHERE email = ?',[$email]);
+    }
+
+    /** Trouver un user avec son username
+     *
+     * @param string $username usenrame du user
+     * @return array|bool Jeu d'enregistrement comportant le user trouvé|false
+     */
+    public function findByUsername($username)
+    {
+        return $this->dbh->queryOne('SELECT * FROM '.$this->table.' WHERE username = ?',[$username]);
     }
 
     /**

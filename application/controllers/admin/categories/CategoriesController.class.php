@@ -26,7 +26,19 @@ class CategoriesController
 			header("location: {$_SERVER['HTTP_REFERER']}");
 		
 		$catModel = new CategoriesModel();
-		$catList = $catModel->orderCategories($catModel->listAll());
+		$flashbag = new FlashBag();
+
+		/**
+		 * gateway 
+		 * 
+		 * variable tableau qui nous permet d'organiser le passage des variables à la vue
+		 * 
+		 * @var  array $catList liste des categories
+		 * @var array fetchMessages appel à la methode fechtMessages de lac la class Flashbag
+		 */
+		$gateway = ['catList' => $catModel->orderCategories($catModel->listAll()),
+					'flashbag' => $flashbag->fetchMessages()
+					];
 
 		/** Function récursive (qui s'appelle elle même) permettant d'afficher un tableau 
 		 * hiérarchisée à nombre infini d'enfants et sous enfants
@@ -36,30 +48,29 @@ class CategoriesController
 		function displayListeCategorie($categories,$url)
 		{
 			$html = '<ul class="list-group">';
+
 			foreach($categories as $category)
-		{
-			if($category['post'] > 0)
-				$classBadge = 'badge-primary';
-			else
-				$classBadge = 'badge-primary';
+			{
+				if($category['post'] > 0)
+					$classBadge = 'badge-primary';
+				else
+					$classBadge = 'badge-primary';
+				
+				$html.= '<li class="list-group-item d-flex justify-content-between align-items-center">'.$category['title'].' <span><a href="'.$url.'/admin/categories/edit/?id='.$category['id'].'"><i class="far fa-edit"></i></a> 
+					<a href="#delCatModal" data-id='.$category['id'].' data-toggle="modal" data-target="#delCatModal"><i class="icon-trash"></i></a>
+				<span class="badge badge-pill '.$classBadge.'">'.$category['post'].' article(s)</span></span>';
+				
+				if(isset($category['childrens']))
+					$html.= displayListeCategorie($category['childrens'], $url);
+				$html.= '</li>';
+			}
 			
-			$html.= '<li class="list-group-item d-flex justify-content-between align-items-center">'.$category['title'].' <span><a href="'.$url.'/admin/categories/edit/?id='.$category['id'].'"><i class="far fa-edit"></i></a> 
-				<a href="#delCatModal" data-id='.$category['id'].' data-toggle="modal" data-target="#delCatModal"><i class="icon-trash"></i></a>
-			<span class="badge badge-pill '.$classBadge.'">'.$category['post'].' article(s)</span></span>';
-			if(isset($category['childrens']))
-				$html.= displayListeCategorie($category['childrens'], $url);
-			$html.= '</li>';
-		}
 			$html.= '</ul>';
 
 			return $html;
 		}
 
-		
-
-		
-		return  ['catList' => $catList,
-		];
+		return  $gateway;
     }
 
     public function httpPostMethod(Http $http, array $formFields)

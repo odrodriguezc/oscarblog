@@ -11,10 +11,11 @@
         <div class="card">
             <div class="card-block">
                 <div class="form-horizontal form-material">
-                <form id="newArticle" class="form-horizontal form-material" action="<?= $requestUrl ?>/admin/articles/new/" method="post" enctype="multipart/form-data">
+                <form id="editArticle" class="form-horizontal form-material" action="<?= $requestUrl ?>/admin/articles/edit/" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="title">Titre</label>
                         <input class="form-control form-control-line " type="text" name="title" id="title" value="<?=$title?>">
+                        <input type="hidden" name="id" id="id" value="<?= $id?>">
                     </div>
                     <div class="form-group">
                         <label for="metaTitle">Subtitre</label>

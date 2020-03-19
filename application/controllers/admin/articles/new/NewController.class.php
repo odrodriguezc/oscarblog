@@ -53,7 +53,7 @@ class NewController
 		
 		try
 		{
-			 /** Image uploadée
+			/** Image uploadée
             *   On la déplace sinon on affecte à l'image par defaut pour la saisie en base
             */
             if ($http->hasUploadedFile('picture'))
@@ -61,31 +61,48 @@ class NewController
             else 
 				$picture = 'default_picture.jpg';
 			
-			  /** On vérifie que tous les champs sont remplis sauf */
-			  foreach($formFields as $index=>$formField)
-			  {
-				  if (empty($formField) && ($index != 'metaTitle' || $index != 'picture' ))
-					  throw new DomainException('manque'.$index.'' );
-			  }
-  
-			  $authorId = $userSession->getId();
+			$validator = new DataValidation;
+			//verifications des champs obligatoires
+			$validator->obligatoryFields(['title' => $formFields['title'],
+											'summary' => $formFields['summary'],
+											'content' => $formFields['content']
+											]);
 
-			  /** Enregistrer les données dans la base de données */
-			  $ArticlesModel = new ArticlesModel();
-			  $ArticlesModel->add($formFields['title'], 
-								$formFields['metaTitle'],
-								$formFields['summary'],
-								$formFields['content'],
+			//securisation de la donné 
+			$data = $validator->formFilter($formFields);
+
+			//longueur des champs
+			$validator->lengtOne($data['title'], 'Titre', 255);	
+			$validator->lengtOne($data['metaTitle'], 'Soustitre', 255);
+			$validator->lengtOne($data['summary'], 'Resumé', 500);
+			$validator->lengtOne($data['content'], 'Contenu', 50000);
+
+			if (empty($validator->getErrors())==false)
+				throw new DomainException("Erreur de validation des champs du formulaire");
+				
+
+			//verification d'unicité du titre 
+			$articlesModel = new articlesModel();
+			if ($articlesModel->findByTitle($data['title'])!=false)
+				throw new DomainException("le titre {$data['title']} est déjà existant");
+
+			$authorId = $userSession->getId();
+
+			/** Enregistrer les données dans la base de données */
+			$articlesModel->add($data['title'], 
+								$data['metaTitle'],
+								$data['summary'],
+								$data['content'],
 								$picture,
 								$authorId
 								);
 			  
-			  /** Ajout du flashbag */
-			  $flashbag = new Flashbag();
-			  $flashbag->add('L\'article a bien été ajouté');
-			  
-			  /** Redirection vers la liste */
-			  $http->redirectTo('admin/articles/');
+			/** Ajout du flashbag */
+			$flashbag = new Flashbag();
+			$flashbag->add('L\'article a bien été ajouté');
+			
+			/** Redirection vers la liste */
+			$http->redirectTo('admin/articles/');
 
 
 		}
@@ -96,14 +113,18 @@ class NewController
 		 *   Exemple : class FormValideException extends Exception {}
 		 */
 		
-			 /** Réaffichage du formulaire avec un message d'erreur. */
-			 $form = new ArticlesForm();
-			 /** On bind nos données $_POST ($formFields) avec notre objet formulaire */
-			 $form->bind($formFields);
-			 $form->setErrorMessage($exception->getMessage());
-			
-			 $ArticlesModel = new ArticlesModel();
-			 return   ['_form' => $form];
+			/** Réaffichage du formulaire avec un message d'erreur. */
+			$form = new ArticlesForm();
+			/** On bind nos données $_POST ($formFields) avec notre objet formulaire */
+			$form->bind($formFields);
+			//erreur lancé dans l'exeption
+			//$form->setErrorMessage($exception->getMessage());
+			//liste d'erreur dans le formulair avec le message pour chaq'un
+			$form->setErrorMessage($validator->getErrors());
+		
+			$articlesModel = new articlesModel();
+			return   ['_form' => $form	
+					];
 
 		}
     }

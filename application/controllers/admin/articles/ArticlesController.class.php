@@ -24,10 +24,22 @@ class ArticlesController
         if ($userSession->isAuthorized([1,2,3])==false)
             /** Redirection vers le referer */
 			header("location: {$_SERVER['HTTP_REFERER']}");
-	
+		
+		/**
+		 * gateway 
+		 * 
+		 * variable tableau qui nous permet d'organiser le passage des variables à la vue
+		 * 
+		 * @var  array $articleList liste des articles
+		 * @var array fetchMessages appel à la methode fechtMessages de lac la class Flashbag
+		 */
 		$ArticlesModel = new ArticlesModel();
+		$flashbag = new FlashBag();
 
-		$gateway['articlesList'] = $ArticlesModel->listAll();
+		$gateway = ['articlesList' => $ArticlesModel->listAll(),
+					'flashbag' => $flashbag->fetchMessages()
+					];
+
 		return $gateway;
     }
 

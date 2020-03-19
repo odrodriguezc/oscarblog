@@ -25,19 +25,14 @@ class ArticleController
             /** Redirection vers le referer */
             header("location: {$_SERVER['HTTP_REFERER']}");
 		
-
 		$articlesModel = new ArticlesModel();
-		$flashbag = new FlashBag();
 
-		 /**
-		  * 
+		/** 
 		  * @var article array information correspondante à l'article recherché
 		  * 
-		  */
-
+		*/
 		$gateway['article'] = $articlesModel->find($queryFields['id']);
-
-		
+	
 		return $gateway;
     }
 
@@ -48,7 +43,7 @@ class ArticleController
     	 *
     	 * L'argument $http est un objet permettant de faire des redirections etc.
     	 * L'argument $formFields contient l'équivalent de $_POST en PHP natif.
-    	 */
+		*/
 
 		
     }
