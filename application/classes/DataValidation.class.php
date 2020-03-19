@@ -45,38 +45,84 @@ class  DataValidation
     } 
 
     /**
-     * usernameValidate
+     * username
      * 
      * @param string $username
      * @return bool true|false
-     */
-    public  static function usernameValidate(string $username)
+    */
+    public  static function username(string $username)
     {
-        return (preg_match(self::USERNAME_PATTERN, $username) === 1) ? true : false ;
+        if (preg_match(self::USERNAME_PATTERN, $username)===1)
+        {
+            return true;
+        } else {
+            throw new DomainException('Le nom d\'utilisateur est invalide. Il doit contenir entre 5 et 36 caracteres alphanumeriques, pas d\'espaces, pas de symboles especiaux');
+        }
     }
 
-     /**
-     * phoneValidate
+    /**
+     * phone
      * 
      * @param int $phone
      * @return bool true|false
-     */
-    public  static function phoneValidate(string $phone)
+    */
+    public  static function phone(string $phone)
     {
-        return (preg_match(self::PHONE_PATTERN, $phone) === 1) ? true : false ;
+        if (preg_match(self::PHONE_PATTERN, $phone) === 1)
+        {
+            return true;
+        } else {
+            throw new DomainException('Le numero de telephonoe n\'est pas valide');
+        }
 
     }
 
     /**
-     * passwordValidation
+     * password
      * 
      * @param string $password
      * @param string $passwordConfirm
      * @return bool
      */
-    public static function passwordValidation(string $password, string $passwordConfirm)
+    public static function password(string $password, string $passwordConfirm)
     {
-        return ($password === $passwordConfirm) ? true : false;
+        if ($password === $passwordConfirm) 
+        {
+            ;
+        } else {
+            throw new DomainException('Les mot de passe doit etre identique !');
+        }
+    }
+
+    /**
+     * email
+     * 
+     * @param string $mail
+     * @return bool true | false
+     */
+    public static function email(string $email)
+    {
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return true;
+        } else {
+            throw new DomainException ('Le courriel n\'est pas valide. Il doit être au format unnom@undomaine.uneextension.');
+        }
+    }
+
+    /**
+     * obligatoryFields
+     * 
+     * @param array $field tableau assosiatif contenant les nom (index) et les valeurs des champs obligatoires
+     * @return bool|object true | DomainException
+     * 
+     */
+    public static function obligatoryFields(array $fields)
+    {
+        foreach ($fields as $index => $field)
+        {
+            if ($field==='')
+                throw new DomainException("Le champ $index est obligatoir. Merci de le remplir");
+        }
     }
 
 }

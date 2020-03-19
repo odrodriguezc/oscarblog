@@ -73,38 +73,34 @@ class NewController
 				$avatar = NULL;
 			
 			    //On vérifie que tous les champs obligatoires sont remplis 
-				if ($formFields['username']==='' || $formFields['email']==='' || $formFields['password']==='' || $formFields['confirmPassword']==='') 
-					throw new DomainException('Merci de remplir de remplir le champ tous les champs obligatoires: mail, username et mot de passe');
+				DataValidation::obligatoryFields(['username' => $formFields['username'], 
+												'email' => $formFields['email'], 
+												'password' => $formFields['password'], 
+												'confirmPassword' => $formFields['confirmPassword']]
+				); 
 				
 				//securisation de la donné 
 				$data = DataValidation::formFilter($formFields);
 
 				 //username 
-				if (DataValidation::usernameValidate($data['username'])===false)
-					throw new DomainException('Le nom d\'utilisateur est invalide. Il doit contenir entre 5 et 36 caracteres alphanumeriques, pas d\'espaces, pas de symboles especiaux');
+				DataValidation::username($data['username']);
  
 				// format attendu : courriel
-				if (!filter_var( $data['email'], FILTER_VALIDATE_EMAIL))
-					throw new DomainException ('Le courriel n\'est pas valide. Il doit être au format unnom@undomaine.uneextension.');
- 
+				DataValidation::email($data['email']);
+
+				//password
+				if(DataValidation::password($data['password'], $data['confirmPassword']))  
+					/**Chifrage du mot de pass avec la methode HASH */
+					$passwordHash = password_hash($data['password'], PASSWORD_DEFAULT);
+					
 				//phone 
 				if ($data['phone']!='')
-					if (DataValidation::phoneValidate($data['phone'])===false)
-						throw new DomainException('Le numero de telephonoe n\'est pas valide');
+					DataValidation::phone($data['phone']);
+						
 
-			  	/**Verification de l'egalité des mot de passe */
-				if (DataValidation::passwordValidation($data['password'], $data['confirmPassword'])===false)
-			  	{
-					throw new DomainException('Les mot de passe doit etre identique !');
-				} else {
-					 /**Chifrage du mot de pass avec la methode HASH */
-					 $passwordHash = password_hash($data['password'], PASSWORD_DEFAULT);
-				}
-				  
-
-			  /** Enregistrer les données dans la base de données */
-			  $usersModel = new UsersModel();
-			  $usersModel->add($formFields['username'], 
+			 	 /** Enregistrer les données dans la base de données */
+			  	$usersModel = new UsersModel();
+			  	$usersModel->add($formFields['username'], 
 								$formFields['firstname'],
 								$formFields['lastname'],
 								$formFields['email'],
@@ -123,7 +119,6 @@ class NewController
 			  
 			  /** Redirection vers la liste */
 			  $http->redirectTo('admin/users/');
-
 
 		}
 		catch(DomainException $exception)

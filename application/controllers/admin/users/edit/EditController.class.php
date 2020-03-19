@@ -53,7 +53,8 @@ class EditController
 						'profile' => $user['profile'],
 						'role' => $user['role'],
 						'status' => $user['status'],
-                        'originalAvatar' => $user['avatar']));
+                        'originalAvatar' => $user['avatar']
+                    ));
 		$gateway['_form'] = $form;
 		
 		return $gateway;
@@ -100,29 +101,26 @@ class EditController
                 $avatar = $formFields['originalAvatar']; // Le nom de l'image reste le nom qui était là à l'origine
             }
              
-            //On vérifie que tous les champs obligatoires sont remplis 
-            if ($formFields['username']==='' || $formFields['email']==='') 
-                throw new DomainException('Merci de remplir de remplir le champ tous les champs obligatoires: mail et username!');
+           //On vérifie que tous les champs obligatoires sont remplis 
+            DataValidation::obligatoryFields(['username' => $formFields['username'], 
+                                             'email' => $formFields['email']
+                                            ]); 
 
             //securisation de la donné 
             $data = DataValidation::formFilter($formFields);
-            
+
             //username 
-            if (DataValidation::usernameValidate($data['username'])===false)
-                throw new DomainException('Le nom d\'utilisateur est invalide. Il doit contenir entre 5 et 36 caracteres alphanumeriques, pas d\'espaces, pas de symboles especiaux');
+            DataValidation::username($data['username']);
 
             // format attendu : courriel
-            if (!filter_var( $data['email'], FILTER_VALIDATE_EMAIL))
-                throw new DomainException ('Le courriel n\'est pas valide. Il doit être au format unnom@undomaine.uneextension.');
+            DataValidation::email($data['email']);
 
             //phone 
             if ($data['phone']!='')
-                if (DataValidation::phoneValidate($data['phone'])===false)
-                    throw new DomainException('Le numero de telephonoe n\'est pas valide');
+            DataValidation::phone($data['phone']);
 
             //passage du meme password
             $passwordHash = $user['passwordHash'];
-
 
             /** Enregistrer les données dans la base de données */
             $usersModel->update($data['username'], 

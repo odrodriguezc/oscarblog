@@ -58,16 +58,6 @@ class DelController
     	 * L'argument $formFields contient l'équivalent de $_POST en PHP natif.
     	 */
 		
-		/** 
-		  * UserSession - instance de la classe session
-		  * 
-		  * - isAutheticated va nous permettre de savoir si l'utilisateur est connecté 
-		*/
-		$userSession = new UserSession();
-		if ($userSession->isAuthenticated()==false) 
-			/** Redirection vers le login */
-			$http->redirectTo('/login/');
-		else
 
 		
     }
