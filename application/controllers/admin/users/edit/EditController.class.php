@@ -85,8 +85,7 @@ class EditController
 
         $usersModel = new UsersModel();
         //recuperation de l'utilisateur en BD pour en extraire apres le password
-        $user = $usersModel->find($formFields['id']);
-
+        $selectedUser = $usersModel->find($formFields['id']);
 		try
         {
             /** Récupération de la photo originale */
@@ -102,26 +101,60 @@ class EditController
             }
              
            //On vérifie que tous les champs obligatoires sont remplis 
-            DataValidation::obligatoryFields(['username' => $formFields['username'], 
-                                             'email' => $formFields['email']
-                                            ]); 
+            $validator = new DataValidation();
+            $validator->obligatoryFields(['username' => $formFields['username'], 
+                                             'email' => $formFields['email'],
+                                             'role' => $formFields['role'],
+                                             'status' => $formFields['status']
+                                        ]); 
 
             //securisation de la donné 
-            $data = DataValidation::formFilter($formFields);
-
+            $data = $validator->formFilter($formFields);
             //username 
-            DataValidation::username($data['username']);
-
+            $validator->username($data['username']);
             // format attendu : courriel
-            DataValidation::email($data['email']);
-
+            $validator->email($data['email']);
+            //role
+            $validator->role($data['role'], $usersModel->role);
+            //status
+            $validator->status($data['status']);
             //phone 
             if ($data['phone']!='')
-            DataValidation::phone($data['phone']);
+                $validator->phone($data['phone']);
+            //intro 
+            if ($data['intro']!='')
+                $validator->lengtOne($data['intro'],'Intro',500);
+            //profile
+            if ($data['profile']!='')
+                $validator->lengtOne($data['profile'],'Profil',5000);
+
+            /**
+             * verification d'unicité du username et du mail 
+             * 
+             * - Requete pour recouperer les users qu'on soit le même username soit le même email mais qui n'ont pas le même id
+             * - Si l'on obtient au moins un user on boucle pour verifier si c'est le username et/ou le email qui est déjà a été trouvé
+             * - On envoie des erreur en fonction de mail ou username répeté
+             * 
+             * @author ODRC
+             *  
+             * */ 
+            $matchUsers = $usersModel->findByUsernameOrEmail($data['username'],$data['email'],$data['id']);
+            if ($matchUsers!=false)
+            {
+                foreach ($matchUsers as $key => $matchUser) 
+                {
+                    if ($matchUser['username'] === $data['username'])
+                        $validator->addError("le nom d'utilisateur \"{$data['username']}\" est déjà existant");
+                    if ($matchUser['email'] === $data['email'])
+                        $validator->addError("le mail \"{$data['email']}\" est déjà existant");                
+                }
+            }
+				
+            if (empty($validator->getErrors()) != true)
+                throw new DomainException("DExc - Erreur de validation des champs du formulaire");
 
             //passage du meme password
-            $passwordHash = $user['passwordHash'];
-
+            $passwordHash = $selectedUser['passwordHash'];
             /** Enregistrer les données dans la base de données */
             $usersModel->update($data['username'], 
                                 $data['firstname'],
@@ -149,11 +182,14 @@ class EditController
             $form = new UsersForm();
             /** On bind nos données $_POST ($formFields) avec notre objet formulaire */
             $form->bind($formFields);
-            $form->setErrorMessage($exception->getMessage());
+           //liste d'erreur dans le formulair avec le message pour chaq'un
+			$form->setErrorMessage($validator->getErrors());
+			//erreur lancé dans l'exeption
+            $form->addError($exception->getMessage());
  
             return   ['_form' => $form,
-                    'roles' => $usersModel->role
-                ];
+                        'roles' => $usersModel->role
+                     ];
         
         }
     }

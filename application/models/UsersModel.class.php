@@ -13,8 +13,11 @@ class UsersModel
     private $table;
 
     /**
+     * role
+     * 
      * @var Role Array contenant les roles des utilisateurs
-     */
+     * @author ODRC
+    */
     public $role;
 
     /**  Constructeur
@@ -126,14 +129,39 @@ class UsersModel
         $this->dbh->executeSQL('UPDATE '.$this->table.' SET username=?, firstname=?, lastname=?, email=?, passwordHash=?, phone=?, intro=?, profile=?, role=?, status=?, avatar=? WHERE id=?',[$username, $firstname, $lastname, $email, $password, $phone, $intro, $profile, $role, $status, $avatar, $id]); 
     }
 
-    /** Update Login de l'utilisateur connecté
+    /** 
+     * Update Login de l'utilisateur connecté
+     * 
      * @param  integer $id 
      * @return void
+     * 
+     * @author ODRC
      */
     public function updateLogin(int $id)
     {   
         $Logindate = date('Y-m-d, H:i:s');
         $this->dbh->executeSQL('UPDATE '.$this->table.' SET lastLogin=? WHERE id=?', [$Logindate, $id]);
     }
+
+    /**
+     * findByUsernameOrEmail
+     * 
+     * Recherche un utilisateur dans la BDD avec son username et/ou son mail et un id differnte 
+     * 
+     * - sert à determiner si les changes saisis ne rentrent pas en conflic avec les utilisateurs enregistrés en bdd
+     * -  saisir le parametre facultatif id lorsqu'il s'agit d'une update et laisir la valeur pas defaut pour les newUsers
+     * 
+     * @param string $username 
+     * @param string $email
+     * @param int $id par defaut -1, car c'est une valuer inexistante en BDD
+     * @return array|bool jeu d'enregistrement | false
+     * 
+     * @author ODRC
+     */
+    public function findByUsernameOrEmail(string $username, string $email, int $id = -1)
+    {
+    return $this->dbh->query("SELECT username, email FROM {$this->table} WHERE username=? OR email=? AND id!=?",[$username, $email, $id]);
+    }
     
+
 }

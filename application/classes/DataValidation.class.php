@@ -69,7 +69,7 @@ class  DataValidation
     */
     public  function username(string $username)
     {
-        if (preg_match($this->USERNAME_PATTERN, $username)===1)
+        if (preg_match(self::USERNAME_PATTERN, $username)===1)
         {
             return true;
         } else {
@@ -87,12 +87,52 @@ class  DataValidation
     */
     public  function phone(string $phone)
     {
-        if (preg_match($this->PHONE_PATTERN, $phone) === 1)
+        if (preg_match(self::PHONE_PATTERN, $phone) === 1)
         {
             return true;
         } else {
             $this->addError('Le numero de telephonoe n\'est pas valide');
             return false;
+        }
+    }
+
+    /**
+     * role
+     * @author ODRC
+     * 
+     * @param string $role
+     * @param array $avaibleRoles liste de roles valables
+     * @return bool true|false
+    */
+    public  function role(string $role, $avaibleRoles)
+    {
+        if (in_array(intval($role),$avaibleRoles))
+        {
+            return true;
+        } else {
+            $this->addError('Le role de l\'utilisateur n\'est pas valide');
+            return false;
+        }
+    }
+
+    /**
+     * status
+     * 
+     * - Determine si le champ status corresponde aux valeur attendus 1 ou 0, sinon renvoit une erreur
+     * 
+     * @param string $status
+     * @return bool
+     * 
+     * @author ODRC
+     */
+    public function status(string $status)
+    {
+        if (intval($status) !=1 && intval($status) != 0)
+        {
+            $this->addError('Status invalide');
+            return false;
+        } else {
+            return true; 
         }
     }
 
@@ -191,6 +231,8 @@ class  DataValidation
         }
         return $this->errors;
     }
+
+
 
     /**
      * Get the value of errors
