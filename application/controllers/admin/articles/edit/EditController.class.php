@@ -92,20 +92,31 @@ class EditController
                 $picture = $formFields['originalPicture']; // Le nom de l'image reste le nom qui était là à l'origine
             }
             
-            //verifications des champs obligatoires
-			DataValidation::obligatoryFields(['title' => $formFields['title'],
-            'summary' => $formFields['summary'],
-            'content' => $formFields['content']
-            ]);
+           //instance de la classe DataValidation
+			$validator = new DataValidation;
+
+			//verifications des champs obligatoires
+			$validator->obligatoryFields(['title' => $formFields['title'],
+											'summary' => $formFields['summary'],
+											'content' => $formFields['content']
+											]);
 
             //securisation de la donné 
-			$data = DataValidation::formFilter($formFields);
+			$data = $validator->formFilter($formFields);
 
 			//longueur des champs
-			DataValidation::lengts($data['title'], 'Titre', 255);
-			DataValidation::lengts($data['metaTitle'], 'Soustitre', 255);
-			DataValidation::lengts($data['summary'], 'Resumé', 500);
-			DataValidation::lengts($data['content'], 'Contenu', 50000);
+			$validator->lengtOne($data['title'], 'Titre', 255);	
+			$validator->lengtOne($data['metaTitle'], 'Soustitre', 255);
+			$validator->lengtOne($data['summary'], 'Resumé', 500);
+			$validator->lengtOne($data['content'], 'Contenu', 50000);
+
+			if (empty($validator->getErrors())==false)
+                throw new DomainException("DExc - Erreur de validation des champs du formulaire");
+            
+            //verification d'unicité du titre 
+            $articlesModel = new articlesModel();
+			if ($articlesModel->findByNewTitle($data['title'],$data['id'])!=false)
+				throw new DomainException("le nouveau titre {$data['title']} est déjà existant");
             
             /** Enregistrer les données dans la base de données */
             $articlesModel = new ArticlesModel();
@@ -132,13 +143,16 @@ class EditController
              */
 
             /** Réaffichage du formulaire avec un message d'erreur. */
-            $form = new ArticlesForm();
-            /** On bind nos données $_POST ($formFields) avec notre objet formulaire */
-            $form->bind($formFields);
-            $form->setErrorMessage($exception->getMessage());
+			$form = new ArticlesForm();
+			/** On bind nos données $_POST ($formFields) avec notre objet formulaire */
+			$form->bind($formFields);
+			//liste d'erreur dans le formulair avec le message pour chaq'un
+			$form->setErrorMessage($validator->getErrors());
+			//erreur lancé dans l'exeption
+            $form->addError($exception->getMessage());
+
  
-            return   ['_form' => $form
-            ];
+            return   ['_form' => $form];
         
         }
     }

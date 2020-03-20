@@ -1,15 +1,15 @@
 <!-- ============================================================== -->
 <!-- Start Page Content -->
 <!-- ============================================================== -->
-<!-- Afichage de l'erreur lancé par l'exception -->
-<?php if ($errorMessage != ''):?>
-    <div class="alert alert-danger"><?=$errorMessage?></div>
-<?php endif; ?>
 <!-- Afichage des erreur du formulair s'il y en a -->
-<?php if (count($validationErrors) != 0):?>
-  <?php foreach ($validationErrors as $key => $error):?>
-    <div class="alert alert-danger"><?=$errorMessage?></div>
-  <?php endforeach ?>
+<?php if (count($errorMessage) != 0):?>
+  <?php foreach ($errorMessage as $key => $message):?>
+    <div class="alert alert-warning alert-dismissible fade show"><?= $message ?>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  <?php endforeach; ?>
 <?php endif; ?>
 <!-- Row -->
 <div class="row">

@@ -104,5 +104,20 @@ class ArticlesModel
        return $this->dbh->queryOne("SELECT * FROM $this->table WHERE title=?",[$title]);
     }
 
+    /**
+     * findByNewTitle 
+     * 
+     * - Cherche dans la BDD s'il y a un autre article different de celui qui est modifié qui a le nouvea titre
+     * @author ODRC
+     * 
+     * @param string $newTitle nouveau titre 
+     * @param int $id id de l'article 
+     * @return array|bool jeu d'enregistrement | false si aucun article n'est trouvé
+     */
+    public function findByNewTitle(string $title, int $id)
+    {
+        return $this->dbh->queryOne("SELECT * FROM $this->table WHERE title=? AND id!=?",[$title, $id]); 
+    }
+
 
 }

@@ -61,7 +61,9 @@ class NewController
             else 
 				$picture = 'default_picture.jpg';
 			
+			//instance de la classe DataValidation
 			$validator = new DataValidation;
+
 			//verifications des champs obligatoires
 			$validator->obligatoryFields(['title' => $formFields['title'],
 											'summary' => $formFields['summary'],
@@ -78,7 +80,7 @@ class NewController
 			$validator->lengtOne($data['content'], 'Contenu', 50000);
 
 			if (empty($validator->getErrors())==false)
-				throw new DomainException("Erreur de validation des champs du formulaire");
+				throw new DomainException("DExc - Erreur de validation des champs du formulaire");
 				
 
 			//verification d'unicité du titre 
@@ -117,14 +119,13 @@ class NewController
 			$form = new ArticlesForm();
 			/** On bind nos données $_POST ($formFields) avec notre objet formulaire */
 			$form->bind($formFields);
-			//erreur lancé dans l'exeption
-			//$form->setErrorMessage($exception->getMessage());
 			//liste d'erreur dans le formulair avec le message pour chaq'un
 			$form->setErrorMessage($validator->getErrors());
-		
-			$articlesModel = new articlesModel();
-			return   ['_form' => $form	
-					];
+			//erreur lancé dans l'exeption
+			$form->addError($exception->getMessage());
+			
+
+			return   ['_form' => $form];
 
 		}
     }

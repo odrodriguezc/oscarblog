@@ -2,9 +2,14 @@
 
 abstract class Form
 {
+    /**
+     * Collection d'erreurs 
+     * 
+     * @author ODRC
+     * @var array $errorMessage : tableau assossiatif contenant tous les erreurs dans la validation du formulair
+     *
+     */
     private $errorMessage;
-
-    private $validationErrors;
 
     private $formFields;
 
@@ -55,6 +60,17 @@ abstract class Form
     public function setErrorMessage($errorMessage)
     {
         $this->errorMessage = $errorMessage;
+    }
+
+    /**
+     * Ajouter une erreur dans la collection errorMessage
+     * @author ODRC
+     * 
+     * @param string $error : message d'erreur 
+     */
+    public function addError(string $error)
+    {
+        $this->errorMessage[]=$error;
     }
 
 }

@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Class - DataValidation
+ * 
+ * Cette classe va nous permettre de gestioner la validations des formulaires
+ * - On va pouvoir securiser la donné saisi pour eviter des inyections xss et d'autres
+ * - On va verifier que la donné correspond à ce que nous attendions 
+ * - on va envoyer des erreur lorsque la validation echoue 
+ * 
+ * @author ODRC 
+ */
+
 class  DataValidation 
 {
 
@@ -18,6 +29,7 @@ class  DataValidation
      * - trim les donnés 
      * - stripslashes 
      * - htmlspecialcharacters
+     * @author ODRC
      * 
      * @param string|integer $value value de l'input
      * @return string|integer $filteredValue
@@ -34,6 +46,7 @@ class  DataValidation
 
     /**
      * formFilter - filtre un tableau d'inputs
+     * @author ODRC
      * 
      * @param array $form
      * @return array $form
@@ -49,6 +62,7 @@ class  DataValidation
 
     /**
      * username
+     * @author ODRC
      * 
      * @param string $username
      * @return bool true|false
@@ -66,6 +80,7 @@ class  DataValidation
 
     /**
      * phone
+     * @author ODRC
      * 
      * @param int $phone
      * @return bool true|false
@@ -83,6 +98,7 @@ class  DataValidation
 
     /**
      * password
+     * @author ODRC
      * 
      * @param string $password
      * @param string $passwordConfirm
@@ -101,6 +117,7 @@ class  DataValidation
 
     /**
      * email
+     * @author ODRC
      * 
      * @param string $mail
      * @return bool true | false
@@ -117,6 +134,7 @@ class  DataValidation
 
     /**
      * obligatoryFields
+     * @author ODRC
      * 
      * @param array $field tableau assosiatif contenant les nom (index) et les valeurs des champs obligatoires
      * @return bool true si tous les champs son remplis | false si au moins un champs est vide
@@ -135,6 +153,7 @@ class  DataValidation
 
     /**
      * lengtOne
+     * @author ODRC
      * 
      * @param string $field champs d'entré à valider
      * @param string $fieldname nom du champs à valider
@@ -175,6 +194,7 @@ class  DataValidation
 
     /**
      * Get the value of errors
+     * @author ODRC
      * 
      * @return array $errors tableau contenan les erreurs rencontrées
      */ 
@@ -185,6 +205,8 @@ class  DataValidation
 
     /**
      * addError
+     * @author ODRC
+     * 
      * @param string $error
      * @return void 
      */

@@ -1,10 +1,16 @@
  <!-- ============================================================== -->
 <!-- Start Page Content -->
 <!-- ============================================================== -->
-<?php if ($errorMessage != ''):?>
-    <div class="alert alert-danger"><?=$errorMessage?></div>
+<!-- Afichage des erreur du formulair s'il y en a un-->
+<?php if (count($errorMessage) != 0):?>
+  <?php foreach ($errorMessage as $key => $message):?>
+    <div class="alert alert-warning alert-dismissible fade show"><?= $message ?>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  <?php endforeach; ?>
 <?php endif; ?>
-
 
 <div class="row">
     <div class="col-12">
