@@ -110,13 +110,13 @@ class EditController
 			$validator->lengtOne($data['summary'], 'Resumé', 500);
 			$validator->lengtOne($data['content'], 'Contenu', 50000);
 
-			if (empty($validator->getErrors())==false)
-                throw new DomainException("DExc - Erreur de validation des champs du formulaire");
-            
             //verification d'unicité du titre 
             $articlesModel = new articlesModel();
 			if ($articlesModel->findByNewTitle($data['title'],$data['id'])!=false)
-				throw new DomainException("le nouveau titre {$data['title']} est déjà existant");
+                $validator->addError("le nouveau titre {$data['title']} est déjà existant");
+                
+            if (empty($validator->getErrors())==false)
+                throw new DomainException("DExc - Erreur de validation des champs du formulaire");
             
             /** Enregistrer les données dans la base de données */
             $articlesModel = new ArticlesModel();

@@ -160,8 +160,56 @@ class UsersModel
      */
     public function findByUsernameOrEmail(string $username, string $email, int $id = -1)
     {
-    return $this->dbh->query("SELECT username, email FROM {$this->table} WHERE username=? OR email=? AND id!=?",[$username, $email, $id]);
+    return $this->dbh->query("SELECT 
+                                    username, 
+                                    email 
+                                FROM {$this->table} 
+                                WHERE username=? OR email=? AND id!=?",
+                                [$username, $email, $id]
+                            );
     }
     
+    /**
+     * findRecentActivity
+     * 
+     * Recherche les dernieres articles postés par le user et/ou les dernieres commentaires sur les articles du user
+     * 
+     * @param int $id id de l'utilisateur 
+     * @param int $limit limite de lignes (rows) à envoyer dans la requete 
+     * @return array|bool jeu d'énregistrement | false
+     * 
+     * @author ODRC
+     */
+    public function findRecentActivity(int $id, int $limit) 
+    {
+        $limitedStr = func_num_args() == 2 && $limit !=0 ? "LIMIT {$limit}" : '';
+        return $this->dbh->query("SELECT 
+                                        p.id AS postId,
+                                        p.title AS postTitle,
+                                        p.picture,
+                                        p.like,
+                                        p.dislike,
+                                        p.share,
+                                        p.metaTitle,
+                                        p.author_id,
+                                        TIMESTAMPDIFF(MINUTE,
+                                            p.updatedAt,
+                                            CURRENT_TIMESTAMP) AS postPastTime,
+                                        c.id AS commentId,
+                                        c.title AS commentTitle,
+                                        C.createdAt AS commentCreatedAt,
+                                        TIMESTAMPDIFF(MINUTE,
+                                            c.createdAt,
+                                            CURRENT_TIMESTAMP) AS commentPastTime
+                                    FROM
+                                        post AS p
+                                            LEFT JOIN
+                                        post_comment AS c ON (P.id = c.postId)
+                                    WHERE
+                                        p.author_id = 14
+                                    ORDER BY commentPastTime DESC , postPastTime DESC
+                                    {$limitedStr}"
+                                );
+}
 
 }

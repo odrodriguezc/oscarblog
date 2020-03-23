@@ -2,9 +2,15 @@
 
 class ArticlesModel
 {
-     /**
+    /**
+     * @var const constante avec la pattern regulier pour construir le slug
+     * @author ODRC
+    */
+    private const SLUG_PATTERN = '/[^a-z0-9]+/i';
+
+    /**
      * @var Database Objet Database pour effectuer des requête
-     */
+    */
     private $dbh;
 
     /**
@@ -55,7 +61,8 @@ class ArticlesModel
     }
 
 
-    /** Ajouter un post en base
+    /** 
+     * Ajouter un post en base
      *
      * @param string $title
      * @param string $metaTitle
@@ -64,10 +71,11 @@ class ArticlesModel
      * @param string $picture
      * @param integer $authorId   
      * @return void
+     * @author ODRC
      */
     public function add(string $title, string $metaTitle, string $summary, string $content, string $picture, int $authorId) 
     {   
-        $slug = $title;
+        $slug = preg_replace("/-$/","",preg_replace(self::SLUG_PATTERN, "-", strtolower($title)));
         $createdAt = date('Y-m-d, H:i:s');
         return $this->dbh->executeSQL('INSERT INTO '.$this->table.' (title, metaTitle, slug, summary, createdAt, content, picture, author_id) VALUES (?,?,?,?,?,?,?,?)',[$title, $metaTitle, $slug, $summary, $createdAt, $content, $picture, $authorId]);
     }
@@ -82,10 +90,11 @@ class ArticlesModel
      * @param string $content
      * @param string $picture
      * @return int $updatedId id du dernier article updated
+     * @author ODRC
      */
     public function update(int $id, string $title, string $metaTitle, string $summary, string $content, string $picture )
     {
-        $slug = $title;
+        $slug = preg_replace("/-$/","",preg_replace(self::SLUG_PATTERN, "-", strtolower($title)));
         $this->dbh->executeSQL('UPDATE '.$this->table.' SET title=?, slug=?, metaTitle=?, summary=?, content=?, picture=? WHERE id=?',[$title, $slug, $metaTitle, $summary, $content, $picture, $id]); 
 
     }
@@ -117,6 +126,25 @@ class ArticlesModel
     public function findByNewTitle(string $title, int $id)
     {
         return $this->dbh->queryOne("SELECT * FROM $this->table WHERE title=? AND id!=?",[$title, $id]); 
+    }
+
+    /**
+     * findByAuthor
+     * 
+     * Cherche les articles enregistrés en bdd crées par l'author passé en parametre
+     * 
+     * - Si le parametre limit est passé limite le nombre de lignes à la valeur saisi 
+     * 
+     * @param int $id 
+     * @param int $limit limite de lignes (rows) à envoyer dans la requete 
+     * @return array|bool jeu d'énregistrement | false
+     * @author ODRC
+     */
+    public function findByAuthor(int $id, int $limit = 1000): array
+    {
+
+        $limitedStr = func_num_args() == 2 && $limit !=0 ? "LIMIT {$limit}" : '';
+        return $this->dbh->query('SELECT *, TIMESTAMPDIFF(MINUTE,updatedAt,CURRENT_TIMESTAMP) AS timePast FROM '.$this->table.' WHERE author_id=? ORDER BY updatedAt '.$limitedStr.' ',[$id]);
     }
 
 

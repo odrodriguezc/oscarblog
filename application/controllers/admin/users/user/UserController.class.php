@@ -42,7 +42,7 @@ class UserController
 		  */
 
 		$gateway['roles'] = $userModel->role;
-		$user=$userModel->find($queryFields['id']);
+		$user = $userModel->find($queryFields['id']);
 		//destruction de l'index password pour ne pas le passer à la vue
 		unset($user['passwordHash']);
 		$gateway['user']=$user;

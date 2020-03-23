@@ -23,7 +23,7 @@ class NewController
 		
 		if ($userSession->isAuthorized([2,3])==false)
 		/** Redirection vers le dashboard */
-		$http->redirectTo('/login/');
+			$http->redirectTo('/login/');
 
         /** Instance du model pour recuperer la liste de categories et les aficher dans la vu */
         $catModel = new CategoriesModel();
@@ -61,7 +61,6 @@ class NewController
 		if ($userSession->isAuthenticated()==false) 
 			/** Redirection vers le login */
 			$http->redirectTo('/login/');
-		else
 		
 		$catModel = new CategoriesModel();
 		$catList = $catModel->listAll();
@@ -69,23 +68,44 @@ class NewController
 		try
 		{
                 
-            /** On vérifie que tous les champs sont remplis sauf */
-		
-			if (empty($formFields['title']))
-				throw new DomainException('Il faut remplir le champs title' );
-
-			/** Verifier si la categorie existe déjà en BD */
-			foreach ($catList as $key => $catValue) {
-				if ($formFields['title']===$catValue['title'])
-				throw new DomainException('La categorie est deja existante');
-			}
+			$validator = new DataValidation();
 			
-			if ($formFields['parentId'] === 'NULL')
-				$parentId = NULL;
+			$validator->obligatoryFields(['Title' => $formFields['title']]);
+			//securisation de la donné 
+			$data = $validator->formFilter($formFields);
+			$validator->lengtOne($data['title'], 'Titre', 255);
+			$validator->lengtOne($data['description'],'Description',1000,0);
+
+			/** 
+			 * Verifier si la categorie existe déjà en BD 
+			 * - Boucle sur la liste de categories dont on dispose, donc pas besoin d'une requete, pour verifier que le nouveau titre n'est déjà enregistré
+			 * @author ODRC
+			 * */
+			foreach ($catList as $key => $catValue) 
+			{
+				if ($data['title'] === $catValue['title'] && $data['parentId'] === $catValue['parentId'])
+					$validator->addError('La categorie est deja existante');
+			}
+				
+			
+			/**
+			 * - afectattion de la variable $parentId avec l'eventuel null à passer en BDD ou la valeur saisi
+			 * - control de la valeur lorsqu'elle n'est pas null pour determiner si c'est un parent existant
+			 * 
+			 * @author ODRC
+			*/
+			$parentId = $data['parentId'] === 'NULL' ? null : $data['parentId'];
+			
+			if ($parentId != null)
+				if (in_array($parentId, array_column($catList, 'id'))==false)
+					$validator->addError('La categorie parent n\'a pas été trouvé. Choisir parmi les existantes ou selectionez NULL pourfaire une categorie mere');
+			
+			if (empty($validator->getErrors())==false)
+				throw new DomainException("DExc - Erreur de validation des champs du formulaire");
 
             /** Enregistrer les données dans la base de données */
-            $catModel->add($formFields['title'],
-                            $formFields['description'], 
+            $catModel->add($data['title'],
+                            $data['description'], 
                             $parentId
                             );
             
@@ -109,12 +129,15 @@ class NewController
 			$form = new CategoriesForm();
 			/** On bind nos données $_POST ($formFields) avec notre objet formulaire */
 			$form->bind($formFields);
-			$form->setErrorMessage($exception->getMessage());
+			//liste d'erreur dans le formulair avec le message pour chaq'un
+			$form->setErrorMessage($validator->getErrors());
+			//erreur lancé dans l'exeption
+			$form->addError($exception->getMessage());
 			
 			$usersModel = new UsersModel();
 			return   ['_form' => $form,
 					'catList' => $catList
-			];
+					];
 
 		}
     }

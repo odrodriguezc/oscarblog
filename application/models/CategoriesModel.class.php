@@ -41,7 +41,8 @@ class CategoriesModel
      * @param int $parentId
      */
     public function add($title, $description, $parentId) 
-    {   $slug = $title;
+    {   
+        $slug = $parentId.$title.uniqid();
         return $this->dbh->executeSQL('INSERT INTO '.$this->table.' (title, description, slug, parentId) VALUES (?,?,?,?)',[$title, $description, $slug, $parentId]);
     }
 
@@ -66,7 +67,8 @@ class CategoriesModel
      */
     public function update($title, $description, $parentId, $id)
     {
-        $this->dbh->executeSQL('UPDATE '.$this->table.' SET title=?, description=?, parentId=? WHERE id=?',[$title, $description, $parentId, $id]); 
+        $slug = $parentId.$title.uniqid();
+        $this->dbh->executeSQL('UPDATE '.$this->table.' SET title=?, description=?, slug=?, parentId=? WHERE id=?',[$title, $description, $slug, $parentId, $id]); 
     }
 
     /** Supprime une catégorie avec son ID
@@ -90,13 +92,11 @@ function orderCategories($categories,$parent=null)
 
     foreach($categories as $index=>$categorie)
     {
-        //var_dump($categorie['cat_parent'].' '.$parent);
         if($categorie['parentId']==$parent)
         {
             $childrens = $this->orderCategories($categories,$categorie['id']);
             if(count($childrens)>0)
                 $categorie['childrens'] = $childrens;
-            //var_dump($categorie);
             $tree[] = $categorie;
         }
         
