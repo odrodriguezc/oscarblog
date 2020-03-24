@@ -30,7 +30,7 @@ class DelController
             $http->redirectTo('/admin/users/');
 		}
 
-		$userModel = new UsersModel();
+		$articlesModel = new ArticlesModel();
 		$validator = new DataValidation();
 		$dataId = $validator->inputFilter($queryFields['id']);
 		
@@ -38,27 +38,24 @@ class DelController
 		if ($userSession->isAuthorized([3])==false)
 		{
 			//recherche de l'article à supprimer
-			$article = $userModel->find($dataId);
-			if (!$article)
+			$article = $articlesModel->find($dataId);
+			if ($article==false)
 			{
 				$flashbag->add("L'article n'a pas été trouvé");
+			
 			// si l'utilisateur n'est pas l'auteur de l'article
 			} elseif ($article['author_id'] != $userSession->getId())
 			{
 				$flashbag->add("Vous n'etes pas autorisé à supprimer cette article");
 			}
-
 			$http->redirectTo('/admin/articles/');
 		}
 
-		
-		if ($userModel->delete(intval($dataId)) ==false)
-		{
-			$flashbag->add("L'article n'a pas été trouvé");
-		} else {
-			$flashbag->add('L\'article a bien été supprimé');
-			//supression de la photo ou pas?
-		}
+
+		$articlesModel->delete(intval($dataId));
+	
+		$flashbag->add('L\'article a bien été supprimé');
+
 
 		$http->redirectTo('admin/articles/');
 	

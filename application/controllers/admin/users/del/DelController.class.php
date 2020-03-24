@@ -50,17 +50,17 @@ class DelController
 		 */
 		$userModel = new UsersModel();
 		
-		if ( $userModel->delete(intval($dataId)== false)
+		if ( $userModel->delete(intval($dataId)== false))
 		{
 			$flashbag->add("l'utilisateur n'a pas pu etre supprimé");
+		} else {
+			$flashbag->add("L'utilisateur a bien été supprimé");
 			/** Suppression de la photo de profil de l'utilisateur */
 			/*$picture = $productModel->find($id);
 			$image = $picture['prod_picture'];
 			if($image != NULL && file_exists(WWW_PATH.'/uploads/products/'.$image)){
 				unlink(WWW_PATH.'/uploads/products/'.$image);
 			}*/
-		} else {
-			$flashbag->add("L'utilisateur a bien été supprimé");
 		}
 		
 		$http->redirectTo('/admin/users/');

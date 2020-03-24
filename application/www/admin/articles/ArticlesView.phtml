@@ -15,7 +15,7 @@
                 </div>
                
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table articles-table">
                         <thead>
                             <tr>
                                 <th>Title</th>
@@ -28,13 +28,13 @@
                         <tbody>
                         <?php foreach($articlesList as $article):?>
                             <tr>
-                                <td data-articleId="<?=$article['id']?>"><a href="<?= $requestUrl ?>/admin/articles/article/?id=<?=$article['id']?>"><?=$article['title']?></td>
+                                <td data-articleId="<?=$article['id']?>"><a href="<?= $requestUrl ?>/admin/articles/article/?id=<?=$article['id']?>"><?=$article['title']?></a></td>
                                 <td data-userId=<?=$article['author_id']?>><?=$article['author_name']?></td>
                                 <td><?=$article['createdAt']?></td>
                                 <td><?=$article['published']?></td>
                                 <td>
-                                    <a class="editLink mr-1"href="<?= $requestUrl ?>/admin/articles/edit/?id=<?=$article['id']?>"><i class="fas fa-user-edit"></i></a>
-                                    <a class="delLink ml-1" data-toggle="modal" data-target="#delArticleModal" href="#delArticleModal" data-id="<?=$article['id']?>"><i class="fas fa-trash-alt"></i></a>
+                                    <a class="editLink mr-1" href="<?= $requestUrl ?>/admin/articles/edit/?id=<?=$article['id']?>"><i class="fas fa-user-edit"></i></a>
+                                    <a class="delLink ml-1" data-toggle="modal" data-target="#delArticleModal" href="#delArticleModal" data-id="<?=$article['id']?>" data-title="<?=$article['title']?>"><i class="fas fa-trash-alt"></i></a>
                                 </td>
                             </tr>
                         <?php endforeach;?>
