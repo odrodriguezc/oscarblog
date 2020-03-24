@@ -16,14 +16,22 @@
     <!-- Column -->
     <div class="col-lg-4 col-xlg-3 col-md-5">
         <div class="card">
-          <form id="formUpdate" class="form-horizontal form-material" action="<?= $requestUrl ?>/admin/users/new/" method="post" enctype="multipart/form-data">
+          <form id="formUpdate" class="form-horizontal form-material" action="<?= $requestUrl ?>/admin/profile/edit/" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="<?=$id?>" readonly>
             <div class="card-block text-center">
               <div class="m-t-30"> 
+                <?php if(!is_null($originalAvatar)):?>
+                <img class="img-circle" width="150" src="<?= $wwwUrl ?>/assets/images/users/<?=$originalAvatar?>"/>
+                <?php else:?>
+                <img class="img-circle" width="150" src="<?= $wwwUrl ?>/assets/images/users/default_avatar.jpg" />
+                <?php endif;?>
                 <input class="form-control-file" type="file" name="avatar" id="avatar" accept="image/png,image/jpeg,image/gif">
-                <input class="card-title m-t-10 form-control form-control-line text-center " type="text" id="username" name="username" value="<?=$username?>" placeholder="username">
+                <!--input caché pour passer l'index originalAvatar-->
+                <input type="hidden" name="originalAvatar" value="<?=$originalAvatar?>">
+                <input class="card-title m-t-10 form-control form-control-line text-center " type="text" id="username" name="username" required  maxlength="50" value="<?=$username?>" >
                 <select class="form-control form-control-line text-center " name="role" id="role">
                   <?php foreach ($roles as $key => $value) :?>
-                  <option value="<?=$value?>"><?= $key?></option>
+                  <option value="<?=$role?>" <?= $retSelection = ($value == $role) ? 'selected' : '' ; ?> ><?= $key?></option>
                   <?php endforeach ?>
                 </select>
                 <select class="form-control form-control-line text-center " name="status" id="status">
@@ -41,6 +49,11 @@
                 </div>
             </div>
           </div>
+        <div class="card">
+            <div class="card-block text-center">
+            <a class="btn btn-danger" data-toggle="modal" data-target="#delUserModal" href="#delUserModal">Supprimer</a>
+            </div>
+        </div>
     </div>
     <!-- Column -->
     <!-- Column -->
@@ -51,23 +64,29 @@
                     <div class="form-group">
                         <label class="col-md-12" for="firsname">Firstname</label>
                         <div class="col-md-12">
-                            <input class="form-control form-control-line " type="text" name="firstname" id="firstname"  value="<?=$firstname?>">
+                            <input class="form-control form-control-line " type="text" name="firstname" id="firstname" maxlength="100" value="<?=$firstname?>">
                         </div>
                     </div>
                     <div class="form-group">
                       <label class="col-md-12" for="lastname">Lastname</label>
                       <div class="col-md-12">
-                        <input class="form-control form-control-line " type="text" name="lastname" id="lastname"  value="<?=$lastname?>" >
+                        <input class="form-control form-control-line " type="text" name="lastname" id="lastname"  maxlength="100" value="<?=$lastname?>" >
                       </div>
                     </div>
                     <div class="form-group">
                         <label for="email" class="col-md-12">Email</label>
                         <div class="col-md-12">
-                            <input class="form-control form-control-line " type="email" value="<?=$email?>"  name="email" id="email" >
+                            <input class="form-control form-control-line " type="email" required value="<?=$email?>"  name="email" id="email" >
+                        </div>
+                    </div>
+                    <div id="currentPasswordGroup" class="form-group ">
+                        <label class="col-md-12" for="currentPassword">Actuel Password </label>
+                        <div class="col-md-12">
+                            <input class="form-control form-control-line " type="password" name="currentPassword" id="currentPassword" value="">
                         </div>
                     </div>
                     <div id="passwordGroup" class="form-group ">
-                        <label class="col-md-12" for="password">Password</label>
+                        <label class="col-md-12" for="password">Nouveau Password</label>
                         <div class="col-md-12">
                             <input class="form-control form-control-line " type="password" name="password" id="password" value="">
                         </div>
@@ -81,7 +100,7 @@
                     <div class="form-group">
                         <label class="col-md-12" for="phone">Phone No.</label>
                         <div class="col-md-12">
-                            <input class="form-control form-control-line " type="text" name="phone" id="phone" value="<?=$phone?>" >
+                            <input class="form-control form-control-line " type="text" name="phone" id="phone" maxlength="100" value="<?=$phone?>" >
                         </div>
                     </div>
                     <div class="form-group">
@@ -99,7 +118,7 @@
 
                     <div id="btnUpdateGroup" class="form-group ">
                         <div class="col-sm-12">
-                            <a class="btn btn-success" data-toggle="modal" data-target="#addConfirmModal"href="#addConfirmModal" >Envoyer</a>
+                            <a class="btn btn-success" data-toggle="modal" data-target="#updateConfirmModal"href="#updateConfirmModal" >Envoyer</a>
                             <a class="btn btn-primary" href="#cancelModal" data-toggle="modal" data-target="#cancelModal">Annuler</a>
                         </div>
                     </div>
@@ -110,28 +129,28 @@
     <!-- Column -->
 </div>
 
-<!--  Modal pour confirmer l'ajout d'un nouveau utilisateur -->
-<div class="modal fade" id="addConfirmModal" tabindex="-1" role="dialog" aria-labelledby="addConfirmModal" aria-hidden="true">
+<!--  Modal pour confirmer les modifications et l'update -->
+<div class="modal fade" id="updateConfirmModal" tabindex="-1" role="dialog" aria-labelledby="updateConfirmModal" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title" id="addConfirmModalLabel">Confirmes le nouveau utilisateur</h3>
+        <h3 class="modal-title" id="updateConfirmModalLabel">Confirmes les modifications</h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <p>Le utilisateur <span>xxxx</span> sera ajouté à la base de donnés.Etes vous sur de vouloir bien les enregistrer ?</p>
+        <p>Les mofidications seron mis a jour dans la base de données.Etes vous sur de vouloir bien les enregistrer ?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Non</button>
-        <input class="btn btn-success" type="submit" name="add" id="addBtnModal" value="Ajouter">
+        <input class="btn btn-success" type="submit" name="update" id="updateBtnModal" value="Update profile">
       </div>
     </div>
   </div>
 </div>
 
-<!--  Modal pour confirmer l'annulation de l'ajout -->
+<!--  Modal pour confirmer l'annulation de l'update -->
 <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="cancelModal" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -142,11 +161,32 @@
         </button>
       </div>
       <div class="modal-body">
-        <p>Les modifications efectués ne seron pas sauvergardées. Etes-vous sur de vouloir annuler l'enregistrement des changements?</p>
+        <p>Les modifications efectués ne seron pas sauvergardées. Etes-vous sur de vouloir anuler l'enregistrement des changements?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Non</button>
-        <a class="btn btn-success" href="<?= $requestUrl ?>/admin/user/">Yes</a>
+        <a class="btn btn-success" href="<?= $requestUrl ?>/admin/profil/">Yes</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--  Modal pour confirmer la suppresion de l'utilisateur -->
+<div class="modal fade" id="delUserModal" tabindex="-1" role="dialog" aria-labelledby="delUserModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="delUserModalLabel">Supprimer l'utilisateur</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>La suppresion de l'utilisateur entrainera aussi la suppresion de tous leurs publications.<span>Etes-vous sur de vouloir supprimer l'utilisateur ?</span></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <a class="btn btn-success" id="updateBtnModal" href="<?= $requestUrl ?>/admin/users/del/?id=<?=$id?>">Confirmer</a>
       </div>
     </div>
   </div>

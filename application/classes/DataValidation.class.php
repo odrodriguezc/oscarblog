@@ -23,6 +23,8 @@ class  DataValidation
         $this->private=[];
     }
 
+
+
     /**
      * inputFilter 
      * 
@@ -176,7 +178,7 @@ class  DataValidation
      * obligatoryFields
      * @author ODRC
      * 
-     * @param array $field tableau assosiatif contenant les nom (index) et les valeurs des champs obligatoires
+     * @param array $fields tableau assosiatif contenant les nom (index) et les valeurs des champs obligatoires
      * @return bool true si tous les champs son remplis | false si au moins un champs est vide
      * 
      */

@@ -18,18 +18,17 @@ class UsersController
 		  * - isAuthorized va nous permettre de determiner si le rol de l'utilisateur lui permet d'acceder à la function
 		*/
 		$userSession = new UserSession();
+		$flashbag = new FlashBag();
 		if ($userSession->isAuthenticated()==false) 
-			/** Redirection vers le login */
 			$http->redirectTo('/login/');
 
 		if ($userSession->isAuthorized([2,3])==false)
-			/** Redirection vers le dashboard */
-			$http->redirectTo('/login/');
-		
+		{
+			$flashbag->add("Vous n'estes pas autorisé");
+			$http->redirectTo('/admin/');
+		}
 
 		$userModel = new UsersModel();
-		$flashbag = new FlashBag();
-
 		/**
 		 * gateway 
 		 * 

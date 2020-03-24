@@ -22,42 +22,22 @@ class EditController
 			/** Redirection vers le login */
 			$http->redirectTo('/login/');
         
-        if ($userSession->isAuthorized([3])==false)
+        if ($userSession->isAuthorized([1,2,3])==false)
         {
             $flashbag->add('Vous n\'etes pas autorisé');
             $http->redirectTo('/admin/');
         }
 
-        /**
-         * Si on accede sans especifier un querystring ou en le laisant vide on envoie une message en flashbag et on redirige vers l'admin
-         */
-        if ( !array_key_exists('id', $queryFields) || $queryFields['id']==='')
-        {   $flashbag->add('Un utilisateur doit etre indiqué pour le modifer');
-            $http->redirectTo('/admin/');
-        }
-
-		/**
-		 * usermodel
-		 * instance du model users et stackage dans une variable
-		 */
         $userModel = new UsersModel();
 
-        $validator = new DataValidation();
-		$dataId = $validator->inputFilter($queryFields['id']);
-
 		/**
-		 * @var user array whit information of a particular user
-		 * @var roles array with the list of users roles 
+		 * @var user utilisateur connecté
+		 * @var roles liste de roles  
 		 * 
 		 */
-        $user = $userModel->find($dataId);
+		$user = $userModel->find($userSession->getId());
 		$gateway['roles'] = $userModel->role;
 
-        if ($user == false) 
-        {
-            $flashbag->add("L'utilisateur recherché n'existe pas en base de donné");
-            $http->redirectTo('/admin/users/');
-        }
 		/**
 		 * Instance du formulair user et passage de l'information  de l'utilisateur dans la vue à l'exception du password pour des raison de securité 
 		 */
@@ -94,19 +74,18 @@ class EditController
 		  * - isAutheticated va nous permettre de savoir si l'utilisateur est connecté 
 		*/
         $userSession = new UserSession();
-        $flashbag = new Flashbag();
+        $flashbag = new FlashBag();
 		if ($userSession->isAuthenticated()==false) 
 			/** Redirection vers le login */
 			$http->redirectTo('/login/');
         
-        if ($userSession->isAuthorized([3])==false)
-        {
-            $flashbag->add("Vous n'etes pas autorisé");
+        if ($userSession->isAuthorized([1,2,3])==false)
+            /** Redirection vers le dashboard */
             $http->redirectTo('/admin/');
-        }
 
         $usersModel = new UsersModel();
-       
+        //recuperation de l'utilisateur à modifier en BDD 
+        $selectedUser = $usersModel->find($userSession->getId());
 		try
         {
             /** Récupération de la photo originale */
@@ -123,11 +102,13 @@ class EditController
              
            //On vérifie que tous les champs obligatoires sont remplis 
             $validator = new DataValidation();
-            $validator->obligatoryFields(['id' => $formFields['id'],
-                                            'username' => $formFields['username'], 
+            $validator->obligatoryFields(['username' => $formFields['username'], 
                                              'email' => $formFields['email'],
                                              'role' => $formFields['role'],
-                                             'status' => $formFields['status']
+                                             'status' => $formFields['status'],
+                                             'currentPassword' =>$formFields['currentPassword'],
+                                             'password' =>$formFields['password'],
+                                             'confirmPassword' =>$formFields['confirmPassword']
                                         ]); 
 
             //securisation de la donné 
@@ -149,6 +130,15 @@ class EditController
             //profile
             if ($data['profile']!='')
                 $validator->lengtOne($data['profile'],'Profil',5000);
+            
+           /**current Password check */
+           if(!$selectedUser || !password_verify($data['password'],$selectedUser['passwordHash']))
+                $validator->addError('Mot de passe incorrect !');
+
+            //password
+            if($validator->password($data['password'], $data['confirmPassword']))  
+                /**Chifrage du mot de pass avec la methode HASH */
+                $passwordHash = password_hash($data['password'], PASSWORD_DEFAULT);
 
             /**
              * verification d'unicité du username et du mail 
@@ -160,10 +150,10 @@ class EditController
              * @author ODRC
              *  
              * */ 
-            $matchUsers = $usersModel->findByUsernameOrEmail($data['username'],$data['email'],$data['id']);
+            $matchUsers = $usersModel->findByUsernameOrEmail($data['username'],$data['email'],$selectedUser['id']);
+
             if ($matchUsers!=false)
             {
-                //determiner d'où vient l'erreur (username ou email)
                 foreach ($matchUsers as $key => $matchUser) 
                 {
                     if ($matchUser['username'] === $data['username'])
@@ -176,10 +166,6 @@ class EditController
             if (empty($validator->getErrors()) != true)
                 throw new DomainException("DExc - Erreur de validation des champs du formulaire");
 
-             //recuperation de l'utilisateur en BD pour en extraire le password
-            $selectedUser = $usersModel->find($data['id']);
-            //passage du meme password
-            $passwordHash = $selectedUser['passwordHash'];
             /** Enregistrer les données dans la base de données */
             $usersModel->update($data['username'], 
                                 $data['firstname'],
@@ -198,7 +184,7 @@ class EditController
             $flashbag->add('L\'utilisateur a bien été modifiée');
             
             /** Redirection vers la liste */
-            $http->redirectTo('admin/users/');
+            $http->redirectTo('/admin/profile/');
         }
          catch(DomainException $exception)
         {

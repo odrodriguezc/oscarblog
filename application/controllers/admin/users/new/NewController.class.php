@@ -17,34 +17,34 @@ class NewController
 		  * - isAutheticated va nous permettre de savoir si l'utilisateur est connecté 
 		*/
 		$userSession = new UserSession();
+		$flashbag = new FlashBag();
 		if ($userSession->isAuthenticated()==false) 
 			/** Redirection vers le login */
 			$http->redirectTo('/login/');
 		
 		if ($userSession->isAuthorized([3])==false)
-		/** Redirection vers le dashboard */
-		$http->redirectTo('/login/');
-
+		{
+			$flashbag->add("Vous n'etes pas autorisé");
+			$http->redirectTo('/admin/');
+		}
+			
 		/**
-		 * usermodel
+		 * @var Usermodel $usermodel
 		 * instance du model users et stackage dans une variable
 		 */
-
 		 $userModel = new UsersModel();
 
 		 /**
 		  * 
 		  *
-		  * @var roles array with the list of users roles
-		  * @var _form Array contenat les variables fournis par la class UsersForm
+		  * @var array $roles array with the list of users roles
+		  * @var UserForm $_form Array contenat les variables fournis par la class UsersForm
 		  */
 		$gateway = ['roles' => $userModel->role,
 					'_form' => new UsersForm(),
 		];
 
-		
-		
-		
+
 		return $gateway;
     }
 
@@ -57,10 +57,10 @@ class NewController
 		  * - isAutheticated va nous permettre de savoir si l'utilisateur est connecté 
 		*/
 		$userSession = new UserSession();
+		$flashbag = new FlashBag();
 		if ($userSession->isAuthenticated()==false) 
 			/** Redirection vers le login */
 			$http->redirectTo('/login/');
-		else
 		
 		try
 		{
@@ -132,21 +132,20 @@ class NewController
 					throw new DomainException("DExc - Erreur de validation des champs du formulaire");
 					
 			 	 /** Enregistrer les données dans la base de données */
-			  	$usersModel->add($formFields['username'], 
-								$formFields['firstname'],
-								$formFields['lastname'],
-								$formFields['email'],
+			  	$usersModel->add($data['username'], 
+								$data['firstname'],
+								$data['lastname'],
+								$data['email'],
 								$passwordHash,
-								$formFields['phone'],
-								$formFields['intro'],
-								$formFields['profile'],
-								$formFields['role'],
-								$formFields['status'],
+								$data['phone'],
+								$data['intro'],
+								$data['profile'],
+								$data['role'],
+								$data['status'],
 								$avatar
 								);
 			  
 			/** Ajout du flashbag */
-			$flashbag = new Flashbag();
 			$flashbag->add('L\'utilisateur a bien été ajouté');
 			
 			/** Redirection vers la liste */

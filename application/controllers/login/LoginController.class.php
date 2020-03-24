@@ -42,46 +42,47 @@ class LoginController
 		if ($userSession->isAuthenticated()==true) 
 			/** Redirection vers l'admin */
 			$http->redirectTo('/admin/');
-		else
+
 		
 
 		try
         {
             $userModel = new UsersModel();
+			//On vérifie que tous les champs obligatoires sont remplis 
+			$validator = new DataValidation();
 
-            /** On vérifie que email et password fournis */
-            if($formFields['email'] == '' || $formFields['password']=='')
-                throw new DomainException('Merci de remplir tous les champs !');
-
-			/**
-			 * Email check 
-			 * */
-			if(filter_var($formFields['email'], FILTER_VALIDATE_EMAIL) == false)
-				throw new DomainException('Email non valide !!!');
-			else 
+			//On vérifie que tous les champs obligatoires sont remplis 
+			$validator->obligatoryFields(['password' => $formFields['password'],
+										'email' => $formFields['email']
+										]);
+			//securisation de la donné 
+			$data = $validator->formFilter($formFields);
+			// format attendu : courriel
+			if ($validator->email($data['email']))
 				/** Recherche de l'utilisateur en BD   */
-				$user = $userModel->findByEmail($formFields['email']);
+				$user = $userModel->findByEmail($data['email']);;
 
 			/**Password check */
-            if(!$user || !password_verify($formFields['password'],$user['passwordHash']))
-                throw new DomainException('Email ou mot de passe incorrects !');
+            if(!$user || !password_verify($data['password'],$user['passwordHash']))
+                $validator->addError('Email ou mot de passe incorrects !');
 
+			if (empty($validator->getErrors()) != true)
+				throw new DomainException("DExc - Erreur de validation des champs du formulaire");
+				
             /** Update last-login */
             $userModel->updateLogin($user['id']);
 
             /** Construction de la session utilisateur*/
             $userSession = new UserSession();
-            $userSession->create
-            (
-				$user['id'],
-				$user['username'],
-                $user['firstname'],
-                $user['lastname'],
-				$user['email'],
-				$user['role'],
-				$user['status'],
-				$user['avatar']
-            );
+            $userSession->create($user['id'],
+								$user['username'],
+								$user['firstname'],
+								$user['lastname'],
+								$user['email'],
+								$user['role'],
+								$user['status'],
+								$user['avatar']
+            					);
 
             /** Flashbag */
             $flashbag = new Flashbag();
@@ -101,7 +102,11 @@ class LoginController
             $form = new usersForm();
             /** On bind nos données $_POST ($formFields) avec notre objet formulaire */
             $form->bind($formFields);
-            $form->setErrorMessage($exception->getMessage());
+			$form->setErrorMessage($exception->getMessage());
+			//liste d'erreur dans le formulair avec le message pour chaq'un
+			$form->setErrorMessage($validator->getErrors());
+			//erreur lancé dans l'exeption
+            $form->addError($exception->getMessage());
             
             return [ 
 				'_form' => $form,

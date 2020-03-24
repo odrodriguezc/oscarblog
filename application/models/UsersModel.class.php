@@ -80,9 +80,9 @@ class UsersModel
     /**
      * Supprimer un user avec son id
      * @param integer $id identifian du user
-     * @return void 
+     * @return int  
      */
-     public function delete($id)
+     public function delete($id):int
      {
         return  $this->dbh->executeSQL('DELETE FROM '.$this->table.' WHERE id=?',[$id]);
      }
@@ -164,7 +164,7 @@ class UsersModel
                                     username, 
                                     email 
                                 FROM {$this->table} 
-                                WHERE username=? OR email=? AND id!=?",
+                                WHERE (username=? OR email=?) AND id!=?",
                                 [$username, $email, $id]
                             );
     }

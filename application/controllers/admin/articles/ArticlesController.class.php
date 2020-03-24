@@ -17,13 +17,17 @@ class ArticlesController
 		  * - isAutheticated va nous permettre de savoir si l'utilisateur est connecté 
 		*/
 		$userSession = new UserSession();
+		$flashbag = new FlashBag();
 		if ($userSession->isAuthenticated()==false) 
 			/** Redirection vers le login */
 			$http->redirectTo('/login/');
         
         if ($userSession->isAuthorized([1,2,3])==false)
-            /** Redirection vers le referer */
-			header("location: {$_SERVER['HTTP_REFERER']}");
+        {
+			$flashbag->add("Vous n'estes pas autorisé");
+			$http->redirectTo('/admin/');
+		}
+		
 		
 		/**
 		 * gateway 
@@ -34,7 +38,6 @@ class ArticlesController
 		 * @var array fetchMessages appel à la methode fechtMessages de lac la class Flashbag
 		 */
 		$ArticlesModel = new ArticlesModel();
-		$flashbag = new FlashBag();
 
 		$gateway = ['articlesList' => $ArticlesModel->listAll(),
 					'flashbag' => $flashbag->fetchMessages()

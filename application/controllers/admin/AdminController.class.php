@@ -17,6 +17,7 @@ class AdminController
 		  * - isAutheticated va nous permettre de savoir si l'utilisateur est connecté 
 		*/
 		$userSession = new UserSession();
+		$flashbag = new FlashBag;
 		if ($userSession->isAuthenticated()==false) 
 			/** Redirection vers le login */
 			$http->redirectTo('/login/');
@@ -26,9 +27,7 @@ class AdminController
 			header("location: {$_SERVER['HTTP_REFERER']}");
 		
 		
-		
-		
-		return [];
+		return ['flashbag' => $flashbag->fetchMessages()];
     }
 
     public function httpPostMethod(Http $http, array $formFields)

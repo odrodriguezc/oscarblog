@@ -34,7 +34,7 @@
                                 <td><?=$article['published']?></td>
                                 <td>
                                     <a class="editLink mr-1"href="<?= $requestUrl ?>/admin/articles/edit/?id=<?=$article['id']?>"><i class="fas fa-user-edit"></i></a>
-                                    <a class="delLink ml-1" data-toggle="modal" data-target="#delArticleModal" href="#delArticleModal"><i class="fas fa-trash-alt"></i></span>
+                                    <a class="delLink ml-1" data-toggle="modal" data-target="#delArticleModal" href="#delArticleModal" data-id="<?=$article['id']?>"><i class="fas fa-trash-alt"></i></a>
                                 </td>
                             </tr>
                         <?php endforeach;?>
@@ -57,11 +57,11 @@
         </button>
       </div>
       <div class="modal-body">
-        <p>Etes-vous sur de vouloir supprimer l'article <span><?=$article['title']?></span>?</p>
+        <p>Etes-vous sur de vouloir supprimer l'article <span id="delArticleTitle"></span>?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-        <a class="btn btn-success" id="updateBtnModal" href="<?= $requestUrl ?>/admin/articles/del/?id=<?=$article['id']?>">Confirmer</a>
+        <a class="btn btn-success" id="delArticleConfirm" href="<?= $requestUrl ?>/admin/articles/del/?id=">Confirmer</a>
       </div>
     </div>
   </div>
@@ -69,3 +69,7 @@
 <!-- ============================================================== -->
 <!-- End PAge Content -->
 <!-- ============================================================== -->
+<!-- ============================================================== -->
+<!-- Scripts JS -->
+<!-- ============================================================== -->
+<script src="<?= $wwwUrl ?>/js/admin/articles.js"></script>

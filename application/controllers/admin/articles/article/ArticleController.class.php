@@ -17,21 +17,36 @@ class ArticleController
 		  * - isAutheticated va nous permettre de savoir si l'utilisateur est connecté 
 		*/
 		$userSession = new UserSession();
+		$flashbag = new FlashBag();
 		if ($userSession->isAuthenticated()==false) 
 			/** Redirection vers le login */
 			$http->redirectTo('/login/');
         
         if ($userSession->isAuthorized([1,2,3])==false)
-            /** Redirection vers le referer */
-            header("location: {$_SERVER['HTTP_REFERER']}");
+		{
+			$flashbag->add("Vous n'estes pas autorisé");
+			$http->redirectTo('/admin/');
+		}
+
+		 /**
+         * Si on accede sans especifier un querystring ou en le laisant vide on envoie une message en flashbag et on redirige vers l'admin
+         */
+        if ( !array_key_exists('id', $queryFields) || $queryFields['id']==='')
+        {   $flashbag->add('Un article doit etre indiqué');
+            $http->redirectTo('/admin/');
+        }
 		
 		$articlesModel = new ArticlesModel();
+		$validator = new DataValidation();
+		$dataId = $validator->inputFilter($queryFields['id']);
+
+		$article = $articlesModel->find(intval($dataId));
 
 		/** 
-		  * @var article array information correspondante à l'article recherché
+		  * @var array article information correspondante à l'article recherché
 		  * 
 		*/
-		$gateway['article'] = $articlesModel->find($queryFields['id']);
+		$gateway['article'] = $article;
 	
 		return $gateway;
     }

@@ -17,36 +17,49 @@ class UserController
 		  * - isAutheticated va nous permettre de savoir si l'utilisateur est connecté 
 		*/
 		$userSession = new UserSession();
+		$flashbag = new FlashBag();
 		if ($userSession->isAuthenticated()==false) 
-			/** Redirection vers le login */
 			$http->redirectTo('/login/');
         
-        if ($userSession->isAuthorized([2,3])==false)
-            /** Redirection vers le referer */
-            header("location: {$_SERVER['HTTP_REFERER']}");
+		if ($userSession->isAuthorized([2,3])==false)
+		{
+			$flashbag->add("Vous n'estes pas autorisé");
+			$http->redirectTo('/admin/');
+		}
 		
-
-		/**
-		 * usermodel
-		 * instance du model users et stackage dans une variable
-		*/
-
-		$userModel = new UsersModel();
-		$flashbag = new FlashBag();
-
 		 /**
-		  * 
-		  * @var user array information correspondante à l'utilisateur recherché
-		  * @var roles array liste de roles conus
-		  * 
-		  */
+         * Si on accede sans especifier un querystring ou en le laisant vide on envoie une message en flashbag et on redirige vers l'admin
+         */
+        if ( !array_key_exists('id', $queryFields) || $queryFields['id']==='')
+        {   $flashbag->add('Un utilisateur doit etre indiqué');
+            $http->redirectTo('/admin/');
+        }	
 
-		$gateway['roles'] = $userModel->role;
-		$user = $userModel->find($queryFields['id']);
+		
+		
+		
+		/**
+		 * @var UsersModel $userModel instance du model users et stackage dans une variable
+		 * @var DataValidation $validator instance de l'objet DataValidation
+		 */
+		$userModel = new UsersModel();
+		$validator = new DataValidation();
+		$dataId = $validator->inputFilter($queryFields['id']);
+
+		$user = $userModel->find(intval($dataId));
+
+		if ($user == false) 
+        {
+            $flashbag->add("L'utilisateur recherché n'existe pas en base de donné");
+            $http->redirectTo('/admin/users/');
+        }
+
 		//destruction de l'index password pour ne pas le passer à la vue
 		unset($user['passwordHash']);
-		$gateway['user']=$user;
 
+		$gateway = ['user'=> $user,
+					'roles' => $userModel->role
+					];
 
 		return $gateway;
     }
