@@ -20,7 +20,6 @@ class LoginController
 		if ($userSession->isAuthenticated()==true) 
 			/** Redirection vers l'admin */
 			$http->redirectTo('/admin/');
-		else
 		
 		
 		return ['_raw_template' => '',

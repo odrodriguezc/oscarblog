@@ -17,13 +17,16 @@ class ProfileController
 		  * - isAutheticated va nous permettre de savoir si l'utilisateur est connecté 
 		*/
 		$userSession = new UserSession();
+		$flashbag = new FlashBag();
 		if ($userSession->isAuthenticated()==false) 
 			/** Redirection vers le login */
 			$http->redirectTo('/login/');
         
-        if ($userSession->isAuthorized([1,2,3])==false)
-            /** Redirection vers le referer */
-            header("location: {$_SERVER['HTTP_REFERER']}");
+		if ($userSession->isAuthorized([1,2,3])==false)
+		{
+			$flashbag->add("Vous n'estes pas autorisé");
+			$http->redirectTo('/admin/');
+		}
 		
 
 		/**
@@ -34,7 +37,6 @@ class ProfileController
 		$usersModel = new UsersModel();
 		$articlesModel = new ArticlesModel();
 		$commentsModel = new CommentsModel();
-		$flashbag = new FlashBag();
 		//id de l'utilisateur en session
 		$userId = $userSession->getId();
 
@@ -88,10 +90,6 @@ class ProfileController
 		}
 
 
-		
-			
-
-
 		/**
 		  * 
 		  * @var user array information correspondante à l'utilisateur recherché
@@ -117,14 +115,6 @@ class ProfileController
     	 * L'argument $formFields contient l'équivalent de $_POST en PHP natif.
 		*/
 
-		$userSession = new UserSession();
-		if ($userSession->isAuthenticated()==false) 
-			/** Redirection vers le login */
-			$http->redirectTo('/login/');
-        
-        if ($userSession->isAuthorized([1,2,3])==false)
-            /** Redirection vers le referer */
-            header("location: {$_SERVER['HTTP_REFERER']}");
 
 		
     }

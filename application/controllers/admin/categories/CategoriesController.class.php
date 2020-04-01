@@ -17,16 +17,19 @@ class CategoriesController
 		  * - isAutheticated va nous permettre de savoir si l'utilisateur est connecté 
 		*/
 		$userSession = new UserSession();
+		$flashbag = new FlashBag();
 		if ($userSession->isAuthenticated()==false) 
 			/** Redirection vers le login */
 			$http->redirectTo('/login/');
         
-        if ($userSession->isAuthorized([1,2,3])==false)
-            /** Redirection vers le referer */
-			header("location: {$_SERVER['HTTP_REFERER']}");
+		if ($userSession->isAuthorized([1,2,3])==false)
+		{
+			$flashbag->add("Vous n'estes pas autorisé");
+			$http->redirectTo('/admin/');
+		}
+
 		
 		$catModel = new CategoriesModel();
-		$flashbag = new FlashBag();
 
 		/**
 		 * gateway 
@@ -56,8 +59,8 @@ class CategoriesController
 				else
 					$classBadge = 'badge-primary';
 				
-				$html.= '<li class="list-group-item d-flex justify-content-between align-items-center">'.$category['title'].' <span><a href="'.$url.'/admin/categories/edit/?id='.$category['id'].'"><i class="far fa-edit"></i></a> 
-					<a href="#delCatModal" data-id='.$category['id'].' data-toggle="modal" data-target="#delCatModal"><i class="icon-trash"></i></a>
+				$html.= '<li class="list-group-item d-flex justify-content-between align-items-center">'.$category['title'].' <span><a href="'.$url.'/admin/categories/edit/?id='.$category['id'].'&pId='.$category['parentId'].'"><i class="far fa-edit"></i></a> 
+					<a class="delLink" href="#delCatModal" data-id='.$category['id'].' data-parent='.$category['parentId'].'  data-title='.$category['title'].' data-toggle="modal" data-target="#delCatModal"><i class="icon-trash"></i></a>
 				<span class="badge badge-pill '.$classBadge.'">'.$category['post'].' article(s)</span></span>';
 				
 				if(isset($category['childrens']))

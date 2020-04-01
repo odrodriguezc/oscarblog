@@ -56,8 +56,29 @@
         <div class="card">
             <div class="card-block">
                 <a class="btn btn-success" href="<?= $requestUrl ?>/admin/articles/edit/?id=<?=$article['id']?>">Modifier</a>
-                <a id="deleteBtn" class="btn btn-danger" data-toggle="modal" data-target="#delArticleModal" href="#">Supprimer</a>
+                <a id="deleteBtn" class="btn btn-danger" data-toggle="modal" data-target="#delArticleModal" href="delArticleModal">Supprimer</a>
             </div>
         </div>
     </div>
+</div>
+
+<!--  Modal pour confirmer la suppretion de l'article -->
+<div class="modal fade" id="delArticleModal" tabindex="-1" role="dialog" aria-labelledby="delArticleModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="delArticleModalLabel">Supprimer l'article</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Etes-vous sur de vouloir supprimer l'article <span id="delArticleTitle" class="font-italic"><?=$article['title']?></span>?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <a class="btn btn-success" id="delArticleConfirm" href="<?= $requestUrl ?>/admin/articles/del/?id=<?=$article['id']?>">Confirmer</a>
+      </div>
+    </div>
+  </div>
 </div>

@@ -55,7 +55,7 @@ class ArticlesModel
      * @param integer $id identifian du post
      * @return void 
      */
-    public function delete($id)
+    public function delete(int $id)
     {
         return  $this->dbh->executeSQL('DELETE FROM '.$this->table.' WHERE id=?',[$id]);
     }

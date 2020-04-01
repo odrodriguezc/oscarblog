@@ -5,6 +5,6 @@
  */
 
 $config['dsn']      = 'mysql:host=localhost;dbname=blog;charset=UTF8';
-$config['password'] = '';
-$config['user']     = 'root';
+$config['password'] = '12345';
+$config['user']     = 'admin';
 

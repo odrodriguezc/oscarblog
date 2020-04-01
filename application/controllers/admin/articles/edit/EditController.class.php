@@ -16,7 +16,8 @@ class EditController
 		  * 
 		  * - isAutheticated va nous permettre de savoir si l'utilisateur est connecté 
 		*/
-		$userSession = new UserSession();
+        $userSession = new UserSession();
+        $flashbag = new FlashBag();
 		if ($userSession->isAuthenticated()==false) 
 			/** Redirection vers le login */
 			$http->redirectTo('/login/');
@@ -71,6 +72,7 @@ class EditController
 		  * - isAutheticated va nous permettre de savoir si l'utilisateur est connecté 
 		*/
 		$userSession = new UserSession();
+        $flashbag = new Flashbag();
 		if ($userSession->isAuthenticated()==false) 
 			/** Redirection vers le login */
 			$http->redirectTo('/login/');
@@ -82,6 +84,7 @@ class EditController
 		try
         {
             /** Récupération de la photo originale */
+
             if ($http->hasUploadedFile('picture')) {
                 $picture = $http->moveUploadedFile('picture','/assets/images/articles/'); //On déplace la photo à l'endroit désiré(le chemin est relatif par rapport au dossier www)et on stocke dans la variable picture le nom du fichier
                 /** On supprime l'ancienne image */
@@ -129,7 +132,6 @@ class EditController
                                 );
             
             /** Ajout du flashbag */
-            $flashbag = new Flashbag();
             $flashbag->add('L\'article a bien été modifiée');
             
             /** Redirection vers la liste */

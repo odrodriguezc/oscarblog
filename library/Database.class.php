@@ -100,5 +100,7 @@ class Database
         $query->execute($criteria);
 
         return $query->fetch(PDO::FETCH_ASSOC);
-    }
+	}
+	
+
 }

@@ -17,13 +17,16 @@ class NewController
 		  * - isAutheticated va nous permettre de savoir si l'utilisateur est connecté 
 		*/
 		$userSession = new UserSession();
+		$flashbag = new FlashBag();
 		if ($userSession->isAuthenticated()==false) 
 			/** Redirection vers le login */
 			$http->redirectTo('/login/');
 		
 		if ($userSession->isAuthorized([1,2,3])==false)
-		/** Redirection vers le dashboard */
-			$http->redirectTo('/login/');
+		{
+			$flashbag->add("Vous n'estes pas autorisé");
+			$http->redirectTo('/admin/');
+		}
 
 
 		return ['_form' => new ArticlesForm()];; 
@@ -44,12 +47,15 @@ class NewController
 		  * - isAutheticated va nous permettre de savoir si l'utilisateur est connecté 
 		*/
 		$userSession = new UserSession();
+		$flashbag = new Flashbag();
 		if ($userSession->isAuthenticated()==false) 
 			/** Redirection vers le login */
 			$http->redirectTo('/login/');
 		if ($userSession->isAuthorized([1,2,3])==false)
-		/** Redirection vers le dashboard */
-			$http->redirectTo('/login/');
+		{
+			$flashbag->add("Vous n'estes pas autorisé");
+			$http->redirectTo('/admin/');
+		}
 		
 		try
 		{
@@ -60,6 +66,10 @@ class NewController
                 $picture = $http->moveUploadedFile('picture','/assets/images/articles/');
             else 
 				$picture = 'default_picture.jpg';
+
+			$uploadImg = new Upload($_FILES['picture']);
+			var_dump($uploadImg);
+			
 			
 			//instance de la classe DataValidation
 			$validator = new DataValidation;
@@ -99,11 +109,10 @@ class NewController
 								);
 			  
 			/** Ajout du flashbag */
-			$flashbag = new Flashbag();
 			$flashbag->add('L\'article a bien été ajouté');
 			
 			/** Redirection vers la liste */
-			$http->redirectTo('admin/articles/');
+			//$http->redirectTo('admin/articles/');
 
 
 		}

@@ -84,7 +84,8 @@ class UsersModel
      */
      public function delete($id):int
      {
-        return  $this->dbh->executeSQL('DELETE FROM '.$this->table.' WHERE id=?',[$id]);
+        return $this->dbh->executeSQL('DELETE FROM '.$this->table.' WHERE id=?',[$id]);
+
      }
 
     /** Ajouter un user en base

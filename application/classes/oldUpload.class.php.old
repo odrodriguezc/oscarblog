@@ -1,0 +1,140 @@
+<?php
+
+class Upload 
+{
+    
+    
+    /**
+     * nom du fichier téléversé
+     * 
+     * @var string 
+     */
+    public $fileSrcName;
+
+    /**
+     * nom de l'extention du fichier téléversé
+     * 
+     * @var string 
+     */
+    public $fileSrcExt;
+
+    /**
+     * mime du fichier téléversé
+     * 
+     * @var string 
+     */
+    public $fileSrcMime;
+
+    /**
+     * taille du fichier téléversé
+     * 
+     * @var int 
+     */
+    public $fileSrcSize;
+
+    /**
+     * erreur causé lors du téléversement
+     * 
+     * @var string 
+     */
+    public $fileSrcError;
+
+    /**
+     * Nom du fichier avec le server path
+     * 
+     * @var string 
+     */
+    public $fileSrcPathName;
+
+    /**
+     * Types sopported
+     * 
+     * @var array
+     */
+    public $supportedFiles;
+
+    /**
+     * Nom temporaire du fichier 
+     * 
+     * @var string
+     */
+    private $fileSrcTemp;
+
+    /**
+     * Repertoire de destination
+     * 
+     * @var string
+     */
+    private $fileDestination;
+
+    /**
+     * Nouveau nom du fichier
+     * 
+     * @var string
+     */
+    private $fileNewName;
+
+    /**
+     * Liste noire des extentions non permises
+     * 
+     * @var array 
+     */
+    public $blacklist;
+
+
+    public function __construct($file = null)
+    {
+        $this->blacklist =  ['php','php7','php6','php5','php4','php3','phtml','pht','phpt','phtm','phps','inc','pl','py','cgi','asp','js','sh','phar'];
+
+        $this->supportedFiles = ['jpg', 'jpeg', 'gif', 'png', 'bmp'];
+        $this->fileNewName = null;
+                        
+    }
+
+    public function hasUploadedFile($name)
+    {
+        if(array_key_exists($name, $_FILES) == true)
+        {
+            if($_FILES[$name]['error'] == UPLOAD_ERR_OK)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public function getUploadedFile($name)
+    {
+        if(array_key_exists($name, $_FILES) == true)
+        {
+            if($_FILES[$name]['error'] == UPLOAD_ERR_OK)
+            {
+                return $_FILES[$name];
+            }
+        }
+        return false;
+    }
+
+    public function checkUploadedFile($name)
+    {
+        if ()
+    }
+
+    public function moveUploadedFile($name, $path = null)
+    {
+        if($this->hasUploadedFile($name) == false)
+        {
+            return false;
+        }
+        // Build the absolute path to the destination file.
+        $filename = WWW_PATH."$path/".$_FILES[$name]['name'];
+        move_uploaded_file($_FILES[$name]['tmp_name'], $filename);
+        return pathinfo($filename, PATHINFO_BASENAME);
+    }
+    
+
+
+
+
+ 
+}

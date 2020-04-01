@@ -34,7 +34,7 @@
                                 <td><?=$user['status']?></td>
                                 <td>
                                     <a class="editLink mr-1"href="<?= $requestUrl ?>/admin/users/edit/?id=<?=$user['id']?>"><i class="fas fa-user-edit"></i></a>
-                                    <a class="delLink ml-1" data-toggle="modal" data-target="#delUserModal" href="#delUserModal"><i class="fas fa-trash-alt"></i></span>
+                                    <a class="delLink ml-1" data-toggle="modal" data-target="#delUserModal" href="#delUserModal" data-id=<?=$user['id']?> data-username=<?=$user['username']?>><i class="fas fa-trash-alt"></i></span>
                                 </td>
                             </tr>
                         <?php endforeach;?>
@@ -57,11 +57,11 @@
         </button>
       </div>
       <div class="modal-body">
-        <p>La suppresion de l'utilisateur entrainera aussi la suppresion de tous leurs publications.<span>Etes-vous sur de vouloir supprimer l'utilisateur ?</span></p>
+        <p>La suppresion de l'utilisateur entrainera aussi la suppresion de tous leurs publications. Etes-vous sur de vouloir supprimer l'utilisateur <span id="delUsername" class="font-italic"> </span> ?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-        <a class="btn btn-success" id="updateBtnModal" href="<?= $requestUrl ?>/admin/users/del/?id=<?=$user['id']?>">Confirmer</a>
+        <a class="btn btn-success" id="delUserConfirm" href="<?= $requestUrl ?>/admin/users/del/?id=<?=$user['id']?>">Confirmer</a>
       </div>
     </div>
   </div>
@@ -69,3 +69,6 @@
 <!-- ============================================================== -->
 <!-- End PAge Content -->
 <!-- ============================================================== -->
+<!-- Scripts JS -->
+<!-- ============================================================== -->
+<script src="<?= $wwwUrl ?>/js/admin/users.js"></script>

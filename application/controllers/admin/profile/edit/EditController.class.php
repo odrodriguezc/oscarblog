@@ -80,8 +80,11 @@ class EditController
 			$http->redirectTo('/login/');
         
         if ($userSession->isAuthorized([1,2,3])==false)
-            /** Redirection vers le dashboard */
+        {
+            $flashbag->add('Vous n\'etes pas autorisé');
             $http->redirectTo('/admin/');
+        }
+
 
         $usersModel = new UsersModel();
         //recuperation de l'utilisateur à modifier en BDD 

@@ -17,13 +17,17 @@ class NewController
 		  * - isAutheticated va nous permettre de savoir si l'utilisateur est connecté 
 		*/
 		$userSession = new UserSession();
+		$flashbag = new FlashBag();
+
 		if ($userSession->isAuthenticated()==false) 
 			/** Redirection vers le login */
 			$http->redirectTo('/login/');
 		
-		if ($userSession->isAuthorized([2,3])==false)
-		/** Redirection vers le dashboard */
-			$http->redirectTo('/login/');
+		if ($userSession->isAuthorized([1,2,3])==false)
+        {
+			$flashbag->add("Vous n'estes pas autorisé");
+			$http->redirectTo('/admin/');
+		}
 
         /** Instance du model pour recuperer la liste de categories et les aficher dans la vu */
         $catModel = new CategoriesModel();
@@ -56,11 +60,18 @@ class NewController
 		  * UserSession - instance de la classe session
 		  * 
 		  * - isAutheticated va nous permettre de savoir si l'utilisateur est connecté 
-		*/
+		  */
 		$userSession = new UserSession();
 		if ($userSession->isAuthenticated()==false) 
-			/** Redirection vers le login */
-			$http->redirectTo('/login/');
+		/** Redirection vers le login */
+		$http->redirectTo('/login/');
+		  
+		$flashbag = new Flashbag();
+		if ($userSession->isAuthorized([1,2,3])==false)
+		{
+			$flashbag->add("Vous n'estes pas autorisé");
+			$http->redirectTo('/admin/');
+		}
 		
 		$catModel = new CategoriesModel();
 		$catList = $catModel->listAll();
@@ -110,7 +121,6 @@ class NewController
                             );
             
             /** Ajout du flashbag */
-            $flashbag = new Flashbag();
             $flashbag->add('La categorie a bien été ajouté');
             
             /** Redirection vers la liste */
@@ -134,7 +144,7 @@ class NewController
 			//erreur lancé dans l'exeption
 			$form->addError($exception->getMessage());
 			
-			$usersModel = new UsersModel();
+			//$usersModel = new UsersModel();
 			return   ['_form' => $form,
 					'catList' => $catList
 					];

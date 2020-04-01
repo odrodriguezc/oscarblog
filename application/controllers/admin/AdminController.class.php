@@ -23,8 +23,7 @@ class AdminController
 			$http->redirectTo('/login/');
         
         if ($userSession->isAuthorized([1,2,3])==false)
-            /** Redirection vers le referer */
-			header("location: {$_SERVER['HTTP_REFERER']}");
+			$http->redirectTo('/admin/');
 		
 		
 		return ['flashbag' => $flashbag->fetchMessages()];

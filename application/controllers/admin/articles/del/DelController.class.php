@@ -51,7 +51,9 @@ class DelController
 			$http->redirectTo('/admin/articles/');
 		}
 
-
+		/**
+		 * @todo implementer la diferentiation lorsque la requete delete n'abouti pas
+		 */
 		$articlesModel->delete(intval($dataId));
 	
 		$flashbag->add('L\'article a bien été supprimé');
