@@ -117,7 +117,7 @@
                                 <div class="form-group">
                                     <label  class="col-md-12" for="regiteredAt">Registered at</label>
                                     <div class="col-md-12">
-                                        <input class="form-control form-control-line" type="text" name="registerdAt" id="registeredAt" value="<?= dateFormat($user['registeredAt'])?>" readonly>
+                                        <input class="form-control form-control-line" type="text" name="registerdAt" id="registeredAt" value="<?= $user['registeredAt'] != null ? dateFormat($user['registeredAt']) : 'null' ?>" readonly>
                                     </div>
                                 </div>
                                 <div class="form-group">

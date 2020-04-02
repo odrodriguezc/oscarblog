@@ -192,7 +192,7 @@ class UsersModel
                                         p.dislike,
                                         p.share,
                                         p.metaTitle,
-                                        p.author_id,
+                                        p.authorId,
                                         TIMESTAMPDIFF(MINUTE,
                                             p.updatedAt,
                                             CURRENT_TIMESTAMP) AS postPastTime,

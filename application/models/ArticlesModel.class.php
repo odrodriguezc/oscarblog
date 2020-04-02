@@ -37,7 +37,7 @@ class ArticlesModel
      */
     public function listAll() 
     {
-        return $this->dbh->query('SELECT post.id, post.title, post.metaTitle, post.summary, post.createdAt, post.published,  user.id AS author_id, user.username AS author_name FROM '.$this->table.' INNER JOIN user ON post.author_id = user.id ORDER BY post.createdAt DESC');
+        return $this->dbh->query('SELECT post.id, post.title, post.metaTitle, post.summary, post.createdAt, post.published,  user.id AS author_id, user.username AS author_name FROM '.$this->table.' INNER JOIN user ON post.authorId = user.id ORDER BY post.createdAt DESC');
     }
 
     /** Trouver un post avec son ID
@@ -47,7 +47,7 @@ class ArticlesModel
      */
     public function find($id)
     {
-        return $this->dbh->queryOne('SELECT post.id, post.title, post.metaTitle, post.summary, post.createdAt, post.published, post.publishedAt, post.updatedAt, post.content, post.picture, post.like, post.dislike, post.share, user.id AS author_id, user.username AS author_name FROM '.$this->table.' INNER JOIN user ON post.author_id = user.id WHERE post.id = ?',[$id]);
+        return $this->dbh->queryOne('SELECT post.id, post.title, post.metaTitle, post.summary, post.createdAt, post.published, post.publishedAt, post.updatedAt, post.content, post.picture, post.like, post.dislike, post.share, user.id AS authorId, user.username AS author_name FROM '.$this->table.' INNER JOIN user ON post.authorId = user.id WHERE post.id = ?',[$id]);
     }
 
     /**
@@ -144,7 +144,7 @@ class ArticlesModel
     {
 
         $limitedStr = func_num_args() == 2 && $limit !=0 ? "LIMIT {$limit}" : '';
-        return $this->dbh->query('SELECT *, TIMESTAMPDIFF(MINUTE,updatedAt,CURRENT_TIMESTAMP) AS timePast FROM '.$this->table.' WHERE author_id=? ORDER BY updatedAt '.$limitedStr.' ',[$id]);
+        return $this->dbh->query('SELECT *, TIMESTAMPDIFF(MINUTE,updatedAt,CURRENT_TIMESTAMP) AS timePast FROM '.$this->table.' WHERE authorId=? ORDER BY updatedAt '.$limitedStr.' ',[$id]);
     }
 
 

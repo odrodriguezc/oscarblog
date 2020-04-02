@@ -70,7 +70,7 @@ class CommentsModel
                                             INNER JOIN
 		                                user ON user.id = post_comment.authorId
                                     WHERE
-                                        post.author_id =? OR post_comment.authorId =?
+                                        post.authorId =? OR post_comment.authorId =?
                                     ORDER BY timePast ASC {$limitedStr}", 
                                     [$id, $id]
                                 );                                    

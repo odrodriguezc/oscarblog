@@ -2437,7 +2437,7 @@ class Upload {
                             if ($this->mime_fileinfo === true) {
                                 if (getenv('MAGIC') === false) {
                                     if (substr(PHP_OS, 0, 3) == 'WIN') {
-                                        $path = realpath(ini_get('extension_dir') . '/../') . '/extras/magic';
+                                        $path = realpath(ini_get('extension_dir') . '/../') . '/extra/magic';
                                         $this->log .= '&nbsp;&nbsp;&nbsp;&nbsp;MAGIC path defaults to ' . $path . '<br />';
                                     }
                                 } else {
@@ -2450,7 +2450,7 @@ class Upload {
                             }
                         }
                         if ($path) {
-                            $f = @finfo_open(FILEINFO_MIME, $path);
+                            $f = @finfo_open(FILEINFO_MIME);
                         } else {
                             $this->log .= '&nbsp;&nbsp;&nbsp;&nbsp;MAGIC path will not be used<br />';
                             $f = @finfo_open(FILEINFO_MIME);

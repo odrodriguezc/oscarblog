@@ -61,19 +61,37 @@ class NewController
 		if ($userSession->isAuthenticated()==false) 
 			/** Redirection vers le login */
 			$http->redirectTo('/login/');
+		if ($userSession->isAuthorized([3])==false)
+		{
+			$flashbag->add("Vous n'etes pas autorisé");
+			$http->redirectTo('/admin/');
+		}
 		
 		try
 		{
-			 /** Image uploadée
-            *   On la déplace sinon on affecte à NULL pour la saisie en base
-            */
-            if ($http->hasUploadedFile('avatar'))
+
+			/* if ($http->hasUploadedFile('avatar'))
                 $avatar = $http->moveUploadedFile('avatar','/assets/images/users/');
             else 
-				$avatar = NULL;
+				$avatar = NULL;*/
+			$validator = new DataValidation();
 			
+			$avatar = new Upload($_FILES['avatar']);
+			if ($avatar->uploaded)
+			{
+				$avatar->process(WWW_PATH."/assets/images/users/");
+				if ($avatar->processed)
+				{
+					$avatarName = $avatar->file_src_name;
+				} else{
+					$validator->addError($avatar->error);
+				}
+			} else {
+				$validator->addError($avatar->error);
+			}
+
 				//On vérifie que tous les champs obligatoires sont remplis 
-				$validator = new DataValidation();
+				
 				$validator->obligatoryFields(['username' => $formFields['username'], 
 												'email' => $formFields['email'], 
 												'password' => $formFields['password'], 
@@ -142,7 +160,7 @@ class NewController
 								$data['profile'],
 								$data['role'],
 								$data['status'],
-								$avatar
+								$avatarName
 								);
 			  
 			/** Ajout du flashbag */
