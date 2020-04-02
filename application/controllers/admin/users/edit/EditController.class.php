@@ -109,18 +109,7 @@ class EditController
        
 		try
         {
-            /** Récupération de la photo originale */
-            if ($http->hasUploadedFile('avatar')) {
-                $avatar = $http->moveUploadedFile('avatar','/assets/images/users/'); //On déplace la photo à l'endroit désiré(le chemin est relatif par rapport au dossier www)et on stocke dans la variable avatar le nom du fichier
-                /** On supprime l'ancienne image */
-                if($formFields['originalAvatar']!=NULL && file_exists(WWW_PATH.'/assets/images/users/'.     $formFields['originalAvatar']))
-                {
-                    unlink(WWW_PATH.'/assets/images/users/'.$formFields['originalAvatar']);
-                }
-            } else {
-                $avatar = $formFields['originalAvatar']; // Le nom de l'image reste le nom qui était là à l'origine
-            }
-             
+                       
            //On vérifie que tous les champs obligatoires sont remplis 
             $validator = new DataValidation();
             $validator->obligatoryFields(['id' => $formFields['id'],
@@ -172,9 +161,72 @@ class EditController
                         $validator->addError("le mail \"{$data['email']}\" est déjà existant");                
                 }
             }
+            
+
+            /**
+             * image upload
+             */
+            if ($http->hasUploadedFile('avatar'))
+            {
+                $avatar = new Upload($_FILES['avatar']);
+                /*@todo - bug dans la classe Upload qui ne charge pas la liste d'images supportées
+                if ($avatar->file_is_image)
+                {*/
+                    if ($avatar->uploaded)
+                    {
+                        //process taille original
+                        $uniqName = uniqid('userAvatar');
+						$avatar->file_new_name_body = "bg_".$uniqName;
+						$avatar->file_overwrite = true;
+						$avatar->process(WWW_PATH."/assets/images/users/");
+                        if ($avatar->processed)
+                        {
+                            //nom pour la bdd
+                            $avatarName = $uniqName.'.'.$avatar->file_dst_name_ext;
+                            
+							//petite taille - prefixe 'lt' 
+							$avatar->file_new_name_body = "lt_".$uniqName;
+							//$avatar->file_name_body_pre = 'lt';
+							$avatar->image_resize =true;
+							$avatar->image_x = 100;
+							$avatar->image_ratio_y = true;
+							$avatar->file_overwrite = true;
+							$avatar->process(WWW_PATH."/assets/images/users/");
+                        } else{
+                            $validator->addError($avatar->error);
+                        }
+    
+                    } else {
+                        $validator->addError($avatar->error);
+                    }
+
+                /*} else{
+                    $validator->addError("ceci n'est pas une immage");
+                    $avatarName = $formFields['originalAvatar'];
+                }*/
+
+            } else {
+                $avatarName = $formFields['originalAvatar'];
+            }
 
             if (empty($validator->getErrors()) != true)
+            {
+                //supprimer images
+                if ($avatarName != $formFields['originalAvatar'] && file_exists(WWW_PATH."/assets/images/users/bg_".$avatarName))
+                    unlink(WWW_PATH."/assets/images/users/bg_".$avatarName);
+                if ($avatarName != $formFields['originalAvatar'] && file_exists(WWW_PATH."/assets/images/users/lt_".$avatarName))
+                    unlink(WWW_PATH."/assets/images/users/lt_".$avatarName);
+                    
                 throw new DomainException("DExc - Erreur de validation des champs du formulaire");
+            }
+
+            //supprimer l'ancien avatar
+            if ($formFields['originalAvatar']!=NULL && file_exists(WWW_PATH.'\assets\images\users\bg_' .$formFields['originalAvatar']))
+                unlink(WWW_PATH.'/assets/images/users/bg_'.$formFields['originalAvatar']);
+
+            if ($formFields['originalAvatar']!=NULL && file_exists(WWW_PATH.'/assets/images/users/lt_'.$formFields['originalAvatar']))
+                unlink(WWW_PATH."/assets/images/users/lt_{$formFields['originalAvatar']}");
+
 
              //recuperation de l'utilisateur en BD pour en extraire le password
             $selectedUser = $usersModel->find($data['id']);
@@ -191,7 +243,7 @@ class EditController
                                 $data['profile'],
                                 $data['role'],
                                 $data['status'],
-                                $avatar,
+                                $avatarName,
                                 $data['id']);
             
             /** Ajout du flashbag */

@@ -70,39 +70,20 @@ class NewController
 		try
 		{
 
-			/* if ($http->hasUploadedFile('avatar'))
-                $avatar = $http->moveUploadedFile('avatar','/assets/images/users/');
-            else 
-				$avatar = NULL;*/
-			$validator = new DataValidation();
+			$validator = new DataValidation();			
+			//On vérifie que tous les champs obligatoires sont remplis 
 			
-			$avatar = new Upload($_FILES['avatar']);
-			if ($avatar->uploaded)
-			{
-				$avatar->process(WWW_PATH."/assets/images/users/");
-				if ($avatar->processed)
-				{
-					$avatarName = $avatar->file_src_name;
-				} else{
-					$validator->addError($avatar->error);
-				}
-			} else {
-				$validator->addError($avatar->error);
-			}
-
-				//On vérifie que tous les champs obligatoires sont remplis 
-				
-				$validator->obligatoryFields(['username' => $formFields['username'], 
-												'email' => $formFields['email'], 
-												'password' => $formFields['password'], 
-												'confirmPassword' => $formFields['confirmPassword']]
-				); 
-				
-				//securisation de la donné 
-				$data = $validator->formFilter($formFields);
-
-				 //username 
-				$validator->username($data['username']);
+			$validator->obligatoryFields(['username' => $formFields['username'], 
+			'email' => $formFields['email'], 
+			'password' => $formFields['password'], 
+			'confirmPassword' => $formFields['confirmPassword']]
+		); 
+		
+		//securisation de la donné 
+		$data = $validator->formFilter($formFields);
+		
+		//username 
+		$validator->username($data['username']);
 
 				// format attendu : courriel
 				$validator->email($data['email']);
@@ -146,8 +127,54 @@ class NewController
 					}
 				}
 
+				/**
+				 * image upload
+				 * @todo verifier qu'il s'agise bien d'une image
+				 */
+				if (isset($_FILES['avatar']))
+				{
+					$avatar = new Upload($_FILES['avatar']);
+	
+					if ($avatar->uploaded)
+					{
+						//taille original
+						$uniqName = uniqid('userAvatar');
+						$avatar->file_new_name_body = "bg_".$uniqName;
+						$avatar->file_overwrite = true;
+						$avatar->process(WWW_PATH."/assets/images/users/");
+						if ($avatar->processed)
+						{
+							//nom pour la bdd
+							$avatarName = $uniqName.'.'.$avatar->file_dst_name_ext;
+							//petite taille - prefixe 'lt' 
+							$avatar->file_new_name_body = "lt_".$uniqName;
+							//$avatar->file_name_body_pre = 'lt';
+							$avatar->image_resize =true;
+							$avatar->image_x = 100;
+							$avatar->image_ratio_y = true;
+							$avatar->file_overwrite = true;
+							$avatar->process(WWW_PATH."/assets/images/users/");
+						} else{
+							$validator->addError($avatar->error);
+						}
+					} else {
+						$validator->addError($avatar->error);
+					}
+
+				} else {
+					$avatarName = NULL;
+				}
+	
 				if (empty($validator->getErrors()) != true)
+				{
+					//supprimer images
+					if (file_exists(WWW_PATH."\assets\images\users\bg_".$avatarName))
+						unlink(WWW_PATH."\assets\images\users\bg_".$avatarName);
+					if (file_exists(WWW_PATH."\assets\images\users\lt_".$avatarName))
+						unlink(WWW_PATH."\assets\images\users\lt_".$avatarName);
+
 					throw new DomainException("DExc - Erreur de validation des champs du formulaire");
+				}
 					
 			 	 /** Enregistrer les données dans la base de données */
 			  	$usersModel->add($data['username'], 

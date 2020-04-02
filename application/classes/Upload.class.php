@@ -2450,6 +2450,7 @@ class Upload {
                             }
                         }
                         if ($path) {
+                            //normalement la variable path est passé en parametre pour les environemments win mais cella cuase des problemes du repertoir du path, donc on ne passe pas le parametre et le probleme disparait 
                             $f = @finfo_open(FILEINFO_MIME);
                         } else {
                             $this->log .= '&nbsp;&nbsp;&nbsp;&nbsp;MAGIC path will not be used<br />';
