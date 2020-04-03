@@ -169,9 +169,9 @@ class EditController
             if ($http->hasUploadedFile('avatar'))
             {
                 $avatar = new Upload($_FILES['avatar']);
-                /*@todo - bug dans la classe Upload qui ne charge pas la liste d'images supportées
+                /*@todo - bug dans la classe Upload qui ne charge pas la liste d'images supportées*/
                 if ($avatar->file_is_image)
-                {*/
+                {
                     if ($avatar->uploaded)
                     {
                         //process taille original
@@ -200,10 +200,10 @@ class EditController
                         $validator->addError($avatar->error);
                     }
 
-                /*} else{
+                } else{
                     $validator->addError("ceci n'est pas une immage");
                     $avatarName = $formFields['originalAvatar'];
-                }*/
+                }
 
             } else {
                 $avatarName = $formFields['originalAvatar'];
