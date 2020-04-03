@@ -37,7 +37,7 @@ class ArticlesModel
      */
     public function listAll() 
     {
-        return $this->dbh->query('SELECT post.id, post.title, post.metaTitle, post.summary, post.createdAt, post.published,  user.id AS author_id, user.username AS author_name FROM '.$this->table.' INNER JOIN user ON post.authorId = user.id ORDER BY post.createdAt DESC');
+        return $this->dbh->query('SELECT post.id, post.title, post.metaTitle, post.summary, post.createdAt, post.published,  user.id AS authorId, user.username AS authorName FROM '.$this->table.' INNER JOIN user ON post.authorId = user.id ORDER BY post.createdAt DESC');
     }
 
     /** Trouver un post avec son ID
@@ -47,7 +47,7 @@ class ArticlesModel
      */
     public function find($id)
     {
-        return $this->dbh->queryOne('SELECT post.id, post.title, post.metaTitle, post.summary, post.createdAt, post.published, post.publishedAt, post.updatedAt, post.content, post.picture, post.like, post.dislike, post.share, user.id AS authorId, user.username AS author_name FROM '.$this->table.' INNER JOIN user ON post.authorId = user.id WHERE post.id = ?',[$id]);
+        return $this->dbh->queryOne('SELECT post.id, post.title, post.metaTitle, post.summary, post.createdAt, post.published, post.publishedAt, post.updatedAt, post.content, post.picture, post.like, post.dislike, post.share, user.id AS authorId, user.username AS authorName FROM '.$this->table.' INNER JOIN user ON post.authorId = user.id WHERE post.id = ?',[$id]);
     }
 
     /**
@@ -77,7 +77,7 @@ class ArticlesModel
     {   
         $slug = preg_replace("/-$/","",preg_replace(self::SLUG_PATTERN, "-", strtolower($title)));
         $createdAt = date('Y-m-d, H:i:s');
-        return $this->dbh->executeSQL('INSERT INTO '.$this->table.' (title, metaTitle, slug, summary, createdAt, content, picture, author_id) VALUES (?,?,?,?,?,?,?,?)',[$title, $metaTitle, $slug, $summary, $createdAt, $content, $picture, $authorId]);
+        return $this->dbh->executeSQL('INSERT INTO '.$this->table.' (title, metaTitle, slug, summary, createdAt, content, picture, authorId) VALUES (?,?,?,?,?,?,?,?)',[$title, $metaTitle, $slug, $summary, $createdAt, $content, $picture, $authorId]);
     }
 
     /**

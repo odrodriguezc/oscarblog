@@ -8,7 +8,7 @@
         <div class="card">
             <div class="card-block text-center">
                 <div class="m-t-30"> 
-                    <img src="<?= $wwwUrl ?>/assets/images/users/<?=$user['avatar']?>" class="img-circle" width="150" />
+                    <img src="<?= $wwwUrl ?>/assets/images/users/bg_<?=$user['avatar'] ? $user['avatar'] : "default_avatar.jpg"?>" class="img-circle" width="150" />
                     <div class="form-horizontal form-material">
                         <input class="card-title m-t-10 form-control form-control-line text-center" type="text" id="username" name="username" value="<?=$user['username']?>" readonly>
                         <h6 id="roleLabel" class="card-subtitle" data-rol="<?=$user['role']?>"><?= array_search($user['role'], $roles)?><span id="status"> <?= $user['status']?></span></h6>

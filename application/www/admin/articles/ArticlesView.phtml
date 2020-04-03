@@ -29,7 +29,7 @@
                         <?php foreach($articlesList as $article):?>
                             <tr>
                                 <td data-articleId="<?=$article['id']?>"><a href="<?= $requestUrl ?>/admin/articles/article/?id=<?=$article['id']?>"><?=$article['title']?></a></td>
-                                <td data-userId=<?=$article['author_id']?>><?=$article['author_name']?></td>
+                                <td data-userId=<?=$article['authorId']?>><?=$article['authorName']?></td>
                                 <td><?=$article['createdAt']?></td>
                                 <td><?=$article['published']?></td>
                                 <td>
