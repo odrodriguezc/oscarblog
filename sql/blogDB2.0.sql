@@ -114,7 +114,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `blog`.`category` ;
 
 CREATE TABLE IF NOT EXISTS `blog`.`category` (
-  `id` INT UNSIGNED NOT NULL,
+  `id` INT UNSIGNED  AUTO_INCREMENT NOT NULL,
   `title` VARCHAR(255) NOT NULL,
   `metaTitle` VARCHAR(255) NULL,
   `slug` VARCHAR(255) NOT NULL,
@@ -274,7 +274,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `blog`.`picture_category` ;
 
 CREATE TABLE IF NOT EXISTS `blog`.`picture_category` (
-  `id` INT UNSIGNED NOT NULL,
+  `id` INT UNSIGNED  AUTO_INCREMENT NOT NULL,
   `title` VARCHAR(255) NOT NULL,
   `metaTitle` VARCHAR(255) NULL,
   `slug` VARCHAR(255) NOT NULL,

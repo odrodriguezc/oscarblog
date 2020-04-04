@@ -47,18 +47,20 @@ class DelController
 		 */
 		$userModel = new UsersModel();
 		
+		/** Suppression des avatars de l'utilisateur */
+		$userDel = $userModel->find($dataId);
+		$avatar = $userDel['avatar'];
+		if($avatar != NULL && file_exists(WWW_PATH."/assets/images/users/bg_{$avatar}"))
+			unlink(WWW_PATH."/assets/images/users/bg_{$avatar}");
+		if($avatar != NULL && file_exists(WWW_PATH."/assets/images/users/sm_{$avatar}"))
+			unlink(WWW_PATH."/assets/images/users/sm_{$avatar}");
+		
+
 		/**
 		 * @todo faire la difference lorque l'utilissateur passé en querystring existe en bdd et lorsque celui-ci n'existe pas 
 		 */
 		$userModel->delete(intval($dataId));
 		$flashbag->add("L'utilisateur a bien été supprimé");
-
-			/** Suppression de la photo de profil de l'utilisateur */
-			/*$picture = $productModel->find($id);
-			$image = $picture['prod_picture'];
-			if($image != NULL && file_exists(WWW_PATH.'/uploads/products/'.$image)){
-				unlink(WWW_PATH.'/uploads/products/'.$image);
-			}*/
 		
 		$http->redirectTo('/admin/users/');
 	

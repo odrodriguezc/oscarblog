@@ -29,6 +29,9 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    
+    <!-- Checkbox toogle -->
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 
     <!-- Fontawesome -->
     <script src="https://kit.fontawesome.com/a7f1e788fd.js" crossorigin="anonymous"></script>
@@ -125,7 +128,7 @@
                         <!-- Profile -->
                         <!-- ============================================================== -->
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="<?= $wwwUrl ?>/assets/images/users/bg_<?=$userSession->getAvatar() ? $userSession->getAvatar() : "default_avatar.jpg" ?>" alt="user" class="profile-pic m-r-10" /><?=$userSession->getUsername();?></a>
+                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="<?= $requestUrl ?>/admin/profile/"   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="<?= $wwwUrl ?>/assets/images/users/bg_<?=$userSession->getAvatar() ? $userSession->getAvatar() : "default_avatar.jpg" ?>" alt="user" class="profile-pic m-r-10" /><?=$userSession->getUsername();?></a>
                         </li>
                     </ul>
                 </div>

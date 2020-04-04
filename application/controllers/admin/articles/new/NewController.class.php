@@ -59,18 +59,6 @@ class NewController
 		
 		try
 		{
-			/** Image uploadée
-            *   On la déplace sinon on affecte à l'image par defaut pour la saisie en base
-            */
-            if ($http->hasUploadedFile('picture'))
-                $picture = $http->moveUploadedFile('picture','/assets/images/articles/');
-            else 
-				$picture = 'default_picture.jpg';
-
-			$uploadImg = new Upload($_FILES['picture']);
-			var_dump($uploadImg);
-			
-			
 			//instance de la classe DataValidation
 			$validator = new DataValidation;
 
@@ -94,8 +82,68 @@ class NewController
 			if ($articlesModel->findByTitle($data['title'])!=false)
 				$validator->addError("le titre {$data['title']} est déjà existant");
 
+			/**
+			 * image upload
+			 * 
+			 * - Upload l'image et cree deux copies en taille medium et small
+			 * @author ODRC
+			 */
+			if (isset($_FILES['picture']))
+			{
+				$picture = new Upload($_FILES['picture']);
+				if ($picture->file_is_image)
+				{
+					if ($picture->uploaded)
+					{
+						//taille original
+						$uniqName = uniqid('post_');
+						$picture->file_new_name_body = "bg_".$uniqName;
+						$picture->file_overwrite = true;
+						$picture->process(WWW_PATH."/assets/images/posts/");
+						//taille medium
+						$picture->file_new_name_body = "md_".$uniqName;
+						$picture->image_resize =true;
+						$picture->image_x = 1200;
+						$picture->image_y = 600;
+						$picture->file_overwrite = true;
+						$picture->process(WWW_PATH."/assets/images/posts/");
+						//taille small
+						$picture->file_new_name_body = "sm_".$uniqName;
+						$picture->image_resize =true;
+						$picture->image_x = 600;
+						$picture->image_ratio_y = true;
+						$picture->file_overwrite = true;
+						$picture->process(WWW_PATH."/assets/images/posts/");
+
+						if ($picture->processed)
+						{
+							//nom pour la bdd
+							$pictureNameBd = $uniqName.'.'.$picture->file_dst_name_ext;
+							
+						} else{
+							$validator->addError($picture->error);
+						}
+					} else {
+						$validator->addError($picture->error);
+					}
+				} else{
+					$validator->addError("ceci n'est pas une immage");
+				}
+			} else {
+				$pictureNameBd = NULL;
+			}
+
 			if (empty($validator->getErrors())==false)
+			{
+				//supprimer les images uploadés
+				if (file_exists(WWW_PATH."\assets\images\posts\bg_{$pictureNameBd}"))
+                    unlink(WWW_PATH."\assets\images\posts\bg_{$pictureNameBd}");
+				if (file_exists(WWW_PATH."\assets\images\posts\md_{$pictureNameBd}"))
+                    unlink(WWW_PATH."\assets\images\posts\md_{$pictureNameBd}");
+				if (file_exists(WWW_PATH."\assets\images\posts\sm_{$pictureNameBd}"))
+                    unlink(WWW_PATH."\assets\images\posts\sm_{$pictureNameBd}");
 				throw new DomainException("DExc - Erreur de validation des champs du formulaire");
+			}
 			
 			$authorId = $userSession->getId();
 
@@ -104,7 +152,7 @@ class NewController
 								$data['metaTitle'],
 								$data['summary'],
 								$data['content'],
-								$picture,
+								$pictureNameBd,
 								$authorId
 								);
 			  
@@ -112,7 +160,7 @@ class NewController
 			$flashbag->add('L\'article a bien été ajouté');
 			
 			/** Redirection vers la liste */
-			//$http->redirectTo('admin/articles/');
+			$http->redirectTo('admin/articles/');
 
 
 		}

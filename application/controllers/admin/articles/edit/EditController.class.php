@@ -21,18 +21,29 @@ class EditController
 		if ($userSession->isAuthenticated()==false) 
 			/** Redirection vers le login */
 			$http->redirectTo('/login/');
-        
-        if ($userSession->isAuthorized([3])==false)
-            /** Redirection vers le referer */
-            header("location: {$_SERVER['HTTP_REFERER']}");
-
-
-        
+            
         $articlesModel = new ArticlesModel();
+        $validator = new DataValidation();
+		$artId = $validator->inputFilter($queryFields['id']);
+        $article = $articlesModel->find($artId);
 
-		$article = $articlesModel->find($queryFields['id']);
+        //Si l'utilisateur n'est pas autorisé
+		if ($userSession->isAuthorized([2,3])==false)
+		{
+			//recherche de l'article à editer
+			if ($article==false)
+			{
+				$flashbag->add("L'article n'a pas été trouvé");
+			
+			// si l'utilisateur n'est pas l'auteur de l'article
+			} elseif ($article['authorId'] != $userSession->getId())
+			{
+				$flashbag->add("Vous n'etes pas autorisé à editer cette article");
+			}
+			$http->redirectTo('/admin/articles/');
+		}
 
-
+    
 		/**
 		 * Instance du formulair article et passage de l'information  de l'utilisateur dans la BD 
 		 */
@@ -49,7 +60,7 @@ class EditController
                         'like'=> $article['like'],
                         'dislike'=> $article['dislike'],
                         'share'=> $article['share'],
-                        'author_id'=> $article['author_id'],
+                        'authorId'=> $article['authorId'],
                         'originalPicture' => $article['picture']
         ));
 		$gateway['_form'] = $form;
@@ -77,23 +88,12 @@ class EditController
 			/** Redirection vers le login */
 			$http->redirectTo('/login/');
         
-        if ($userSession->isAuthorized([3])==false)
+        if ($userSession->isAuthorized([1,2,3])==false)
             /** Redirection vers le dashboard */
             $http->redirectTo('/admin/');
 
 		try
         {
-            /** Récupération de la photo originale */
-
-            if ($http->hasUploadedFile('picture')) {
-                $picture = $http->moveUploadedFile('picture','/assets/images/articles/'); //On déplace la photo à l'endroit désiré(le chemin est relatif par rapport au dossier www)et on stocke dans la variable picture le nom du fichier
-                /** On supprime l'ancienne image */
-                if($formFields['originalPicture']!=NULL && file_exists(WWW_PATH.'/assets/images/articles/'.$formFields['originalPicture'])){
-                    unlink(WWW_PATH.'/assets/images/users/'.$formFields['originalPicture']);
-                }
-            } else {
-                $picture = $formFields['originalPicture']; // Le nom de l'image reste le nom qui était là à l'origine
-            }
             
            //instance de la classe DataValidation
 			$validator = new DataValidation;
@@ -117,10 +117,81 @@ class EditController
             $articlesModel = new articlesModel();
 			if ($articlesModel->findByNewTitle($data['title'],$data['id'])!=false)
                 $validator->addError("le nouveau titre {$data['title']} est déjà existant");
+
+            /**
+             * image upload
+             * @author ODRC
+             */
+            if ($http->hasUploadedFile('picture'))
+            {
+                $picture = new Upload($_FILES['picture']);
+                /*@todo - bug dans la classe Upload qui ne charge pas la liste d'images supportées*/
+                if ($picture->file_is_image)
+                {
+                    if ($picture->uploaded)
+					{
+						//taille original
+						$uniqName = uniqid('post_');
+						$picture->file_new_name_body = "bg_".$uniqName;
+						$picture->file_overwrite = true;
+						$picture->process(WWW_PATH."/assets/images/posts/");
+						//taille medium
+						$picture->file_new_name_body = "md_".$uniqName;
+						$picture->image_resize =true;
+						$picture->image_x = 1200;
+						$picture->image_y = 600;
+						$picture->file_overwrite = true;
+						$picture->process(WWW_PATH."/assets/images/posts/");
+						//taille small
+						$picture->file_new_name_body = "sm_".$uniqName;
+						$picture->image_resize =true;
+						$picture->image_x = 600;
+						$picture->image_ratio_y = true;
+						$picture->file_overwrite = true;
+						$picture->process(WWW_PATH."/assets/images/posts/");
+
+						if ($picture->processed)
+						{
+							//nom pour la bdd
+							$pictureNameBd = $uniqName.'.'.$picture->file_dst_name_ext;
+							
+						} else{
+							$validator->addError($picture->error);
+						}
+					} else {
+						$validator->addError($picture->error);
+					}
+                } else{
+                    $validator->addError("ceci n'est pas une immage");
+                    $pictureNameBd = $formFields['originalPicture'];
+                }
+
+            } else {
+                $pictureNameBd = $formFields['originalPicture'];
+            }
                 
             if (empty($validator->getErrors())==false)
+            {
+                //supprimer les images uploadés
+				if (file_exists(WWW_PATH."\assets\images\posts\bg_{$pictureNameBd}"))
+                    unlink(WWW_PATH."\assets\images\posts\bg_{$pictureNameBd}");
+                 if (file_exists(WWW_PATH."\assets\images\posts\md_{$pictureNameBd}"))
+                    unlink(WWW_PATH."\assets\images\posts\md_{$pictureNameBd}");
+                 if (file_exists(WWW_PATH."\assets\images\posts\sm_{$pictureNameBd}"))
+                    unlink(WWW_PATH."\assets\images\posts\sm_{$pictureNameBd}");
+
                 throw new DomainException("DExc - Erreur de validation des champs du formulaire");
+            }
             
+            //supprimer l'ancien image
+            if ($formFields['originalPicture']!=NULL && file_exists(WWW_PATH."\assets\images\posts\bg_{$formFields['originalPicture']}"))
+                unlink(WWW_PATH."\assets\images\posts\bg_{$formFields['originalPicture']}");
+            if ($formFields['originalPicture']!=NULL && file_exists(WWW_PATH."\assets\images\posts\md_{$formFields['originalPicture']}"))
+                unlink(WWW_PATH."\assets\images\posts\md_{$formFields['originalPicture']}");
+            if ($formFields['originalPicture']!=NULL && file_exists(WWW_PATH."\assets\images\posts\sm_{$formFields['originalPicture']}"))
+                unlink(WWW_PATH."\assets\images\posts\sm_{$formFields['originalPicture']}");
+
+
             /** Enregistrer les données dans la base de données */
             $articlesModel = new ArticlesModel();
             $articlesModel->update($data['id'],
@@ -128,7 +199,7 @@ class EditController
                                 $data['metaTitle'],
                                 $data['summary'],
                                 $data['content'],
-                                $picture
+                                $pictureNameBd
                                 );
             
             /** Ajout du flashbag */

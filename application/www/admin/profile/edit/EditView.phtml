@@ -20,11 +20,7 @@
             <input type="hidden" name="id" value="<?=$id?>" readonly>
             <div class="card-block text-center">
               <div class="m-t-30"> 
-                <?php if(!is_null($originalAvatar)):?>
-                <img class="img-circle" width="150" src="<?= $wwwUrl ?>/assets/images/users/<?=$originalAvatar?>"/>
-                <?php else:?>
-                <img class="img-circle" width="150" src="<?= $wwwUrl ?>/assets/images/users/default_avatar.jpg" />
-                <?php endif;?>
+                <img class="img-circle" width="150" src="<?= $wwwUrl ?>/assets/images/users/sm_<?=$originalAvatar ? $originalAvatar : "default_avatar.jpg"?>"/>
                 <input class="form-control-file" type="file" name="avatar" id="avatar" accept="image/png,image/jpeg,image/gif">
                 <!--input caché pour passer l'index originalAvatar-->
                 <input type="hidden" name="originalAvatar" value="<?=$originalAvatar?>">

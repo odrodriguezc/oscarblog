@@ -44,12 +44,21 @@ class DelController
 				$flashbag->add("L'article n'a pas été trouvé");
 			
 			// si l'utilisateur n'est pas l'auteur de l'article
-			} elseif ($article['author_id'] != $userSession->getId())
+			} elseif ($article['authorId'] != $userSession->getId())
 			{
 				$flashbag->add("Vous n'etes pas autorisé à supprimer cette article");
 			}
 			$http->redirectTo('/admin/articles/');
 		}
+
+
+		//supprimer l'ancien image
+		if ($article['picture']!=NULL && file_exists(WWW_PATH."\assets\images\posts\bg_{$article['picture']}"))
+			unlink(WWW_PATH."\assets\images\posts\bg_{$article['picture']}");
+		if ($article['picture']!=NULL && file_exists(WWW_PATH."\assets\images\posts\md_{$article['picture']}"))
+			unlink(WWW_PATH."\assets\images\posts\md_{$article['picture']}");
+		if ($article['picture']!=NULL && file_exists(WWW_PATH."\assets\images\posts\sm_{$article['picture']}"))
+			unlink(WWW_PATH."\assets\images\posts\sm_{$article['picture']}");
 
 		/**
 		 * @todo implementer la diferentiation lorsque la requete delete n'abouti pas

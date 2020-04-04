@@ -1,13 +1,20 @@
  <!-- ============================================================== -->
 <!-- Start Page Content -->
 <!-- ============================================================== -->
+<!-- Style  -->
+<style>
+  .toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20px; }
+  .toggle.ios .toggle-handle { border-radius: 20px; background-color: white }
+</style>
+
+
 <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-block">
                 <h3><?=$article['title']?></h3>
                 <h6><?=$article['metaTitle']?></h6>
-                <span>Par  <a href=""><?=$article['author_name']?></a></span>
+                <span>Par  <a href=""><?=$article['authorName']?></a></span>
             </div>
         </div>
     </div>
@@ -19,7 +26,7 @@
             <div class="card-block">
                 <article>
                     <figure>
-                        <img class="img-fluid" src="<?=$wwwUrl?>/assets/images/articles/<?=$article['picture']?>" alt="<?=$article['title']?>">
+                        <img class="img-fluid" src="<?=$wwwUrl?>/assets/images/posts/sm_<?=$article['picture']?>" alt="<?=$article['title']?>">
                     </figure>
                 <?=$article['content']?>
                 </article>
@@ -36,6 +43,14 @@
                 <span><i class="far fa-thumbs-up"></i><?=$article['like']?></span>
                 <span><i class="far fa-thumbs-down"></i><?=$article['dislike']?></span>
                 <span><i class="far fa-share-square"></i><?=$article['share']?></span>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-block">
+                <a class="link" href=""><i class="far fa-eye"></i> Apercu</a>
+                <label class="checkbox-inline"> <span class="mr-5"> Publier : </span>
+                    <input type="checkbox" name="published" id="publishedChk" data-toggle="toggle"  data-onstyle="primary" data-offstyle="danger" data-style="ios"> 
+                </label>
             </div>
         </div>
     </div>
@@ -82,3 +97,8 @@
     </div>
   </div>
 </div>
+
+<!-- ============================================================== -->
+<!-- Scripts -->
+<!-- Toogle -->
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>

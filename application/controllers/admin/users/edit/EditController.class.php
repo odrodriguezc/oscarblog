@@ -165,6 +165,7 @@ class EditController
 
             /**
              * image upload
+             * @author ODRC
              */
             if ($http->hasUploadedFile('avatar'))
             {
@@ -185,10 +186,10 @@ class EditController
                             $avatarName = $uniqName.'.'.$avatar->file_dst_name_ext;
                             
 							//petite taille - prefixe 'lt' 
-							$avatar->file_new_name_body = "lt_".$uniqName;
+							$avatar->file_new_name_body = "sm_".$uniqName;
 							//$avatar->file_name_body_pre = 'lt';
 							$avatar->image_resize =true;
-							$avatar->image_x = 100;
+							$avatar->image_x = 400;
 							$avatar->image_ratio_y = true;
 							$avatar->file_overwrite = true;
 							$avatar->process(WWW_PATH."/assets/images/users/");
@@ -214,8 +215,8 @@ class EditController
                 //supprimer images
                 if ($avatarName != $formFields['originalAvatar'] && file_exists(WWW_PATH."/assets/images/users/bg_".$avatarName))
                     unlink(WWW_PATH."/assets/images/users/bg_".$avatarName);
-                if ($avatarName != $formFields['originalAvatar'] && file_exists(WWW_PATH."/assets/images/users/lt_".$avatarName))
-                    unlink(WWW_PATH."/assets/images/users/lt_".$avatarName);
+                if ($avatarName != $formFields['originalAvatar'] && file_exists(WWW_PATH."/assets/images/users/sm_".$avatarName))
+                    unlink(WWW_PATH."/assets/images/users/sm_".$avatarName);
                     
                 throw new DomainException("DExc - Erreur de validation des champs du formulaire");
             }
@@ -224,8 +225,8 @@ class EditController
             if ($formFields['originalAvatar']!=NULL && file_exists(WWW_PATH.'\assets\images\users\bg_' .$formFields['originalAvatar']))
                 unlink(WWW_PATH.'/assets/images/users/bg_'.$formFields['originalAvatar']);
 
-            if ($formFields['originalAvatar']!=NULL && file_exists(WWW_PATH.'/assets/images/users/lt_'.$formFields['originalAvatar']))
-                unlink(WWW_PATH."/assets/images/users/lt_{$formFields['originalAvatar']}");
+            if ($formFields['originalAvatar']!=NULL && file_exists(WWW_PATH.'/assets/images/users/sm_'.$formFields['originalAvatar']))
+                unlink(WWW_PATH."/assets/images/users/sm_{$formFields['originalAvatar']}");
 
 
              //recuperation de l'utilisateur en BD pour en extraire le password

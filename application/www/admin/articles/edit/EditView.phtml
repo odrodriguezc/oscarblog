@@ -36,11 +36,7 @@
                         <textarea class="form-control form-control-line " type="text" name="content" id="content" ><?=$content?></textarea>
                     </div>
                     <div class="form-group">
-                        <?php if(!is_null($originalPicture)):?>
-                            <img class="img-fluid"  src="<?= $wwwUrl ?>/assets/images/articles/<?=$originalPicture?>"/>
-                        <?php else:?>
-                            <img class="img-fluid" width="" src="<?= $wwwUrl ?>/assets/images/users/5.jpg" />
-                        <?php endif;?>
+                            <img class="img-fluid"  src="<?= $wwwUrl ?>/assets/images/posts/sm_<?=$originalPicture ? $originalPicture : "sm_post_default_image.jpg" ?>"/>
                         <!--input caché pour passer l'index originalPicture-->
                         <input type="hidden" name="originalPicture" value="<?=$originalPicture?>">
                         <input class="form-control-file" type="file" name="picture" id="picture" accept="image/png,image/jpeg,image/gif">
