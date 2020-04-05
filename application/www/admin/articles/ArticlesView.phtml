@@ -7,41 +7,47 @@
             <div class="card-block">
                 <h4 class="card-title">Articles</h4>
                 <h6 class="card-subtitle">Tous les articles</h6>
-                <div class="row" >
-                  <form class="search-box" action="jquery" method="post">
-                    <input class="form-control" type="search" name="search-user" id="search-user" placeholder="Search & enter">
-                  </form>
-                  <a class="btn btn-primary" href="<?= $requestUrl ?>/admin/articles/new/">Ajouter +</a>
-                </div>
-               
-                <div class="table-responsive">
-                    <table class="table articles-table">
-                        <thead>
-                            <tr>
-                                <th>Title</th>
-                                <th>Author</th>
-                                <th>Crée</th>
-                                <th>Publiée</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <?php foreach($articlesList as $article):?>
-                            <tr>
-                                <td data-articleId="<?=$article['id']?>"><a href="<?= $requestUrl ?>/admin/articles/article/?id=<?=$article['id']?>"><?=$article['title']?></a></td>
-                                <td data-userId=<?=$article['authorId']?>><?=$article['authorName']?></td>
-                                <td><?=$article['createdAt']?></td>
-                                <td><?=$article['published']?></td>
-                                <td>
-                                    <a class="editLink mr-1" href="<?= $requestUrl ?>/admin/articles/edit/?id=<?=$article['id']?>"><i class="fas fa-user-edit"></i></a>
-                                    <a class="delLink ml-1" data-toggle="modal" data-target="#delArticleModal" href="#delArticleModal" data-id="<?=$article['id']?>" data-title="<?=$article['title']?>"><i class="fas fa-trash-alt"></i></a>
-                                </td>
-                            </tr>
-                        <?php endforeach;?>
-                        </tbody>
-                    </table>
-                </div>
+            </div>   
+
+            <div class="card block" >
+              <div class="container row">
+                <form class="search-box col-10" action="jquery" method="post">
+                  <input class="form-control" type="search" name="search-user" id="search-user" placeholder="Search & enter">
+                  <input class="d-none" type="submit" value="search">
+                </form>
+                <a class="btn btn-primary col-2" href="<?= $requestUrl ?>/admin/articles/new/">Ajouter +</a>
+              </div>
             </div>
+
+            <div class="card-bloc">
+              <div class="table-responsive">
+                  <table class="table articles-table">
+                      <thead>
+                          <tr>
+                              <th>Title</th>
+                              <th>Author</th>
+                              <th>Crée</th>
+                              <th>Publiée</th>
+                              <th>Actions</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                      <?php foreach($articlesList as $article):?>
+                          <tr>
+                              <td data-articleId="<?=$article['id']?>"><a href="<?= $requestUrl ?>/admin/articles/article/?id=<?=$article['id']?>"><?=$article['title']?></a></td>
+                              <td data-userId=<?=$article['authorId']?>><?=$article['authorName']?></td>
+                              <td><?=$article['createdAt']?></td>
+                              <td><?=$article['published']?></td>
+                              <td>
+                                  <a class="editLink mr-1" href="<?= $requestUrl ?>/admin/articles/edit/?id=<?=$article['id']?>"><i class="fas fa-user-edit"></i></a>
+                                  <a class="delLink ml-1" data-toggle="modal" data-target="#delArticleModal" href="#delArticleModal" data-id="<?=$article['id']?>" data-title="<?=$article['title']?>"><i class="fas fa-trash-alt"></i></a>
+                              </td>
+                          </tr>
+                      <?php endforeach;?>
+                      </tbody>
+                  </table>
+              </div>
+            </div><!--fin cardblock-->
         </div>
     </div>
 </div>
