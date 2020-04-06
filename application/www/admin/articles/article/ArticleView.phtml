@@ -3,9 +3,10 @@
 <!-- ============================================================== -->
 <!-- Style  -->
 <style>
-  .toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20px; }
+  .toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20px;}
   .toggle.ios .toggle-handle { border-radius: 20px; background-color: white }
 </style>
+
 
 
 <div class="row">
@@ -14,7 +15,13 @@
             <div class="card-block">
                 <h3><?=$article['title']?></h3>
                 <h6><?=$article['metaTitle']?></h6>
-                <span>Par  <a href=""><?=$article['authorName']?></a></span>
+                <span>Par  <a href="<?= $requestUrl ?>/admin/users/user/?id=<?=$article['authorId']?>"><?=$article['authorName']?></a></span>
+                <br>
+                <?php if (isset($selectedCat)) : ?>
+                    <?php foreach ($selectedCat as $key => $cat) :?>
+                        <a href="<?= $requestUrl ?>/admin/articles/" class="link"><?=$cat['title']?></a>
+                    <?php endforeach ?>
+                <?php endif ?>
             </div>
         </div>
     </div>
@@ -26,9 +33,11 @@
             <div class="card-block">
                 <article>
                     <figure>
-                        <img class="img-fluid" src="<?=$wwwUrl?>/assets/images/posts/sm_<?=$article['picture']?>" alt="<?=$article['title']?>">
+                        <img class="img-fluid" src="<?=$wwwUrl?>/assets/images/posts/sm_<?= $article['picture']==='NULL' ? 'default_picture.jpg' : $article['picture'] ?>" alt="<?= $article['picture']==='NULL' ? 'default_picture.jpg' : $article['picture'] ?>">
                     </figure>
-                <?=$article['content']?>
+                <div>
+                    <?=$article['content']?>
+                </div>
                 </article>
             </div>
         </div>
@@ -40,20 +49,22 @@
         <div class="card">
             <div class="card-block">
                 <h4>Stats</h4>
-                <span><i class="far fa-thumbs-up"></i><?=$article['like']?></span>
-                <span><i class="far fa-thumbs-down"></i><?=$article['dislike']?></span>
-                <span><i class="far fa-share-square"></i><?=$article['share']?></span>
+                <div class="container d-flex justify-content-around">
+                    <span><i class="far fa-thumbs-up"></i><?=$article['like']?></span>
+                    <span><i class="far fa-thumbs-down"></i><?=$article['dislike']?></span>
+                    <span><i class="far fa-share-square"></i><?=$article['share']?></span>
+                </div>
             </div>
         </div>
         <div class="card">
             <div class="card-block">
-                <a class="link" href=""><i class="far fa-eye"></i> Apercu</a>
+                <a class="link" href="<?= $requestUrl ?>/admin/articles/preview/?id=<?=$article['id']?>'"><i class="far fa-eye"></i> Apercu</a>
                 <label class="checkbox-inline"> <span class="mr-5"> Publier : </span>
-                    <input type="checkbox" name="published" id="publishedChk" data-toggle="toggle"  data-onstyle="primary" data-offstyle="danger" data-style="ios"> 
+                    <input type="checkbox" name="published" id="publishedChk" value="1" data-toggle="toggle" data-style="ios" data-offstyle="danger" <?= $article['published']==1 ? 'checked' : ''?>> 
                 </label>
             </div>
         </div>
-    </div>
+    </div> 
     <div class="col-6">
         <div class="card">
             <div class="card-block">
@@ -100,5 +111,4 @@
 
 <!-- ============================================================== -->
 <!-- Scripts -->
-<!-- Toogle -->
-<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+<script src="<?=$wwwUrl?>/js/admin/article.js"></script>

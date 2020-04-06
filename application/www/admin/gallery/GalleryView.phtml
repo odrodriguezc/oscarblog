@@ -18,15 +18,15 @@
                 </div>
             </div><!-- fin cardblok -->
 
-            <!--upload form hidden-->
+            <!--upload form -->
             <section class="upload">
                 <div class="card-block">
                     <div class="container">
                         <h4 class="card-subtitle">Ajouter des images</h4>
                         <div class="container dropzone">
                             <span class="text-center">Drop image</span>
-                            <form class="" action="" method="post">
-                                <input type="file" class="">
+                            <form class="" action="<?= $requestUrl ?>/admin/gallery/" method="post" enctype="multipart/form-data">
+                                <input type="file" id="fileupload" class="inputfile" name="file[]" multiple> 
                                 <input type="submit" value="Upload">
                             </form>
                         </div>

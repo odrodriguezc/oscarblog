@@ -17,5 +17,6 @@ class ArticlesForm extends Form
         $this->addFormField('share');
         $this->addFormField('author_id');
         $this->addFormField('originalPicture');
+        $this->addFormField('categories');
     }
 }

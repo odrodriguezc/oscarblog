@@ -28,8 +28,12 @@ class NewController
 			$http->redirectTo('/admin/');
 		}
 
+		$catModel = new CategoriesModel;
+		$catList = $catModel->listAll();
 
-		return ['_form' => new ArticlesForm()];; 
+		return ['_form' => new ArticlesForm(),
+				'catList' => $catList
+				];
     }
 
     public function httpPostMethod(Http $http, array $formFields)
@@ -77,6 +81,9 @@ class NewController
 			$validator->lengtOne($data['summary'], 'Resumé', 500);
 			$validator->lengtOne($data['content'], 'Contenu', 50000);
 
+			//categories
+			$categories = $validator->formFilter($data['categories']);
+
 			//verification d'unicité du titre 
 			$articlesModel = new articlesModel();
 			if ($articlesModel->findByTitle($data['title'])!=false)
@@ -88,7 +95,8 @@ class NewController
 			 * - Upload l'image et cree deux copies en taille medium et small
 			 * @author ODRC
 			 */
-			if (isset($_FILES['picture']))
+			$pictureNameBd = '';
+			if (isset($_FILES['picture']) && $_FILES['picture']['error']==0)
 			{
 				$picture = new Upload($_FILES['picture']);
 				if ($picture->file_is_image)
@@ -128,9 +136,10 @@ class NewController
 					}
 				} else{
 					$validator->addError("ceci n'est pas une immage");
+					$pictureNameBd = 'NULL';
 				}
 			} else {
-				$pictureNameBd = NULL;
+				$pictureNameBd = 'NULL';
 			}
 
 			if (empty($validator->getErrors())==false)
@@ -148,14 +157,22 @@ class NewController
 			$authorId = $userSession->getId();
 
 			/** Enregistrer les données dans la base de données */
-			$articlesModel->add($data['title'], 
-								$data['metaTitle'],
-								$data['summary'],
-								$data['content'],
-								$pictureNameBd,
-								$authorId
-								);
-			  
+			$lastArticle = $articlesModel->add($data['title'], 
+										$data['metaTitle'],
+										$data['summary'],
+										$data['content'],
+										$data['published'],
+										$pictureNameBd,
+										$authorId
+										);
+			/** enregistrement des categories dans la bdd */
+			if (isset($lastArticle))
+			{
+				$catModel = new CategoriesModel();
+				$catModel->addCategories($lastArticle, $categories);
+			}
+
+
 			/** Ajout du flashbag */
 			$flashbag->add('L\'article a bien été ajouté');
 			
@@ -164,13 +181,9 @@ class NewController
 
 
 		}
-		catch(DomainException $exception)
+		catch(Exception $exception)
 		{
-		/** DomainException est un type d'exception prédéfinie par PHP (valeur en dehors des limites selon la doc, on l'utilise donc ici pour ça !)
-		 *   On a choisi ce type d'exception dans l'arbre généalogique des exceptions fournies par PHP. On aurait pu faire notre propre class
-		 *   Exemple : class FormValideException extends Exception {}
-		 */
-		
+				
 			/** Réaffichage du formulaire avec un message d'erreur. */
 			$form = new ArticlesForm();
 			/** On bind nos données $_POST ($formFields) avec notre objet formulaire */
@@ -180,8 +193,10 @@ class NewController
 			//erreur lancé dans l'exeption
 			$form->addError($exception->getMessage());
 			
+			$catModel = new CategoriesModel;
+			$catList = $catModel->listAll();
 
-			return   ['_form' => $form];
+			return   ['_form' => $form, 'catList' => $catList];
 
 		}
     }

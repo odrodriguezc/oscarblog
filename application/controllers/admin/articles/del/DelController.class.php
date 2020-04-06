@@ -33,25 +33,25 @@ class DelController
 		$articlesModel = new ArticlesModel();
 		$validator = new DataValidation();
 		$dataId = $validator->inputFilter($queryFields['id']);
-		
+		$article = $articlesModel->find($dataId);
 		//Si l'utilisateur n'est pas autorisé
-		if ($userSession->isAuthorized([3])==false)
+		if ($article==false)
 		{
-			//recherche de l'article à supprimer
-			$article = $articlesModel->find($dataId);
-			if ($article==false)
-			{
-				$flashbag->add("L'article n'a pas été trouvé");
-			
+			$flashbag->add("L'article n'a pas été trouvé");
+			$http->redirectTo('/admin/articles/');
+		}
+
+		if ($userSession->isAuthorized([3])==false)
+		{		
 			// si l'utilisateur n'est pas l'auteur de l'article
-			} elseif ($article['authorId'] != $userSession->getId())
+			if ($article['authorId'] != $userSession->getId())
 			{
 				$flashbag->add("Vous n'etes pas autorisé à supprimer cette article");
 			}
 			$http->redirectTo('/admin/articles/');
 		}
 
-
+		
 		//supprimer l'ancien image
 		if ($article['picture']!=NULL && file_exists(WWW_PATH."\assets\images\posts\bg_{$article['picture']}"))
 			unlink(WWW_PATH."\assets\images\posts\bg_{$article['picture']}");

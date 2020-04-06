@@ -41,12 +41,11 @@ class ArticleController
 		$dataId = $validator->inputFilter($queryFields['id']);
 
 		$article = $articlesModel->find(intval($dataId));
+		$catModel = new CategoriesModel;
+        $selectedCat = $catModel->findByPost(intval($dataId));
 
-		/** 
-		  * @var array article information correspondante à l'article recherché
-		  * 
-		*/
-		$gateway['article'] = $article;
+
+		$gateway = ['article' => $article, 'selectedCat' => $selectedCat];
 	
 		return $gateway;
     }

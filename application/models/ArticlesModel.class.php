@@ -47,7 +47,25 @@ class ArticlesModel
      */
     public function find($id)
     {
-        return $this->dbh->queryOne('SELECT post.id, post.title, post.metaTitle, post.summary, post.createdAt, post.published, post.publishedAt, post.updatedAt, post.content, post.picture, post.like, post.dislike, post.share, user.id AS authorId, user.username AS authorName FROM '.$this->table.' INNER JOIN user ON post.authorId = user.id WHERE post.id = ?',[$id]);
+        return $this->dbh->queryOne("SELECT post.id, 
+                                            post.title, 
+                                            post.metaTitle,
+                                            post.summary, 
+                                            post.createdAt, 
+                                            post.published, 
+                                            post.publishedAt, 
+                                            post.updatedAt, 
+                                            post.content, 
+                                            post.picture, 
+                                            post.like, 
+                                            post.dislike, 
+                                            post.share, 
+                                            user.id AS authorId, 
+                                            user.username AS authorName 
+                                            FROM {$this->table} 
+                                            INNER JOIN user ON post.authorId = user.id 
+                                            WHERE post.id = ?",[$id]
+                                        );
     }
 
     /**
@@ -68,16 +86,23 @@ class ArticlesModel
      * @param string $metaTitle
      * @param string $summary
      * @param string $content
+     * @param int published
      * @param string $picture
      * @param integer $authorId   
-     * @return void
+     * @return int lastInsertId
      * @author ODRC
      */
-    public function add(string $title, string $metaTitle, string $summary, string $content, string $picture, int $authorId) 
+    public function add(string $title, string $metaTitle, string $summary, string $content, int $published, string $picture, int $authorId) 
     {   
         $slug = preg_replace("/-$/","",preg_replace(self::SLUG_PATTERN, "-", strtolower($title)));
         $createdAt = date('Y-m-d, H:i:s');
-        return $this->dbh->executeSQL('INSERT INTO '.$this->table.' (title, metaTitle, slug, summary, createdAt, content, picture, authorId) VALUES (?,?,?,?,?,?,?,?)',[$title, $metaTitle, $slug, $summary, $createdAt, $content, $picture, $authorId]);
+        if ($published ==1) 
+        {
+            $publishedAt= $createdAt;
+        } else {
+            $publishedAt = '';
+        }
+        return $this->dbh->executeSQL('INSERT INTO '.$this->table.' (title, metaTitle, slug, summary, createdAt, content, published, publishedAt, picture, authorId) VALUES (?,?,?,?,?,?,?,?,?,?)',[$title, $metaTitle, $slug, $summary, $createdAt, $content, $published, $publishedAt, $picture, $authorId]);
     }
 
     /**
@@ -88,14 +113,21 @@ class ArticlesModel
      * @param string $metaTitle
      * @param string $summary
      * @param string $content
+     * @param int published
      * @param string $picture
      * @return int $updatedId id du dernier article updated
      * @author ODRC
      */
-    public function update(int $id, string $title, string $metaTitle, string $summary, string $content, string $picture )
+    public function update(int $id, string $title, string $metaTitle, string $summary, string $content, int $published, string $picture )
     {
+        if ($published ==1) 
+        {
+            $publishedAt= date('Y-m-d, H:i:s');
+        } else {
+            $publishedAt = '';
+        }
         $slug = preg_replace("/-$/","",preg_replace(self::SLUG_PATTERN, "-", strtolower($title)));
-        $this->dbh->executeSQL('UPDATE '.$this->table.' SET title=?, slug=?, metaTitle=?, summary=?, content=?, picture=? WHERE id=?',[$title, $slug, $metaTitle, $summary, $content, $picture, $id]); 
+        $this->dbh->executeSQL('UPDATE '.$this->table.' SET title=?, slug=?, metaTitle=?, summary=?, content=?, published=?, publishedAt=?, picture=? WHERE id=?',[$title, $slug, $metaTitle, $summary, $content, $published, $publishedAt, $picture, $id]); 
 
     }
 
@@ -147,5 +179,6 @@ class ArticlesModel
         return $this->dbh->query('SELECT *, TIMESTAMPDIFF(MINUTE,updatedAt,CURRENT_TIMESTAMP) AS timePast FROM '.$this->table.' WHERE authorId=? ORDER BY updatedAt '.$limitedStr.' ',[$id]);
     }
 
+   
 
 }

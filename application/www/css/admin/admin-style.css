@@ -6775,7 +6775,7 @@ File: scss
     left: calc(50% - 3.5px); }
 
 /* Radio Buttons
-   ========================================================================== */
+   ========================================================================== 
 [type="radio"]:not(:checked),
 [type="radio"]:checked {
   position: absolute;
@@ -6794,7 +6794,7 @@ File: scss
   -webkit-transition: .28s ease;
   -o-transition: .28s ease;
   transition: .28s ease;
-  /* webkit (konqueror) browsers */
+  /* webkit (konqueror) browsers 
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -6814,7 +6814,7 @@ File: scss
   -o-transition: .28s ease;
   transition: .28s ease; }
 
-/* Unchecked styles */
+/* Unchecked styles 
 [type="radio"]:not(:checked) + label:before,
 [type="radio"]:not(:checked) + label:after,
 [type="radio"]:checked + label:before,
@@ -6833,7 +6833,7 @@ File: scss
   -ms-transform: scale(0);
   transform: scale(0); }
 
-/* Checked styles */
+/* Checked styles 
 [type="radio"]:checked + label:before {
   border: 2px solid transparent;
   -webkit-animation: ripple 0.2s linear forwards;
@@ -6854,20 +6854,20 @@ File: scss
   -ms-transform: scale(1.02);
   transform: scale(1.02); }
 
-/* Radio With gap */
+/* Radio With gap 
 [type="radio"].with-gap:checked + label:after {
   -webkit-transform: scale(0.5);
   -ms-transform: scale(0.5);
   transform: scale(0.5); }
 
-/* Focused styles */
+/* Focused styles *
 [type="radio"].tabbed:focus + label:before {
   -webkit-box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.1);
   box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.1);
   -webkit-animation: ripple 0.2s linear forwards;
   animation: ripple 0.2s linear forwards; }
 
-/* Disabled Radio With gap */
+/* Disabled Radio With gap *
 [type="radio"].with-gap:disabled:checked + label:before {
   border: 2px solid rgba(0, 0, 0, 0.26);
   -webkit-animation: ripple 0.2s linear forwards;
@@ -6877,7 +6877,7 @@ File: scss
   border: none;
   background-color: rgba(0, 0, 0, 0.26); }
 
-/* Disabled style */
+/* Disabled style *
 [type="radio"]:disabled:not(:checked) + label:before,
 [type="radio"]:disabled:checked + label:before {
   background-color: transparent;
@@ -6905,7 +6905,7 @@ form p {
 form p:last-child {
   margin-bottom: 0; }
 
-/* Remove default checkbox */
+/* Remove default checkbox 
 [type="checkbox"]:not(:checked),
 [type="checkbox"]:checked {
   position: absolute;
@@ -6913,7 +6913,7 @@ form p:last-child {
   opacity: 0; }
 
 [type="checkbox"] {
-  /* checkbox aspect */ }
+  /* checkbox aspect *}
 
 [type="checkbox"] + label {
   position: relative;
@@ -6924,13 +6924,13 @@ form p:last-child {
   line-height: 25px;
   font-size: 1rem;
   -webkit-user-select: none;
-  /* webkit (safari, chrome) browsers */
+  /* webkit (safari, chrome) browsers 
   -moz-user-select: none;
   /* mozilla browsers */
   -khtml-user-select: none;
-  /* webkit (konqueror) browsers */
+  /* webkit (konqueror) browsers *
   -ms-user-select: none;
-  /* IE10+ */ }
+  /* IE10+ *}
 
 [type="checkbox"] + label:before,
 [type="checkbox"]:not(.filled-in) + label:after {
@@ -6990,7 +6990,7 @@ form p:last-child {
   border-right: 2px solid rgba(0, 0, 0, 0.26);
   border-bottom: 2px solid rgba(0, 0, 0, 0.26); }
 
-/* Indeterminate checkbox */
+/* Indeterminate checkbox *
 [type="checkbox"]:indeterminate + label:before {
   top: -11px;
   left: -12px;
@@ -7021,7 +7021,7 @@ form p:last-child {
   content: '';
   left: 0;
   position: absolute;
-  /* .1s delay is for check animation */
+  /* .1s delay is for check animation *
   -webkit-transition: border .25s, background-color .25s, width .20s .1s, height .20s .1s, top .20s .1s, left .20s .1s;
   -o-transition: border .25s, background-color .25s, width .20s .1s, height .20s .1s, top .20s .1s, left .20s .1s;
   transition: border .25s, background-color .25s, width .20s .1s, height .20s .1s, top .20s .1s, left .20s .1s;
@@ -7098,7 +7098,7 @@ form p:last-child {
   border-color: #BDBDBD; }
 
 /* Switch
-   ========================================================================== */
+   ========================================================================== 
 .switch,
 .switch * {
   -webkit-user-select: none;
@@ -7230,7 +7230,7 @@ input[type=checkbox]:not(:disabled).tabbed:focus ~ .lever::after {
   right: 20px;
   padding: 25px; }
 
-/*Radio button*/
+/*Radio button*
 @-webkit-keyframes ripple {
   0% {
     -webkit-box-shadow: 0px 0px 0px 1px transparent;
@@ -7252,7 +7252,7 @@ input[type=checkbox]:not(:disabled).tabbed:focus ~ .lever::after {
     -webkit-box-shadow: 0px 0px 0px 15px transparent;
     box-shadow: 0px 0px 0px 15px transparent; } }
 
-/*Bootstrap Select*/
+/*Bootstrap Select
 .bootstrap-select.btn-group .dropdown-menu {
   margin-top: -40px;
   -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);

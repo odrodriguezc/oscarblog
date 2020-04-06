@@ -57,7 +57,10 @@ class  DataValidation
     {
         foreach ($form as $key => $input) 
         {
-            $input = $this->inputFilter($input);
+            if (is_string($input)) 
+            {
+                $input = $this->inputFilter($input);
+            }
         };
         return $form;
     } 

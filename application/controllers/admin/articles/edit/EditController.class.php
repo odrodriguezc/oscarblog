@@ -43,7 +43,11 @@ class EditController
 			$http->redirectTo('/admin/articles/');
 		}
 
-    
+        $catModel = new CategoriesModel;
+        $catList = $catModel->listAll();
+        $selectedCat = $catModel->findByPost(intval($artId));
+        $selectedCatId = array_column($selectedCat, 'id' );
+
 		/**
 		 * Instance du formulair article et passage de l'information  de l'utilisateur dans la BD 
 		 */
@@ -61,9 +65,11 @@ class EditController
                         'dislike'=> $article['dislike'],
                         'share'=> $article['share'],
                         'authorId'=> $article['authorId'],
-                        'originalPicture' => $article['picture']
+                        'originalPicture' => $article['picture'],
+                        'categories' => $selectedCatId
         ));
-		$gateway['_form'] = $form;
+        $gateway = ['_form' => $form,
+                    'catList' => $catList];
 		
 		return $gateway;
     }
@@ -111,7 +117,10 @@ class EditController
 			$validator->lengtOne($data['title'], 'Titre', 255);	
 			$validator->lengtOne($data['metaTitle'], 'Soustitre', 255);
 			$validator->lengtOne($data['summary'], 'Resumé', 500);
-			$validator->lengtOne($data['content'], 'Contenu', 50000);
+            $validator->lengtOne($data['content'], 'Contenu', 50000);
+            
+            //categories
+			$categories = $validator->formFilter($data['categories']);
 
             //verification d'unicité du titre 
             $articlesModel = new articlesModel();
@@ -194,26 +203,32 @@ class EditController
 
             /** Enregistrer les données dans la base de données */
             $articlesModel = new ArticlesModel();
-            $articlesModel->update($data['id'],
+            $lastArticle = $articlesModel->update($data['id'],
                                 $data['title'], 
                                 $data['metaTitle'],
                                 $data['summary'],
                                 $data['content'],
+                                $data['published'],
                                 $pictureNameBd
                                 );
             
+            //update categories
+            if (isset($lastArticle))
+			{
+                $catModel = new CategoriesModel();
+                $catModel->delHasRelation($lastArticle);
+				$catModel->addCategories($lastArticle, $categories);
+			}
+
+
             /** Ajout du flashbag */
             $flashbag->add('L\'article a bien été modifiée');
             
             /** Redirection vers la liste */
             $http->redirectTo('admin/articles/');
         }
-         catch(DomainException $exception)
+         catch(Exception $exception)
         {
-            /** DomainException est un type d'exception prédéfinie par PHP (valeur en dehors des limites selon la doc, on l'utilise donc ici pour ça !)
-             *   On a choisi ce type d'exception dans l'arbre généalogique des exceptions fournies par PHP. On aurait pu faire notre propre class
-             *   Exemple : class FormValideException extends Exception {}
-             */
 
             /** Réaffichage du formulaire avec un message d'erreur. */
 			$form = new ArticlesForm();

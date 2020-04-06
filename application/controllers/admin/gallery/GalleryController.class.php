@@ -28,20 +28,19 @@ class GalleryController
 			$http->redirectTo('/admin/');
 		}
 		
-        
-        
+		$userId = $userSession->getId();
+		$picModel = new GalleryModel();
+		$picList = $picModel->listAll();
 
 		/**
 		 * gateway 
 		 * 
 		 * variable tableau qui nous permet d'organiser le passage des variables à la vue
 		 * 
-		 * @var  array $articleList liste des articles
-		 * @var array fetchMessages appel à la methode fechtMessages de lac la class Flashbag
+		 * @var  array $picList 
+		 * @var array flashbag appel à la methode fechtMessages de lac la class Flashbag
 		 */
-		$ArticlesModel = new ArticlesModel();
-
-		$gateway = ['articlesList' => $ArticlesModel->listAll(),
+		$gateway = ['picList' => $picList,
 					'flashbag' => $flashbag->fetchMessages()
 					];
 
@@ -50,13 +49,26 @@ class GalleryController
 
     public function httpPostMethod(Http $http, array $formFields)
     {
-    	/*
-    	 * Méthode appelée en cas de requête HTTP POST
-    	 *
-    	 * L'argument $http est un objet permettant de faire des redirections etc.
-    	 * L'argument $formFields contient l'équivalent de $_POST en PHP natif.
-    	 */
+    			
+		$userSession = new UserSession();
+		$flashbag = new FlashBag();
+		if ($userSession->isAuthenticated()==false) 
+			/** Redirection vers le login */
+			$http->redirectTo('/login/');
+        
+        if ($userSession->isAuthorized([1,2,3])==false)
+        {
+			$flashbag->add("Vous n'estes pas autorisé");
+			$http->redirectTo('/admin/');
+		}
 
+
+		try {
+			var_dump($_FILES);
+		} catch (DomainException $exeption) {
+			//throw $th;
+		}
+		 
 		
     }
 }

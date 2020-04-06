@@ -8,7 +8,7 @@
         <div class="card">
             <div class="card-block text-center">
                 <div class="m-t-30"> 
-                    <img src="<?= $wwwUrl ?>/assets/images/users/sm_<?=$user['avatar'] ? $user['avatar'] : "default_avatar.jpg"?>" class="img-circle" width="150" />
+                    <img src="<?= $wwwUrl ?>/assets/images/users/sm_<?=$user['avatar'] !== 'NULL' ? $user['avatar'] : "default_avatar.jpg"?>" class="img-circle" width="150" />
                     <div class="form-horizontal form-material">
                         <input class="card-title m-t-10 form-control form-control-line text-center" type="text" id="username" name="username" value="<?=$user['username']?>" readonly>
                         <h6 id="roleLabel" class="card-subtitle" data-rol="<?=$user['role']?>"><?= array_search($user['role'], $roles)?><span id="status"> <?= $user['status']?></span></h6>
@@ -160,7 +160,7 @@
                                     <div class="sl-right">
                                         <div> <a href="<?= $requestUrl ?>/admin/articles/article/?id=<?=$article['id']?>" class="link"><?=$article['title']?></a> <span class="sl-date"><?= calcTimePast($article['timePast'])?> ago</span>
                                             <div class="m-t-20 row">
-                                                <div class="col-md-3 col-xs-12"><img src="<?= $wwwUrl ?>/assets/images/posts/sm_<?=$article['picture']?>" alt="<?=$article['picture']?>" class="img-responsive radius">
+                                                <div class="col-md-3 col-xs-12"><img src="<?= $wwwUrl ?>/assets/images/posts/sm_<?=$article['picture'] !== 'NULL' ? $article['picture'] : 'default_picture.jpg'?>" alt="<?=$article['picture']?>" class="img-responsive radius">
                                                 </div>
                                                 <div class="col-md-9 col-xs-12">
                                                     <p><small> <?=$article['metaTitle']?> </small></p>
