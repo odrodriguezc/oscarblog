@@ -57,5 +57,25 @@ class GalleryModel
      }
 
     
+    /**
+     * add
+     * 
+     * ajoute une image dans la bdd
+     * @param string uniqueName
+     * @param string label
+     * @param string description
+     * @param int userId
+     * @param string metadata
+     */
+    public function add(string $uniqueName, string $label, string $description, int $userId, string $metadata)
+    {
+        return $this->dbh->executeSql("INSERT INTO {$this->table} 
+                                    (uniqueName, label, description, userId, metadata) 
+                                    VALUES (?,?,?,?,?)",
+                                    [$uniqueName, $label, $description, $userId, $metadata]
+                                    );
+    }
+
+    
 
 }

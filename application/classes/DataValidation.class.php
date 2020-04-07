@@ -260,5 +260,29 @@ class  DataValidation
     public  function addError(string $error)
     {
         $this->errors[] = $error;
+    }   
+
+    /**
+     * sortUploadedFiles
+     * 
+     * reorganise le tableau avec les fichier uploadés
+     * 
+     * @param array $files contenu du fichier de $_FIles
+     * @return array $sortFiles 
+     * @author ODRC
+     */
+    public function sortUploadedFiles(&$uploadedFiles) {
+
+        $sortFiles = [];
+        $file_count = count($uploadedFiles['name']);
+        $file_keys = array_keys($uploadedFiles);
+    
+        for ($i=0; $i<$file_count; $i++) {
+            foreach ($file_keys as $key) {
+                $sortFiles[$i][$key] = $uploadedFiles[$key][$i];
+            }
+        }
+    
+        return $sortFiles;
     }
 }
