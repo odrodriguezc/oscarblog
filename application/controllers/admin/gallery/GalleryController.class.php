@@ -30,7 +30,19 @@ class GalleryController
 		
 		$userId = $userSession->getId();
 		$picModel = new GalleryModel();
-		$picList = $picModel->listAll();
+		$picList = $picModel->listAll(intval($userId));
+		$picsByCollection = $picModel->listByCollection(intval($userId));
+		$sortPicsByCollection=[];
+		foreach ($picsByCollection as $key => $pic) 
+		{
+			if (!array_key_exists($pic['collectionId'],$sortPicsByCollection)) 
+			{
+				$sortPicsByCollection[$pic['collectionId']][] = $pic;
+			} else{
+				$sortPicsByCollection[$pic['collectionId']][] = $pic;
+			}
+		}
+		unset($picsByCollection);
 
 		/**
 		 * gateway 
@@ -41,6 +53,7 @@ class GalleryController
 		 * @var array flashbag appel à la methode fechtMessages de lac la class Flashbag
 		 */
 		$gateway = ['picList' => $picList,
+					'picsByCollection' => $sortPicsByCollection,
 					'flashbag' => $flashbag->fetchMessages()
 					];
 
@@ -68,7 +81,7 @@ class GalleryController
 		try {
 			$galleryModel = new GalleryModel();
 			$validator = new DataValidation();
-			$picList = $galleryModel->listAll();
+			$picList = $galleryModel->listAll($userId);
 			$images = $validator->sortUploadedFiles($_FILES['file']);
 			$data = [];
 			$uploadSucces = [];
@@ -120,7 +133,7 @@ class GalleryController
 							{
 								//nom pour la bdd
 								$pictureNameBd = $uniqName.'.'.$picture->file_dst_name_ext;
-								$metadata = exif_read_data($picture->file_dst_pathname) ? serialize( exif_read_data($picture->file_dst_pathname)) : 'NULL';
+								$metadata = exif_read_data($picture->file_dst_pathname) ? json_encode( exif_read_data($picture->file_dst_pathname)) : 'NULL';
 								//bdd informations 
 								$data[$key] = ['uniqueName' => $pictureNameBd,
 												'label' => $oldName,
@@ -179,7 +192,10 @@ class GalleryController
 			//afficher les erreur de validatons et upload					
 			/** Réaffichage du formulaire avec un message d'erreur. */
 			$validator->addError($exception->getMessage());
-			
+            
+			/** Redirection vers la liste */
+			$http->redirectTo('admin/gallery/');
+	   
 			
 		}
 
@@ -189,6 +205,9 @@ class GalleryController
 					'uploadSucces' => $uploadSucces, 
 					'picList' => $picList
 				];
+
+		/** Redirection vers la liste */
+		$http->redirectTo('admin/gallery/');
 		 
 		
     }

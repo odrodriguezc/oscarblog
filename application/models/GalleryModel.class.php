@@ -12,6 +12,11 @@ class GalleryModel
      */
     private $table;
 
+      /**
+     * @var string Database table has post utilisée pour les requête
+     */
+    private $tableHas;
+
     /**  Constructeur
      *
      * @param void
@@ -21,17 +26,19 @@ class GalleryModel
     {
         $this->dbh = new Database();
         $this->table = 'picture';
+        $this->tableHas = 'picture_has_collection';
 
     }
 
-    /** Retourner un tableau de tous les pictures en base
+    /** 
+     * Retourner un tableau de tous les pictures uploades par le user
      *
-     * @param void
+     * @param int user
      * @return Array Jeu d'enregistrement représentant tous les pictures en base
      */
-    public function listAll() 
+    public function listAll(int $userId) 
     {
-        return $this->dbh->query('SELECT * FROM '.$this->table);
+        return $this->dbh->query("SELECT * FROM {$this->table} WHERE userId = ?",[$userId] );
     }
 
     /** Trouver une picture avec son ID
@@ -76,6 +83,95 @@ class GalleryModel
                                     );
     }
 
-    
+    /**
+     * update
+     * 
+     * @param int id
+     * @param string label
+     * @param string description
+     * @author ODRC
+     */
+    public function update(int $id, string $label, string $description)
+    {
+        return $this->dbh->executeSql("UPDATE picture SET label=?, description=? WHERE id=?",[$label, $description, $id]);
+    }
+
+    /**
+     * listByCollection
+     * 
+     * Liste les photos ajoutes aux collections
+     * 
+     * @param int user 
+     * @return mixed array | false 
+     * @author ODRC
+     */
+    public function listByCollection(int $userId)
+    {
+        return $this->dbh->query("SELECT 
+                                        pic.*, 
+                                        col.id AS collectionId,
+                                        col.title AS collectionTitle,
+                                        col.description AS collectionDescription,
+                                        col.published AS collectionPublished,
+                                        col.createdAt AS collectionCreatedAt,
+                                        col.updatedAt AS collectionUpdatedAt
+                                    FROM
+                                        blog.picture AS pic
+                                            INNER JOIN
+                                        blog.picture_has_collection AS col_has ON col_has.pictureId = pic.id
+                                            INNER JOIN
+                                        blog.picture_collection AS col ON col.id = col_has.collectionId
+                                    WHERE
+                                        pic.userId = ?",[$userId]);
+    }
+
+    /**
+     * findCollections
+     * 
+     * Liste des noms des collections by user
+     * 
+     * @param int user
+     * @return mixed 
+     * @author ODRC
+     */
+    public function findCollections(int $userId)
+    {
+        return $this->dbh->query("SELECT 
+                                        *
+                                    FROM
+                                        blog.picture_collection AS col
+                                    WHERE
+                                        col.userId = ?;",[$userId]);
+    }
+
+    /**
+     * delHasRelations
+     * 
+     * Supprime les entrées du post dans la table post_has_category
+     * 
+     * @param int picId
+     * @return void 
+     */
+    public function delHasRelation(int $picId)
+    {
+        return $this->dbh->executeSQL("DELETE FROM {$this->tableHas} WHERE pictureId = ?", [$picId]);
+    }
+
+     /**
+     * Ajouter des pics  dans une collection
+     * 
+     * @param int picId 
+     * @param array collectionId
+     * @return void
+     * 
+     * @author odrc
+     */
+    public function addCategories(int $picId, array $collectionId)
+    {
+        foreach ($collectionId as  $colId) 
+        {
+            $this->dbh->executeSql("INSERT INTO {$this->tableHas} (pictureId, collectionId) VALUES (?,?)",[$picId, $colId]);
+        }
+    }
 
 }

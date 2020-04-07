@@ -16,5 +16,6 @@ class PictureForm extends Form
         $this->addFormField('dislike');
         $this->addFormField('share');
         $this->addFormField('authorId');
+        $this->addFormField('collections');
     }
 }
