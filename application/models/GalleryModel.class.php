@@ -41,6 +41,10 @@ class GalleryModel
         return $this->dbh->query("SELECT * FROM {$this->table} WHERE userId = ?",[$userId] );
     }
 
+    /**
+     * 
+     */
+
     /** Trouver une picture avec son ID
      *
      * @param integer $id identifiant 
@@ -49,6 +53,25 @@ class GalleryModel
     public function find($id)
     {
         return $this->dbh->queryOne('SELECT * FROM '.$this->table.' WHERE id = ?',[$id]);
+    }
+
+    /**
+     * findByAuthor
+     * 
+     * Cherche les photos enregistrés en bdd crées par l'author passé en parametre
+     * 
+     * - Si le parametre limit est passé limite le nombre de lignes à la valeur saisi 
+     * 
+     * @param int $id 
+     * @param int $limit limite de lignes (rows) à envoyer dans la requete 
+     * @return array|bool jeu d'énregistrement | false
+     * @author ODRC
+     */
+    public function findByAuthor(int $id, int $limit = 1000): array
+    {
+
+        $limitedStr = func_num_args() == 2 && $limit !=0 ? "LIMIT {$limit}" : '';
+        return $this->dbh->query('SELECT *, TIMESTAMPDIFF(MINUTE,uploadAt,CURRENT_TIMESTAMP) AS timePast FROM '.$this->table.' WHERE userId=? ORDER BY timePast '.$limitedStr.' ',[$id]);
     }
 
 

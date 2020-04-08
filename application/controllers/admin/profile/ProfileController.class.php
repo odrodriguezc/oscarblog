@@ -37,6 +37,7 @@ class ProfileController
 		$usersModel = new UsersModel();
 		$articlesModel = new ArticlesModel();
 		$commentsModel = new CommentsModel();
+		$galleryModel = new GalleryModel();
 		//id de l'utilisateur en session
 		$userId = $userSession->getId();
 
@@ -51,6 +52,7 @@ class ProfileController
 		$user = $usersModel->find($userId);
 		$articles = $articlesModel->findByAuthor($userId, 5);
 		$comments = $commentsModel->findByPostAuthor($userId, 5);
+		$pics = $galleryModel->findByAuthor($userId, 5);
 
 		/**
 		 * dateFormat
@@ -99,7 +101,8 @@ class ProfileController
 		$gateway = ['roles' => $usersModel->role,
 					'user' => $user,
 					'articles' => $articles,
-					'comments' => $comments
+					'comments' => $comments,
+					'pics' => $pics
 					];
 
 

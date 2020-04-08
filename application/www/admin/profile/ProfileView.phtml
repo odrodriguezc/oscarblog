@@ -217,6 +217,29 @@
                 <div class="tab-pane" id="photos" role="tabpanel">
                     <div class="card-block">
                         <div class="profiletimeline">
+                    <!-- Section des photos -->
+                         <?php if ($pics != false) :?>
+                            <?php foreach ($pics as $index => $pic) : ?> 
+                            <div class="sl-item">
+                                <div class="sl-left"> <img src="<?= $wwwUrl ?>/assets/images/users/sm_<?=$user['avatar']?>" alt="user avatar" class="img-circle"> 
+                                </div>
+                                <div class="sl-right">
+                                    <div> <a href="<?= $requestUrl ?>/admin/gallery/image/?id=<?=$pic['id']?>" class="link"><?=$pic['label']?></a> <span class="sl-date"><?= calcTimePast($pic['timePast'])?> ago</span>
+                                        <div class="m-t-20 row">
+                                            <div class="col-md-3 col-xs-12"><img src="<?= $wwwUrl ?>/assets/images/gallery/sm_<?=$pic['uniqueName'] !== 'NULL' ? $pic['uniqueName'] : 'default_picture.jpg'?>" alt="<?=$pic['label']?>" class="img-responsive radius">
+                                            </div>
+                                            <div class="col-md-9 col-xs-12">
+                                                <p><small> <?=$pic['description']?> </small></p>
+                                            </div>
+                                        </div>
+                                        <div class="like-comm m-t-20"> <a href="javascript:void(0)" class="link m-r-10"><?=$pic['share']?> Shares</a> <a href="javascript:void(0)" class="link m-r-10"><i class="fa fa-heart text-danger"></i> <?=$pic['like']?> Likes</a> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr> 
+                             <?php endforeach ?>
+                         <?php endif ?>
                         </div>
                     </div><!--card-block-->
                 </div> <!--fin photo frame -->
