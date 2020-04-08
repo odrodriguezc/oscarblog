@@ -43,7 +43,7 @@ class ImageController
 
         $pic = $galleryModel->find(intval($dataId));
         $collectionList = $galleryModel->findCollections(intval($userSession->getId()));
-        $inCollection = [];
+        $picCollections = $galleryModel->findCollectionsByPic(intval($dataId));
         $form->bind(array('id' => $pic['id'],
                         'label' => $pic['label'],
                         'description' => $pic['description'],
@@ -56,7 +56,7 @@ class ImageController
                         'share' => $pic['share'],
                         'userId' => $pic['userId'],
                         'uploadAt' => $pic['uploadAt'],
-                        'collections' => $inCollection
+                        'collections' => $picCollections ? $picCollections : 'none'
                         ));
 		
 
@@ -89,7 +89,7 @@ class ImageController
 			$validator = new DataValidation;
 
 			//verifications des champs obligatoires
-            $validator->obligatoryFields(['label' => $formFields['label']]);
+            $validator->obligatoryFields(array('label' => $formFields['label']));
               //securisation de la donné 
             $data = $validator->formFilter($formFields);
             
@@ -97,33 +97,23 @@ class ImageController
             $validator->lengtOne($data['label'], 'Nom', 150);
             $validator->lengtOne($data['description'], 'Description', 500);
             
-            //collections
-            $collections = $validator->formFilter($data['collections']);
-            
             if (!empty($validator->getErrors()))
             {
-                throw new DomainException("Form: Error Processing Request", 1);
+                throw new DomainException("Form: Erreur de validations des champs du formulaire", 1);
             }
 
             $galleryModel = new GalleryModel();
-            $lastPic = $galleryModel->update($data['id'],
+            $galleryModel->update($data['id'],
                                      $data['label'],
                                     $data['description']
                                     );
             
-            //update collections
-            if (isset($lastPic))
-			{
-                /*$catModel = new CategoriesModel();
-                $catModel->delHasRelation($lastArticle);
-				$catModel->addCategories($lastArticle, $categories);*/
-            }
             
              /** Ajout du flashbag */
              $flashbag->add('L\'image a bien été modifiée');
             
              /** Redirection vers la liste */
-             $http->redirectTo('admin/gallery/');
+             $http->redirectTo("admin/gallery/image/?id={$data['id']}");
         
             
         } catch (DomainException $exception) {

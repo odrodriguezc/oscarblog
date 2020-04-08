@@ -52,7 +52,7 @@ class ProfileController
 		$user = $usersModel->find($userId);
 		$articles = $articlesModel->findByAuthor($userId, 5);
 		$comments = $commentsModel->findByPostAuthor($userId, 5);
-		$pics = $galleryModel->findByAuthor($userId, 5);
+		$pics = $galleryModel->findByUser($userId, 5);
 
 		/**
 		 * dateFormat

@@ -28,36 +28,40 @@
                         </div>
                         <div class="col form-group">
                             <div>
-                                <label>Ajouter à la collection</label>
-                                <select class="form-control form-control-line" name="collections" id="collectionSlt" multiple form="editPic">
-                                    <?php foreach ($collectionList as $key => $collection) :?>
-                                    <option value="<?=$collection['id']?>"><?=$collection['title']?></option>
-                                    <?php endforeach ?>
-                                </select>
-                            </div>
-                            <!--@todo Ajouter une nouvelle collection
-                            <div>
-                                <a href="#createNewCollection" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="createNewCollection">Ajouter à une nouvelle collection</a>
-                                <div class="collapse" id="createNewCollection">
-                                    <input class="form-control form-control-line type="text" name="collection" id="newCollection">
-                                    <a id="saveCollection" class="link btn btn-secundary mt-3 mb-3 text-right" href="">Enregistrer</a>
-                                </div>
-                            </div>-->
-                            <div>
                                 <label for="description">Description</label>
-                                <input class="form-control form-control-line type="text" name="description" id="description" value="<?=$description?>" form="editPic">
+                                <input class="form-control form-control-line" type="text" name="description" id="description" value="<?=$description?>" form="editPic">
                             </div>
                         </div>
                     </div>
-                    <div class="col form-group">
-                        <input id="metadata" type="hidden" name="metadata" data-json="<?=$metadata?>" value="<?=$metadata?>">
+                    <div class="form-group col">
+                        <input id="metadata" type="hidden" name="metadata" data-json="<?=$metadata?>" value="<?=$metadata?>" form="formCollections">
                     </div>
                     <div class="form-group">
-                        <input class="btn btn-primary" type="submit" value="valider">
-                        
+                        <?php if($collections != 'none') :?>
+                            <?php foreach ($collections as $key => $collection) :?>
+                                <span><a href="<?= $requestUrl ?>/admin/gallery/gallery/collections/col/?id=<?=$collection['id']?>"><?=$collection['title']?></a><a class="ml-1 " href="<?= $requestUrl ?>/admin/gallery/gallery/collections/pop/?col=<?=$collection['id']?>&pic=<?=$collection['pictureId']?>"><i class="far fa-trash-alt"></i></a></span>
+                            <?php endforeach ?>
+                        <?php endif ?>
+                    </div>
+                    <div class="form-group">
+                        <input class="btn btn-primary" type="submit" value="Enregistrer modifications">
                     </div>
                 </form>                    
             </div>
         </div>
     </div>
 </div>
+
+<form action="<?= $requestUrl ?>/admin/gallery/collections/add/" id="formCollections" class="form-horizontal form-material" method="get">
+    <div>
+        <label>Collections</label>
+        <select class="form-control form-control-line" name="collection" id="collectionSlt"  form="formCollections" >
+        <?php foreach ($collectionList as $key => $collection) :?>
+            <option value="<?=$collection['id']?>"><?=$collection['title']?></option>
+            <?php endforeach ?>
+        </select>
+    </div>
+    <div>
+        <input class="btn btn-primary" type="submit" value="Ajouter">
+    </div>
+</form  

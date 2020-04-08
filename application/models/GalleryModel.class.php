@@ -56,7 +56,7 @@ class GalleryModel
     }
 
     /**
-     * findByAuthor
+     * findByUser
      * 
      * Cherche les photos enregistrés en bdd crées par l'author passé en parametre
      * 
@@ -67,7 +67,7 @@ class GalleryModel
      * @return array|bool jeu d'énregistrement | false
      * @author ODRC
      */
-    public function findByAuthor(int $id, int $limit = 1000): array
+    public function findByUser(int $id, int $limit = 1000): array
     {
 
         $limitedStr = func_num_args() == 2 && $limit !=0 ? "LIMIT {$limit}" : '';
@@ -116,7 +116,7 @@ class GalleryModel
      */
     public function update(int $id, string $label, string $description)
     {
-        return $this->dbh->executeSql("UPDATE picture SET label=?, description=? WHERE id=?",[$label, $description, $id]);
+        return $this->dbh->executeSql("UPDATE {$this->table} SET label=?, description=? WHERE id=?",[$label, $description, $id]);
     }
 
     /**
@@ -164,7 +164,30 @@ class GalleryModel
                                     FROM
                                         blog.picture_collection AS col
                                     WHERE
-                                        col.userId = ?;",[$userId]);
+                                        col.userId = ?;",
+                                    [$userId]
+                                );
+    }
+
+    /**
+     * findCollectionsByPic
+     * 
+     * Cherche les collections auxquelles apartient une photo
+     * 
+     * @param int picId
+     * @return mixed
+     * @author ODRC
+     */
+    public function findCollectionsByPic(int $picId)
+    {
+        return $this->dbh->query("SELECT 
+                                        *
+                                    FROM
+                                        blog.picture_collection AS col
+                                            INNER JOIN
+                                        blog.picture_has_collection AS colHas ON col.id = colHas.collectionId
+                                    WHERE
+                                        colHas.pictureId = ?", [$picId]);
     }
 
     /**
@@ -189,7 +212,7 @@ class GalleryModel
      * 
      * @author odrc
      */
-    public function addCategories(int $picId, array $collectionId)
+    public function addToCollections(int $picId, array $collectionId)
     {
         foreach ($collectionId as  $colId) 
         {
