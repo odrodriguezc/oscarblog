@@ -22,18 +22,12 @@ class PopController
 		  * - isAutheticated va nous permettre de savoir si l'utilisateur est connecté 
 		*/
 		$userSession = new UserSession();
-		$flashbag = new FlashBag();
 		if ($userSession->isAuthenticated()==false) 
-			/** Redirection vers le login */
-			$http->redirectTo('/login/');
-        
-        if ($userSession->isAuthorized([1,2,3])==false)
 		{
-			$flashbag->add("Vous n'estes pas autorisé");
-			$http->redirectTo('/admin/');
-        }
-        
-        $validator = new DataValidation();
+			$http->redirectTo('/login/');
+		}
+
+        $http->redirectTo("/admin/gallery/");
         
 
 		
@@ -49,7 +43,32 @@ class PopController
     	 * L'argument $http est un objet permettant de faire des redirections etc.
     	 * L'argument $formFields contient l'équivalent de $_POST en PHP natif.
 		*/
+        $userSession = new UserSession();
+		$flashbag = new FlashBag();
+		if ($userSession->isAuthenticated()==false) 
+			/** Redirection vers le login */
+			$http->redirectTo('/login/');
         
+        if ($userSession->isAuthorized([1,2,3])==false)
+		{
+			$flashbag->add("Vous n'estes pas autorisé");
+		}
+		
+		$validator = new DataValidation();
+		$galleryModel = new galleryModel();
+		
+        $colId = $validator->inputFilter($formFields['collection']);
+		$picId = $validator->inputFilter($formFields['picId']);
+
+		if (intval($colId) && intval($picId))
+		{
+			$galleryModel->popOffPic(intval($picId), intval($colId));
+			echo ("La photo a été supprimée de la collection - 1");
+		} else{
+			echo ("La photo n'a pas été supprimée de la collection - 0");
+		}
+		
+		exit();
 		
     }
 }

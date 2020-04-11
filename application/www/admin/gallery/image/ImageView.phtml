@@ -41,7 +41,10 @@
                     <div id="inCollectionGroup" class="form-group">
                         <?php if($collections != 'NULL') :?>
                             <?php foreach ($collections as $key => $collection) :?>
-                                <span><a class="inCollection" data-collection-id = "<?=$collection['id']?>"   href="<?= $requestUrl ?>/admin/gallery/gallery/collections/col/?id=<?=$collection['id']?>"><?=$collection['title']?></a><a class="ml-1 " href="<?= $requestUrl ?>/admin/gallery/gallery/collections/pop/?col=<?=$collection['id']?>&pic=<?=$collection['pictureId']?>"><i class="far fa-trash-alt"></i></a></span>
+                            <span class="inCollection" data-collectionId=<?=$collection['id']?>>
+                                <a class="colLink" data-collectionId = "<?=$collection['id']?>"   href="<?= $requestUrl ?>/admin/gallery/gallery/collections/col/?id=<?=$collection['id']?>"><?=$collection['title']?></a>
+                                <a class="ml-1 popOff" data-collectionId ="<?=$collection['id']?>"  href="<?= $requestUrl ?>/admin/gallery/gallery/collections/pop/"><i class="far fa-trash-alt"></i></a>
+                            </span>
                             <?php endforeach ?>
                         <?php endif ?>
                     </div>

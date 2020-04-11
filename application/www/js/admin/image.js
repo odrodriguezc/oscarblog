@@ -25,13 +25,10 @@ function addPicToCollection()
     const selectedCol = $('#formCollections option:selected');
     const picId = $('#picId').val();
     
-    if (selectedCol[0].dataset.assigned === 'true' )
+    if (selectedCol.data('assigned') === 'true' )
     {
         ajaxResponse.text(`<p> l'image selectionée est déjà presente dans la collection ${selectedCol[0].textContent}</p>`);
         $('#ajaxResponseModal').modal('show');
-
-
-    return ;
 
     } else {
         $.ajax({
@@ -52,15 +49,18 @@ function addPicToCollection()
             ajaxResponse.text(`<p> ${response}</p>`);
             $('#ajaxResponseModal').modal('show');
             
+             //succes
             if (code === '1'){
-                let str = `<span>
-                <a class="inCollection" data-collection-id = "${picId}"  href="${getRequestUrl()}/admin/gallery/gallery/collections/col/?id=${picId}">${selectedCol[0].textContent}
-                </a>
-                <a class="ml-1" href="${getRequestUrl()}/admin/gallery/gallery/collections/pop/?col=${selectedCol[0].value}&pic=${picId}"><i class="far fa-trash-alt">
-                </i>
-                </a>
-                </span>`
+                const str = `<span class="inCollection">
+                                <a class="colLink" data-collectionid = "${picId}"  href="${getRequestUrl()}/admin/gallery/gallery/collections/col/?id=${picId}">${selectedCol[0].textContent}
+                                </a>
+                                <a class="ml-1 popOff" data-collectionid ="${picId}" href="${getRequestUrl()}/admin/gallery/gallery/collections/pop/"><i class="far fa-trash-alt"></i>
+                                </a>
+                            </span>`
                 $('#inCollectionGroup').append(str);
+                //ajouter evennement 
+                $('.popOff').on("click", popOffPic);
+
             }
             
         })
@@ -78,7 +78,64 @@ function addPicToCollection()
 
 }
 
+/**
+ * popOffPic
+ * 
+ * Fait sauter une photo d'une collection
+ * @author ODRC
+ */
+function popOffPic(){
+    
+    event.preventDefault();
+ 
+   
+    const ajaxResponse = $('#ajaxResponse');
+    const span = this.parentElement;
+    const picId = parseInt($('#picId').val());
+    const colId = parseInt(this.dataset.collectionid);
 
+    if (Number.isInteger(picId) && Number.isInteger(colId))
+    {
+        $.ajax({
+            
+            url: `${getRequestUrl()}/admin/gallery/collections/pop/`,
+    
+            method: "POST",
+    
+            dataType: "html",
+            
+            data:   {   collection: colId,
+                        picId: picId
+                    }
+    
+        })
+        .done(function(response){
+            let code = response.slice(-1);
+            
+            //succes
+            if (code === '1'){
+                span.remove();
+                //on change le data set assigned de l'option du select
+                $(`#collectionSlt option[value=${colId}]`)[0].dataset.assigned ='false';
+            }
+            ajaxResponse.text(`<p> ${response}</p>`);
+            $('#ajaxResponseModal').modal('show');
+        })
+    
+        .fail(function(error){
+            ajaxResponse.text(`<p>Votre demande n'a pas été processé  ${error}</p>`);
+            $('#ajaxResponseModal').modal('show');
+        })
+    
+        .always(function(){ 
+    
+        });
+    } else {
+        ajaxResponse.text(`<p> Requette non envoyé. Les valeurs passés en paramettres ne corresponden pas aux valeurs attendus</p>`);
+        $('#ajaxResponseModal').modal('show');
+    }
+    
+}
 
 
 
@@ -88,5 +145,6 @@ function addPicToCollection()
 document.addEventListener('DOMContentLoaded',function(){    
     
     $('#formCollectionsSubmit').on("click",addPicToCollection);
+    $('.popOff').on("click", popOffPic);
     
 });

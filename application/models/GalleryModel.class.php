@@ -224,4 +224,21 @@ class GalleryModel
         }
     }
 
+    /**
+     * 
+     * popOffPic
+     * Fait sauter une image d'une collection
+     * 
+     * @param int picId
+     * @param int colId
+     * @return mixed 
+     * @author ODRC
+     */
+    public function popOffPic(int $picId, int $colId)
+    {
+        return $this->dbh->executeSql("DELETE FROM {$this->tableHas} 
+                                        WHERE pictureId = ? AND collectionId = ?", 
+                                        [$picId, $colId]);
+    }
+
 }
