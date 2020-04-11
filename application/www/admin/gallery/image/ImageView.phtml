@@ -2,6 +2,7 @@
 <!-- Start Page Content -->
 <!-- ============================================================== -->
 <!-- Afichage des erreur du formulair s'il y en a un-->
+<section id="errors">
 <?php if (count($errorMessage) != 0):?>
   <?php foreach ($errorMessage as $key => $message):?>
     <div class="alert alert-warning alert-dismissible fade show"><?= $message ?>
@@ -11,6 +12,7 @@
     </div>
   <?php endforeach; ?>
 <?php endif; ?>
+</section>
 
 <div class="row ">
     <div class="col-12">
@@ -34,12 +36,12 @@
                         </div>
                     </div>
                     <div class="form-group col">
-                        <input id="metadata" type="hidden" name="metadata" data-json="<?=$metadata?>" value="<?=$metadata?>" form="formCollections">
+                        <input id="metadata" type="hidden" name="metadata" data-json="<?=$metadata?>" value="<?=$metadata?>" form="editPic">
                     </div>
-                    <div class="form-group">
-                        <?php if($collections != 'none') :?>
+                    <div id="inCollectionGroup" class="form-group">
+                        <?php if($collections != 'NULL') :?>
                             <?php foreach ($collections as $key => $collection) :?>
-                                <span><a href="<?= $requestUrl ?>/admin/gallery/gallery/collections/col/?id=<?=$collection['id']?>"><?=$collection['title']?></a><a class="ml-1 " href="<?= $requestUrl ?>/admin/gallery/gallery/collections/pop/?col=<?=$collection['id']?>&pic=<?=$collection['pictureId']?>"><i class="far fa-trash-alt"></i></a></span>
+                                <span><a class="inCollection" data-collection-id = "<?=$collection['id']?>"   href="<?= $requestUrl ?>/admin/gallery/gallery/collections/col/?id=<?=$collection['id']?>"><?=$collection['title']?></a><a class="ml-1 " href="<?= $requestUrl ?>/admin/gallery/gallery/collections/pop/?col=<?=$collection['id']?>&pic=<?=$collection['pictureId']?>"><i class="far fa-trash-alt"></i></a></span>
                             <?php endforeach ?>
                         <?php endif ?>
                     </div>
@@ -52,16 +54,36 @@
     </div>
 </div>
 
-<form action="<?= $requestUrl ?>/admin/gallery/collections/add/" id="formCollections" class="form-horizontal form-material" method="get">
+<form action="<?= $requestUrl ?>/admin/gallery/collections/add/" id="formCollections" class="form-horizontal form-material" method="post">
     <div>
         <label>Collections</label>
         <select class="form-control form-control-line" name="collection" id="collectionSlt"  form="formCollections" >
-        <?php foreach ($collectionList as $key => $collection) :?>
-            <option value="<?=$collection['id']?>"><?=$collection['title']?></option>
+        <?php foreach ($collectionList as $key => $col) :?>
+            <option value="<?=$col['id']?>" data-assigned="<?=$col['assigned']?>"><?=$col['title']?></option>
             <?php endforeach ?>
         </select>
     </div>
     <div>
-        <input class="btn btn-primary" type="submit" value="Ajouter">
+        <input id="picId" type="hidden" name="picId" value="<?=$id?>">
+        <input id="formCollectionsSubmit" class="btn btn-primary" type="submit" value="Ajouter" form="formCollections">
     </div>
-</form  
+</form>
+
+<!--Modal AJAX -->
+<div class="modal fade" id="ajaxResponseModal" tabindex="-1" role="dialog" aria-labelledby="ajaxResponseModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div id="ajaxResponse" class="modal-content">
+      
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+</div>
+
+
+<script src="<?= $wwwUrl ?>/js/admin/image.js"></script>
+        
+        
+
+

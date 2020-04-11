@@ -44,6 +44,22 @@ class ImageController
         $pic = $galleryModel->find(intval($dataId));
         $collectionList = $galleryModel->findCollections(intval($userSession->getId()));
         $picCollections = $galleryModel->findCollectionsByPic(intval($dataId));
+        $picCollections ? $picCollectionsId = array_column($picCollections,'id') : 'NULL';
+        
+        // Ajouter vrai ou faux a las collectiones affectés ou pas
+        foreach ($collectionList as $key => &$col) 
+        {
+            if($picCollections && in_array($col['id'], $picCollectionsId))
+            {
+                $col['assigned'] = 'true';  
+            } else {
+                $col['assigned'] = 'false';
+            } 
+        }
+        unset($picCollectionsId);
+
+      
+        
         $form->bind(array('id' => $pic['id'],
                         'label' => $pic['label'],
                         'description' => $pic['description'],
@@ -56,11 +72,13 @@ class ImageController
                         'share' => $pic['share'],
                         'userId' => $pic['userId'],
                         'uploadAt' => $pic['uploadAt'],
-                        'collections' => $picCollections ? $picCollections : 'none'
+                        'collections' => $picCollections ? $picCollections : 'NULL'
                         ));
 		
 
-		$gateway = [ '_form' => $form, 'collectionList' => $collectionList];
+        $gateway =  [ '_form' => $form, 
+                    'collectionList' => $collectionList
+                    ];
 	
 		return $gateway;
     }

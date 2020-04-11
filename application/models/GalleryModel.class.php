@@ -170,6 +170,10 @@ class GalleryModel
     }
 
     /**
+     * findCollectionById
+     */
+
+    /**
      * findCollectionsByPic
      * 
      * Cherche les collections auxquelles apartient une photo
@@ -216,7 +220,7 @@ class GalleryModel
     {
         foreach ($collectionId as  $colId) 
         {
-            $this->dbh->executeSql("INSERT INTO {$this->tableHas} (pictureId, collectionId) VALUES (?,?)",[$picId, $colId]);
+            return $this->dbh->executeSql("INSERT INTO {$this->tableHas} (pictureId, collectionId) VALUES (?,?)",[$picId, $colId]);
         }
     }
 
