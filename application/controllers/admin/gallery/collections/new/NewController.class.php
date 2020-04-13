@@ -1,6 +1,7 @@
 <?php
 /**
  * @class newController
+ * @todo gestion de l'affichage des erreurs envoyes en json lorsque les champs duformulares ne son pas validés
  * 
  * nous permet de creer une nouvelle collection
  */

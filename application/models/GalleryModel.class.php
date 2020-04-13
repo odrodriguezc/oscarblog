@@ -119,6 +119,118 @@ class GalleryModel
         return $this->dbh->executeSql("UPDATE {$this->table} SET label=?, description=? WHERE id=?",[$label, $description, $id]);
     }
 
+
+    /////////////////////////
+    ////// COLECTIONS ////////
+    /////////////////////////
+
+    /**
+     * listPicByCollectionOne
+     * 
+     * photos dans une collection 
+     * @param int $colId
+     * @return array
+     * @author ODRC
+     */
+    public function listPicByCollectionOne(int $colId)
+    {
+        return $this->dbh->query("SELECT 
+                                        pic.*, 
+                                        col.id AS collectionId,
+                                        col.title AS collectionTitle,
+                                        col.description AS collectionDescription,
+                                        col.published AS collectionPublished,
+                                        col.createdAt AS collectionCreatedAt,
+                                        col.updatedAt AS collectionUpdatedAt,
+                                        u.username AS username
+                                    FROM
+                                        blog.picture AS pic
+                                            INNER JOIN
+                                        blog.picture_has_collection AS col_has ON col_has.pictureId = pic.id
+                                            INNER JOIN
+                                            blog.picture_collection AS col ON col.id = col_has.collectionId
+                                        INNER JOIN 
+                                        blog.user AS u ON u.id = col.userId
+                                    WHERE 
+                                        col.published = 1 AND col.id = ?",
+                                [$colId]);
+    }
+
+
+    /**
+     * listPublicCollections
+     * 
+     * Liste des collections existantes qui on été publiées
+     * @return array
+     * @author ODRC
+     */
+    public function listPublicCollections()
+    {
+        return $this->dbh->query("SELECT picture_collection.*, user.username FROM picture_collection INNER JOIN user on user.id = picture_collection.userId WHERE picture_collection.published = 1");
+    }
+
+
+    /**
+     * listbyCollectionsAll
+     * 
+     * liste de tous les collections 
+     * @param void
+     * @return array
+     * @author ODRC
+     */
+    public function listByCollectionAll()
+    {
+        return $this->dbh->query("SELECT 
+                                        pic.*, 
+                                        col.id AS collectionId,
+                                        col.title AS collectionTitle,
+                                        col.description AS collectionDescription,
+                                        col.published AS collectionPublished,
+                                        col.createdAt AS collectionCreatedAt,
+                                        col.updatedAt AS collectionUpdatedAt,
+                                        u.username AS username
+                                    FROM
+                                        blog.picture AS pic
+                                            INNER JOIN
+                                        blog.picture_has_collection AS col_has ON col_has.pictureId = pic.id
+                                            INNER JOIN
+                                ",[]);
+
+    }
+
+    /**
+     * listByPublicCollections
+     * 
+     * liste de tous les collections 
+     * @param void
+     * @return array
+     * @author ODRC
+     */
+    public function listByPublicCollectionAll()
+    {
+        return $this->dbh->query("SELECT 
+                                        pic.*, 
+                                        col.id AS collectionId,
+                                        col.title AS collectionTitle,
+                                        col.description AS collectionDescription,
+                                        col.published AS collectionPublished,
+                                        col.createdAt AS collectionCreatedAt,
+                                        col.updatedAt AS collectionUpdatedAt,
+                                        u.username AS username
+                                    FROM
+                                        blog.picture AS pic
+                                            INNER JOIN
+                                        blog.picture_has_collection AS col_has ON col_has.pictureId = pic.id
+                                            INNER JOIN
+                                            blog.picture_collection AS col ON col.id = col_has.collectionId
+                                           INNER JOIN 
+                                        blog.user AS u ON u.id = col.userId
+                                    WHERE 
+                                        col.published = 1
+                                ",[]);
+
+    }
+
     /**
      * listByCollection
      * 

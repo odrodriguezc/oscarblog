@@ -7,115 +7,20 @@
       <h1>gallery</h1>
   </div>
 
-
-  <div class="gallery-image">
-    <div class="img-box">
-      <img src="https://picsum.photos/id/237/350/250/" alt="" />
-      <div class="transparent-box">
-        <div class="caption">
-          <p>Library</p>
-          <p class="opacity-low">Architect Design</p>
-        </div>
-      </div> 
-    </div>
-    <div class="img-box">
-      <img src="https://picsum.photos/id/238/350/250/" alt="" />
-      <div class="transparent-box">
-        <div class="caption">
-          <p>Night Sky</p>
-          <p class="opacity-low">Cinematic</p>
+  <?php if (isset($collections)) :?>
+    <?php foreach ($collections as $key => $col):?>
+      <div class="gallery-image">
+        <div class="img-box">
+          <img src="<?= $wwwUrl ?>/assets/images/gallery/sm_<?=$col[0]['uniqueName']?>" alt="<?=$col[0]['label']?>" />
+          <div class="transparent-box">
+            <div class="caption">
+              <p><a href="<?= $requestUrl ?>/gallery/collection/?id=<?=$col[0]['collectionId']?>"><?=$col[0]['collectionTitle']?></p></a>
+              <p class="opacity-low"><?=$col[0]['username']?></p>
+            </div>
+          </div> 
         </div>
       </div>
-    </div>
-    <div class="img-box">
-      <img src="https://picsum.photos/id/247/350/250/" alt="" />
-      <div class="transparent-box">
-        <div class="caption">
-          <p>Tea Talk</p>
-          <p class="opacity-low">Composite</p>
-        </div>
-      </div>
-    </div>
-    <div class="img-box">
-      <img src="https://picsum.photos/id/227/350/250/" alt="" />
-      <div class="transparent-box">
-        <div class="caption">
-          <p>Road</p>
-          <p class="opacity-low">Landscape</p>
-        </div>
-      </div> 
-    </div>
-    <div class="img-box">
-      <img src="https://picsum.photos/id/217/350/250/" alt="" />
-      <div class="transparent-box">
-        <div class="caption">
-          <p>Sea</p>
-          <p class="opacity-low">Cityscape</p>
-        </div>
-      </div> 
-    </div>
-    <div class="img-box">
-      <img src="https://picsum.photos/id/247/350/250/" alt="" />
-      <div class="transparent-box">
-        <div class="caption">
-          <p>Vintage</p>
-          <p class="opacity-low">Cinematic</p>
-        </div>
-      </div> 
-    </div>
-    <div class="img-box">
-      <img src="https://picsum.photos/id/236/350/250/" alt="" />
-      <div class="transparent-box">
-        <div class="caption">
-          <p>Vintage</p>
-          <p class="opacity-low">Cinematic</p>
-        </div>
-      </div> 
-    </div>
-    <div class="img-box">
-      <img src="https://picsum.photos/id/140/350/250/" alt="" />
-      <div class="transparent-box">
-        <div class="caption">
-          <p>Vintage</p>
-          <p class="opacity-low">Cinematic</p>
-        </div>
-      </div> 
-    </div>
-    <div class="img-box">
-      <img src="https://picsum.photos/id/666/350/250/" alt="" />
-      <div class="transparent-box">
-        <div class="caption">
-          <p>Vintage</p>
-          <p class="opacity-low">Cinematic</p>
-        </div>
-      </div> 
-    </div>
-    <div class="img-box">
-      <img src="https://picsum.photos/id/267/350/250/" alt="" />
-      <div class="transparent-box">
-        <div class="caption">
-          <p>Vintage</p>
-          <p class="opacity-low">Cinematic</p>
-        </div>
-      </div> 
-    </div>
-    <div class="img-box">
-      <img src="https://picsum.photos/id/141/350/250/" alt="" />
-      <div class="transparent-box">
-        <div class="caption">
-          <p>Vintage</p>
-          <p class="opacity-low">Cinematic</p>
-        </div>
-      </div> 
-    </div>
-    <div class="img-box">
-      <img src="https://picsum.photos/id/189/350/250/" alt="" />
-      <div class="transparent-box">
-        <div class="caption">
-          <p>Vintage</p>
-          <p class="opacity-low">Cinematic</p>
-        </div>
-      </div> 
-    </div>
-  </div>
+    <?php endforeach?>
+  <?php endif?>
+    
 </section>
