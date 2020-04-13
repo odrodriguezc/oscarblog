@@ -238,6 +238,19 @@ class  DataValidation
     }
 
 
+    /**
+     * intBool
+     * 
+     * Verifie que la valeur soit 0 ou 1
+     * 
+     * @param string $input
+     * @return bool 
+     * @author ODRC
+     */
+    public function intBool(string $input)
+    {
+        return $input === "0" || $input === "1" ? true : false;
+    }
 
     /**
      * Get the value of errors

@@ -240,5 +240,37 @@ class GalleryModel
                                         WHERE pictureId = ? AND collectionId = ?", 
                                         [$picId, $colId]);
     }
+    
+    /**
+     * findColByTitle
+     * 
+     * cherche les collection avec le titre
+     * @param string $title
+     * @return mixed
+     * @author ODRC
+     *
+     */
+    public function findColByTitle(string $title)
+    {
+        return $this->dbh->query("SELECT * FROM picture_collection WHERE title=?",[$title]);
+    }
 
+    /**
+     * newCollection
+     * 
+     * Cree une nouvelle collection
+     * @param int $userId
+     * @param string $title
+     * @param string $description
+     * @param int $published
+     * @return mixed
+     * @author ODRC
+     */
+    public function newCollection(int $userId, string $title, string $description='', int $published=0)
+    {
+        return $this->dbh->executeSql("INSERT INTO 
+                                        picture_collection (userId, title, description, published)
+                                        VALUES(?,?,?,?)",
+                                        [$userId, $title, $description, $published]);
+    }
 }

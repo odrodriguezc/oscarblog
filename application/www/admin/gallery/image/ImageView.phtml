@@ -61,8 +61,10 @@
     <div>
         <label>Collections</label>
         <select class="form-control form-control-line" name="collection" id="collectionSlt"  form="formCollections" >
+            <option value="0">------------</option>
+            <option id="newColOpt" value="0" data-assigned="false" >Nouvelle collection</option>
         <?php foreach ($collectionList as $key => $col) :?>
-            <option value="<?=$col['id']?>" data-assigned="<?=$col['assigned']?>"><?=$col['title']?></option>
+            <option class="collectionOpt" value="<?=$col['id']?>" data-title ="<?=$col['title']?>" data-assigned="<?=$col['assigned']?>"><?=$col['title']?></option>
             <?php endforeach ?>
         </select>
     </div>
@@ -71,8 +73,9 @@
         <input id="formCollectionsSubmit" class="btn btn-primary" type="submit" value="Ajouter" form="formCollections">
     </div>
 </form>
+<button id="newColBtn" class="btn btn-primary hide"  data-toggle="modal" data-target="#newColModal">Creer</button>
 
-<!--Modal AJAX -->
+<!--Modal response message AJAX -->
 <div class="modal fade" id="ajaxResponseModal" tabindex="-1" role="dialog" aria-labelledby="ajaxResponseModal" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div id="ajaxResponse" class="modal-content">
@@ -80,6 +83,44 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal New Collection -->
+<div class="modal fade" id="newColModal" tabindex="-1" role="dialog" aria-labelledby="newColModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newColModalLabel">Nouvelle collection</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form-control" id="newCollectionForm" method="POST" action="<?= $requestUrl ?>/admin/gallery/collections/new/">
+            <div class="form-group">
+                <label for="colTitle" class="col-form-label">Titre:</label>
+                <input type="text" class="form-control" name="title" id="colTitle">
+            </div>
+            <div class="form-group">
+                <label for="colDescription" class="col-form-label">Description:</label>
+                <textarea class="form-control" name = "description" id="colDescription"></textarea>
+            </div>
+            <div class="form-control form-radio form-control-inline">
+                <input type="radio" id="public" name="published" value="1" class="form-control-input">
+                <label class="form-control-label" for="public">Publique</label>
+            </div>
+            <div  class="form-control form-radio form-control-inline">
+                <input type="radio" id="private" name="published" value="0" checked class="form-control-input">
+                <label class="form-control-label"  for="private">Privée</label>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <input id="newColValidate" type="submit" class="btn btn-primary" value="envoyer">
+            </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>
