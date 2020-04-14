@@ -11,11 +11,17 @@ class ArticlesController
     	 * L'argument $queryFields contient l'équivalent de $_GET en PHP natif.
     	 */
 	
+		$ArticlesModel = new ArticlesModel();
+		$flashbag = new FlashBag();
+
+		$gateway = ['articlesList' => $ArticlesModel->listPublishedAll(),
+					'flashbag' => $flashbag->fetchMessages()
+					];
+
 		
-		$tab['test'] = "je suis le article";
 		
 		
-		return $tab;
+		return $gateway;
     }
 
     public function httpPostMethod(Http $http, array $formFields)

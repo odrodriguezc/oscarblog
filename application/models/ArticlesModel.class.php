@@ -40,6 +40,16 @@ class ArticlesModel
         return $this->dbh->query('SELECT post.id, post.title, post.metaTitle, post.summary, post.createdAt, post.published,  user.id AS authorId, user.username AS authorName FROM '.$this->table.' INNER JOIN user ON post.authorId = user.id ORDER BY post.createdAt DESC');
     }
 
+     /** Retourner un tableau de tous les posts publiés
+     *
+     * @param void
+     * @return Array Jeu d'enregistrement représentant tous les posts
+     */
+    public function listPublishedAll() 
+    {
+        return $this->dbh->query('SELECT post.*,  user.id AS authorId, user.username AS authorName FROM '.$this->table.' INNER JOIN user ON post.authorId = user.id WHERE post.published = 1 ORDER BY post.createdAt DESC');
+    }
+
     /** Trouver un post avec son ID
      *
      * @param integer $id identifiant du post

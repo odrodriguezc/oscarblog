@@ -4,12 +4,12 @@
 <!-- Main Content -->
 <section class="gallery main">
   <div class="title">
-      <h1>gallery</h1>
+      <h1>Gallery</h1>
   </div>
-
+  
+  <div class="gallery-image">
   <?php if (isset($collections)) :?>
     <?php foreach ($collections as $key => $col):?>
-      <div class="gallery-image">
         <div class="img-box">
           <img src="<?= $wwwUrl ?>/assets/images/gallery/sm_<?=$col[0]['uniqueName']?>" alt="<?=$col[0]['label']?>" />
           <div class="transparent-box">
@@ -19,8 +19,7 @@
             </div>
           </div> 
         </div>
-      </div>
     <?php endforeach?>
-  <?php endif?>
-    
+  <?php endif?>      
+  </div>
 </section>

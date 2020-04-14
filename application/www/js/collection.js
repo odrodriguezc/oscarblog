@@ -18,6 +18,12 @@ function showBigPhoto()
 
 }
 
+/**
+ * closeModal
+ * 
+ * fait disparaitre la modal
+ * @author ODRC
+ */
 function closeModal() 
 {
     photoModal.classList.toggle('show');

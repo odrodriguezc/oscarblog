@@ -227,6 +227,10 @@ article.post {
     padding-bottom: 1rem;
 }
 
+.presentation{
+    margin-bottom: 3rem;
+}
+
 /********* CONTACT ******************/
 form.contact{
     text-align: center;
