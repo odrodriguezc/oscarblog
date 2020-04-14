@@ -49,14 +49,17 @@
         </aside>
       </footer>
     </article>
-    <form class="contact" action="" method="post">
+    <form class="contact" action="<?= $requestUrl ?>/contact/" method="post">
 
         <input class="txt" type="text" name="name" id="name" placeholder="Name">
     
-        <input class="txt" type="email" name="email" id="email" placeholder="Email">
+        <input class="txt" type="email" name="email" id="email" placeholder="Email" required>
     
-        <textarea name="message" id="message" cols="30" rows="10" placeholder="Message"></textarea>
-        <input class="btn flat-button" type="submit" value="Send">
+        <textarea name="message" id="message" cols="30" rows="10" placeholder="Message" required></textarea>
+        <input id="sendMessage" class="btn flat-button" type="submit" value="Send">
     </form>
 </section>
+
+
+<script src="<?= $wwwUrl ?>/js/contact.js"></script>
 

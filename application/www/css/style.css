@@ -222,6 +222,10 @@ article.post {
     max-width: 95%;
 }
 
+.post .small-img {
+    max-width: 400px;
+}
+
 .go-up nav{
     border-bottom: 1px solid black;
     padding-bottom: 1rem;

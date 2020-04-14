@@ -239,8 +239,10 @@ class EditController
 			//erreur lancé dans l'exeption
             $form->addError($exception->getMessage());
 
- 
-            return   ['_form' => $form];
+            $catModel = new CategoriesModel;
+			$catList = $catModel->listAll();
+
+			return   ['_form' => $form, 'catList' => $catList];
         
         }
     }

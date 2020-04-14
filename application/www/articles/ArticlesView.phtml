@@ -22,7 +22,7 @@
          </header>
       
         <section class="body-post">
-            <img class="post-img img-big" src="<?= $wwwUrl ?>/assets/images/upload/post/_sm<?=$article['picture']?> " alt="article">
+            <img class="post-img small-img" src="<?= $wwwUrl ?>/assets/images/posts/sm_<?=$article['picture'] != 'NULL' ? $article['picture'] : 'default_picture.jpg' ?> " alt="article">
             <p><?=$article['summary']?> </p>
         </section>
       
