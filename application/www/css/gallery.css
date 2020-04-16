@@ -138,3 +138,7 @@
 .show {
   display: block;
 }
+
+section.carrousel{
+  display: none;
+}

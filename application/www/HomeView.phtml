@@ -56,10 +56,22 @@
       
         <footer class="post">
             <aside class="post flex">
-                <p class="post references">Ecrit par <a id="post-author" href="#"><?=$article['authorName']?> </a> at <span id="post-date"> <?=$article['createdAt']?> </span></p>
+                <p class="post references">Ecrit par 
+                    <a id="post-author" href="#"><?=$article['authorName']?> </a> at <span id="post-date"> <?=$article['createdAt']?> </span>
+                </p>
             </aside>
             <div class="reactions">
-                <span>likes   <?=$article['likes']?> </span>  <span>Dislikes  <?=$article['dislikes']?> </span> <span>Shares   <?=$article['share']?></span>
+                <a class="likes" href="<?= $requestUrl ?>/articles/action/?id=<?=$article['id']?>&action=likes" data-id="<?=$article['id']?>">
+                    <i class="fas fa-heart"></i>
+                </a>  
+                <span data-id="<?=$article['id']?>" class="likesCount"> <?=$article['likes']?> </span>
+                
+                <a class="dislikes" href="<?= $requestUrl ?>/articles/action/?id=<?=$article['id']?>&action=dislikes" data-id="<?=$article['id']?>"><i class="fas fa-heart-broken"></i>
+                </a>
+                 <span class="dislikesCount" data-id="<?=$article['id']?>">  <?=$article['dislikes']?> </span> 
+                <a class="share" class="open-modal share-items" href="#modal-open"  data-id="<?=$article['id']?>" data-title="<?=$article['title']?>"><i class="fas fa-share"></i>
+                </a>
+                <span class="shareCount" data-id="<?=$article['id']?>">   <?=$article['share']?></span>
             </div>
         </footer>
     </article>
@@ -168,16 +180,40 @@
        </ul>
      </nav>
    </section>
-
-
-
   </aside>
-
-  
 </div>
+
+<div id="modal-open" class="modal-dialog">
+    <div class="modal-content">
+    <a href="#close" title="Close" class="modal-close"><i class="fas fa-times"></i></a>
+    <h4>Share</h4>
+    <nav class="post-share">
+        <ul class="share-buttons">
+        <li class="share-items">
+            <a class="share-facebook" href=""><i class="fab fa-facebook" target="_blank"></i>Facebook  
+            </a>
+        </li>
+        <li class="share-items">
+            <a class="share-twitter" href="" target="_blank"><i class="fab fa-twitter"></i>Twitter
+            </a>
+        </li>
+        <li class="share-items">
+            <a class="share-linkedin" href="" target="_blank"><i class="fab fa-linkedin"></i>Linkedin
+        </a>
+        </li>
+        <li class="share-items">
+            <a class="share-email" href="" target="_blank"><i class="far fa-envelope"></i>Mail
+        </a>
+        </li>
+        </ul>
+    </nav>
+    </div>
+</div>
+
 
 			
 <script src="<?= $wwwUrl ?>/js/weather.js"></script>
+<script src="<?= $wwwUrl ?>/js/articles.js"></script>
 	
 			
 
