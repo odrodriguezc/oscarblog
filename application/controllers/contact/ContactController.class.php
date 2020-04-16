@@ -4,23 +4,16 @@ class ContactController
 {
     public function httpGetMethod(Http $http, array $queryFields)
     {
-    	/*
-    	 * Méthode appelée en cas de requête HTTP GET
-    	 *
-    	 * L'argument $http est un objet permettant de faire des redirections etc.
-    	 * L'argument $queryFields contient l'équivalent de $_GET en PHP natif.
-    	 */
-	
+    	
 		$flashbag = new FlashBag();
 		$userSession = new UserSession();
 		$articlesModel = new ArticlesModel();
 
-		$contacts =  $articlesModel->findByTitle('__Contacts__');
+		$contacts =  $articlesModel->findByTitle('_CONTACTS');
 
-		$contacts['title'] = strtr($contacts['title'],'_', '');
-
+		
 		$gateway = ['flashbag' => $flashbag->fetchMessages(),
-					'contact' => $contacts
+					'contacts' => $contacts
 					];
 		
 		

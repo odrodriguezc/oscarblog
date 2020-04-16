@@ -232,11 +232,24 @@ article.post {
     display: block;
     margin: 0 auto;
     margin-top: 2rem;
-    max-width: 95%;
+    
 }
 
 .post .small-img {
     max-width: 400px;
+}
+
+.post-content{
+    text-align: justify;
+    line-height: 1.8rem;
+}
+
+.title{
+    margin-bottom: 1rem;
+}
+
+.left {
+    text-align: left;
 }
 
 .go-up nav{
@@ -516,7 +529,7 @@ div.img-min:hover div.fluid-leyend{
 /************* Modals ********************/
 .modal-dialog {
 	position: fixed;
-	top: 50%;
+	top: 30%;
 	right: 50%;
 	background: rgba(0,0,0,0.0);
 	z-index: 99999;
@@ -524,7 +537,8 @@ div.img-min:hover div.fluid-leyend{
 	-webkit-transition: opacity 400ms ease-in;
 	-moz-transition: opacity 400ms ease-in;
 	transition: opacity 400ms ease-in;
-	pointer-events: none;
+    pointer-events: none;
+    text-align: center;
 }
 
 .modal-dialog:target {
@@ -532,24 +546,28 @@ div.img-min:hover div.fluid-leyend{
 	pointer-events: auto;
 }
 
+
 .modal-dialog .modal-content {
-	width: 400px;
+	width: 600px;
     position: relative;
-    top: 50%;
+    top: 30%;
     left: 50%;
-	background: #fff;
-	background: -moz-linear-gradient(#fff, #999);
-	background: -webkit-linear-gradient(#fff, #999);
-    background: -o-linear-gradient(#fff, #999);
-    border-radius: 5pc;
+    background-color: white;
+    -webkit-box-shadow: 0px 26px 49px 38px rgba(0,0,0,0.75); 
+    box-shadow: 0px 26px 49px 38px rgba(0,0,0,0.75);
+    border-radius: 5px
+    
+    
 }
 
 .modal-dialog .modal-content ul{
     padding: 0vh;
+    display: inline-flex;
+    
 }
 
 .modal-close {
-	background: #606061;
+	background: black;
 	color: #FFFFFF;
 	line-height: 25px;
 	position: absolute;
@@ -562,14 +580,20 @@ div.img-min:hover div.fluid-leyend{
 	-webkit-border-radius: 12px;
 	-moz-border-radius: 12px;
 	border-radius: 12px;
-	-moz-box-shadow: 1px 1px 3px #000;
-	-webkit-box-shadow: 1px 1px 3px #000;
-	box-shadow: 1px 1px 3px #000;
+	-moz-box-shadow: 1px 1px 3px grey;
+	-webkit-box-shadow: 1px 1px 3px grey;
+	box-shadow: 1px 1px 3px grey;
 }
 
-.modal-close:hover { background: #00d9ff; }
+.modal-close:hover { background: red; }
 
 
+.share-items{
+    padding: 0.5rem;
+}
 
+.share-items i{
+    padding-right: 0.3rem;
+}
 
 

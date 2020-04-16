@@ -166,7 +166,7 @@ class NewController
 										$authorId
 										);
 			/** enregistrement des categories dans la bdd */
-			if (isset($lastArticle))
+			if (isset($lastArticle) && !empty($categories))
 			{
 				$catModel = new CategoriesModel();
 				$catModel->addCategories($lastArticle, $categories);

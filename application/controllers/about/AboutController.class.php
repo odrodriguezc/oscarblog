@@ -1,32 +1,23 @@
 <?php
+/**
+ * -  Dans la BDD il y a un article entitulé '_ABOUT' qui sert de format pour la view about
+ * @author ODRC
+ */
 
 class AboutController
 {
     public function httpGetMethod(Http $http, array $queryFields)
     {
-    	/*
-    	 * Méthode appelée en cas de requête HTTP GET
-    	 *
-    	 * L'argument $http est un objet permettant de faire des redirections etc.
-    	 * L'argument $queryFields contient l'équivalent de $_GET en PHP natif.
-    	 */
-	
+    	
 		
-		$tab['test'] = "je suis le Home";
+		$articlesModel = new ArticlesModel();
 		
 		
-		return $tab;
+		return ['about' => $articlesModel->findByTitle('_ABOUT')];
     }
 
     public function httpPostMethod(Http $http, array $formFields)
     {
-    	/*
-    	 * Méthode appelée en cas de requête HTTP POST
-    	 *
-    	 * L'argument $http est un objet permettant de faire des redirections etc.
-    	 * L'argument $formFields contient l'équivalent de $_POST en PHP natif.
-    	 */
-
-		
+    	exit();		
     }
 }

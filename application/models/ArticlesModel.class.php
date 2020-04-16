@@ -105,14 +105,14 @@ class ArticlesModel
     public function add(string $title, string $metaTitle, string $summary, string $content, int $published, string $picture, int $authorId) 
     {   
         $slug = preg_replace("/-$/","",preg_replace(self::SLUG_PATTERN, "-", strtolower($title)));
-        $createdAt = date('Y-m-d, H:i:s');
-        if ($published ==1) 
-        {
-            $publishedAt= $createdAt;
+        if ($published == 1) 
+        {   
+            $date = new DateTime();
+            $publishedAt= $date->getTimestamp();
         } else {
-            $publishedAt = '';
+            $publishedAt = '0000-00-00 00:00:00';
         }
-        return $this->dbh->executeSQL('INSERT INTO '.$this->table.' (title, metaTitle, slug, summary, createdAt, content, published, publishedAt, picture, authorId) VALUES (?,?,?,?,?,?,?,?,?,?)',[$title, $metaTitle, $slug, $summary, $createdAt, $content, $published, $publishedAt, $picture, $authorId]);
+        return $this->dbh->executeSQL('INSERT INTO '.$this->table.' (title, metaTitle, slug, summary,  content, published, publishedAt, picture, authorId) VALUES (?,?,?,?,?,?,?,?,?)',[$title, $metaTitle, $slug, $summary,  $content, $published, $publishedAt,  $picture, $authorId]);
     }
 
     /**

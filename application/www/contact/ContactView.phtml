@@ -1,45 +1,44 @@
 <!-- Main Content -->
 <section class="contact container-80 main">
     <!-- Post Article -->
+    <!-- Post Article -->
     <article class="post">
       <header class="post">
-        <h1 class="title">Contact </h1>
+        <h1 class="title">Nous contacter </h1>
+        <h2 class="subtitle"><?= $contacts['metaTitle']?> </h2>
       </header>
       
       <section class="body-post">
-        <img class="post-img img-big" src="<?= $wwwUrl ?>/images/upload/articles/test.png" alt="article">
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione accusantium ad consequatur dicta.</p>
+        <img class="post-img img-big" src="<?= $wwwUrl ?>/assets/images/posts/md_<?= $contacts['picture'] ? $contacts['picture'] : 'default_picture.jpg' ?>" alt="article">
+        <div class="post-content"> 
+        <?= $contacts['content']?>
+        </div>
       </section>
       
       <footer class="post">
         <aside class="post flex">
-            <p class="post-references"><a class="open-modal" href="#modal-open"><i class="fas fa-share"></i>Share</a></p>
+            <p class="post-references"><a class="open-modal share-items" href="#modal-open"><i class="fas fa-share"></i>Share</a></p>
 
-            <!--Share Modal -->
             <div id="modal-open" class="modal-dialog">
               <div class="modal-content">
                 <a href="#close" title="Close" class="modal-close"><i class="fas fa-times"></i></a>
                 <h4>Share</h4>
                 <nav class="post-share">
                   <ul class="share-buttons">
-                    <li>
-                      <a href="#"><i class="fab fa-facebook"></i>Facebook  
+                    <li class="share-items">
+                      <a class="share-facebook" href="https://www.facebook.com/sharer/sharer.php?u=<?= $_SERVER['HTTP_HOST']?>/contacts/"><i class="fab fa-facebook" target="_blank"></i>Facebook  
                       </a>
                     </li>
-                    <li>
-                      <a href="#"><i class="fab fa-twitter"></i>Twitter
+                    <li class="share-items">
+                      <a class="share-twitter" href="https://twitter.com/intent/tweet?text=Qui%20sommes%20nous?%20<?= $_SERVER['HTTP_HOST']?>/contacts/>" target="_blank"><i class="fab fa-twitter"></i>Twitter
                       </a>
                     </li>
-                    <li>
-                      <a href="#"><i class="fab fa-instagram"></i>Instagram
+                    <li class="share-items">
+                      <a class="share-linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=<?= $_SERVER['HTTP_HOST']?>/contacts/&title=Qui%20sommes-Nous&summary=Notre%20philosophie&source=<?= $_SERVER['HTTP_HOST']?>" target="_blank"><i class="fab fa-linkedin"></i>Linkedin
                     </a>
                     </li>
-                    <li>
-                      <a href="#"><i class="fab fa-paper-plane"></i>Mail
-                    </a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="fab fa-whatsapp"></i>Whatsapp
+                    <li class="share-items">
+                      <a class="share-email" href="mailto:?subject=Qui%20sommes-nous&body=<?= $requestUrl?>/contacts/" target="_blank"><i class="far fa-envelope"></i>Mail
                     </a>
                     </li>
                   </ul>
@@ -49,6 +48,8 @@
         </aside>
       </footer>
     </article>
+
+
     <form class="contact" action="<?= $requestUrl ?>/contact/" method="post">
 
         <input class="txt" type="text" name="name" id="name" placeholder="Name">

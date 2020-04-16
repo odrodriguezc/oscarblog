@@ -1,13 +1,20 @@
 
 
 <!-- Main Content -->
-<section class="gallery articles main">
-  <div class="title">
-      <h1>Articles</h1>
-  </div>
-    <p class="container-80 presentation">
-        presentation:
-    </p>
+<section class="gallery articles main container-80">
+  <!-- Post Article -->
+    <article class="post">
+      <header class="post">
+        <h1 class="title">Articles </h1>
+      </header>
+      
+      <section class="body-post">
+        <img class="post-img img-big" src="<?= $wwwUrl ?>/assets/images/posts/md_<?= $presentation['picture'] ? $presentation['picture'] : 'default_picture.jpg' ?>" alt="article">
+        <div class="post-content"> 
+        <?= $presentation['content']?>
+        </div>
+      </section>
+    </article>
 
 </section>
 
@@ -18,7 +25,7 @@
     <article class="post">
         <header class="post">
             <h1 class="title"><a href="/articles/article/?id=<?= $article['id']?>"><?=$article['title']?></a> </h1>
-            <h4 class="subtitle"><?=$article['metaTitle']?>  </h4>
+            <h4 class="subtitle left"><?=$article['metaTitle']?>  </h4>
          </header>
       
         <section class="body-post">
@@ -41,7 +48,7 @@
                 <a class="dislikes" href="/articles/action/?id=<?=$article['id']?>&action=dislikes" data-id="<?=$article['id']?>"><i class="fas fa-heart-broken"></i>
                 </a>
                  <span class="dislikesCount" data-id="<?=$article['id']?>">  <?=$article['dislikes']?> </span> 
-                <a class="share" href="/articles/action/?id=<?=$article['id']?>&action=share" data-id="<?=$article['id']?>"><i class="fas fa-share"></i>
+                <a class="share" class="open-modal share-items" href="#modal-open"  data-id="<?=$article['id']?>" data-title="<?=$article['title']?>"><i class="fas fa-share"></i>
                 </a>
                 <span class="shareCount" data-id="<?=$article['id']?>">   <?=$article['share']?></span>
             </div>
@@ -60,5 +67,32 @@
         </nav>
     </div>
 </section>
+
+<div id="modal-open" class="modal-dialog">
+    <div class="modal-content">
+    <a href="#close" title="Close" class="modal-close"><i class="fas fa-times"></i></a>
+    <h4>Share</h4>
+    <nav class="post-share">
+        <ul class="share-buttons">
+        <li class="share-items">
+            <a class="share-facebook" href=""><i class="fab fa-facebook" target="_blank"></i>Facebook  
+            </a>
+        </li>
+        <li class="share-items">
+            <a class="share-twitter" href="" target="_blank"><i class="fab fa-twitter"></i>Twitter
+            </a>
+        </li>
+        <li class="share-items">
+            <a class="share-linkedin" href="" target="_blank"><i class="fab fa-linkedin"></i>Linkedin
+        </a>
+        </li>
+        <li class="share-items">
+            <a class="share-email" href="" target="_blank"><i class="far fa-envelope"></i>Mail
+        </a>
+        </li>
+        </ul>
+    </nav>
+    </div>
+</div>
 
 <script src="<?= $wwwUrl ?>/js/articles.js"></script>

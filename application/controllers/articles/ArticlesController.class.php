@@ -15,6 +15,7 @@ class ArticlesController
 		$flashbag = new FlashBag();
 
 		$gateway = ['articlesList' => $ArticlesModel->listPublishedAll(),
+					'presentation' => $ArticlesModel->findByTitle('_PRESENTATION'),
 					'flashbag' => $flashbag->fetchMessages()
 					];
 
