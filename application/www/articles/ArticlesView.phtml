@@ -28,10 +28,22 @@
       
         <footer class="post">
             <aside class="post flex">
-                <p class="post references">Ecrit par <a id="post-author" href="#"><?=$article['authorName']?> </a> at <span id="post-date"> <?=$article['createdAt']?> </span></p>
+                <p class="post references">Ecrit par 
+                    <a id="post-author" href="#"><?=$article['authorName']?> </a> at <span id="post-date"> <?=$article['createdAt']?> </span>
+                </p>
             </aside>
-            <div>
-                <span>Likes   <?=$article['like']?> </span>  <span>Dislikes  <?=$article['dislike']?> </span> <span>Shares   <?=$article['share']?></span>
+            <div class="reactions">
+                <a class="likes" href="/articles/action/?id=<?=$article['id']?>&action=likes" data-id="<?=$article['id']?>">
+                    <i class="fas fa-heart"></i>
+                </a>  
+                <span data-id="<?=$article['id']?>" class="likesCount"> <?=$article['likes']?> </span>
+                
+                <a class="dislikes" href="/articles/action/?id=<?=$article['id']?>&action=dislikes" data-id="<?=$article['id']?>"><i class="fas fa-heart-broken"></i>
+                </a>
+                 <span class="dislikesCount" data-id="<?=$article['id']?>">  <?=$article['dislikes']?> </span> 
+                <a class="share" href="/articles/action/?id=<?=$article['id']?>&action=share" data-id="<?=$article['id']?>"><i class="fas fa-share"></i>
+                </a>
+                <span class="shareCount" data-id="<?=$article['id']?>">   <?=$article['share']?></span>
             </div>
         </footer>
     </article>
@@ -48,3 +60,5 @@
         </nav>
     </div>
 </section>
+
+<script src="<?= $wwwUrl ?>/js/articles.js"></script>

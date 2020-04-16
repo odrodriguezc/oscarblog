@@ -209,8 +209,21 @@ aside.sidebar {
     margin-top: 2rem;
 }
 
+aside.sidebar section{
+    margin-bottom: 3rem;
+    border-bottom: 1px solid black;
+}
+
+aside.sidebar section li{
+    padding: 0.5rem;
+}
+
+aside.sidebar ul{
+    padding-left: 0px;
+}
+
 article.post {
-    overflow: auto;
+    /*overflow: auto;*/
     margin-bottom: 3rem;
     border-bottom: 1px solid black;
 }
@@ -233,6 +246,77 @@ article.post {
 
 .presentation{
     margin-bottom: 3rem;
+}
+
+.reactions{
+    padding: 1rem;
+}
+
+.follow-me form{
+    margin-bottom: 2rem;
+}
+
+/***** WEATHER  
+@todo ajouter backgrounds
+*******/
+.clear{
+    background-image: url();
+}
+
+.clouds{
+    background-image: url();
+}
+
+.rain{
+    background-image: url();
+}
+
+.snow{
+    background-image: url();
+}
+
+section.weather {
+    font-family: fantasy;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+section.weather h1{
+    font-size: 3rem;
+}
+
+i.wi{
+    font-size: 5rem;
+    padding: 1rem;
+}
+
+section.weather h2{
+    font-size: 2em;
+}
+
+#cityWeather.tooltip{
+    position: absolute;
+    top: 0px;
+    left: 10px;
+    opacity: 0;
+    color: #fff;
+    background-color: #222222;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 12px;
+    transition: opacity .3s, top .5s;
+}
+
+h1:hover #cityWeather.tooltip{
+    top:-50px;
+    opacity: 1;
+}
+
+#conditions{
+    text-transform: capitalize;
 }
 
 /********* CONTACT ******************/

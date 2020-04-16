@@ -12,8 +12,8 @@ class PictureForm extends Form
         $this->addFormField('uploadAt');
         $this->addFormField('publishedAt');
         $this->addFormField('metadata');
-        $this->addFormField('like');
-        $this->addFormField('dislike');
+        $this->addFormField('likes');
+        $this->addFormField('dislikes');
         $this->addFormField('share');
         $this->addFormField('authorId');
         $this->addFormField('collections');

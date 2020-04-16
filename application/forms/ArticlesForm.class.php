@@ -12,8 +12,8 @@ class ArticlesForm extends Form
         $this->addFormField('publishedAt');
         $this->addFormField('content');
         $this->addFormField('picture');
-        $this->addFormField('like');
-        $this->addFormField('dislike');
+        $this->addFormField('likes');
+        $this->addFormField('dislikes');
         $this->addFormField('share');
         $this->addFormField('author_id');
         $this->addFormField('originalPicture');

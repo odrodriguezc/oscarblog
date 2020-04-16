@@ -42,12 +42,12 @@ class ArticlesModel
 
      /** Retourner un tableau de tous les posts publiés
      *
-     * @param void
+     * @param int limit 
      * @return Array Jeu d'enregistrement représentant tous les posts
      */
-    public function listPublishedAll() 
+    public function listPublishedAll(int $limit = 1000) 
     {
-        return $this->dbh->query('SELECT post.*,  user.id AS authorId, user.username AS authorName FROM '.$this->table.' INNER JOIN user ON post.authorId = user.id WHERE post.published = 1 ORDER BY post.createdAt DESC');
+        return $this->dbh->query("SELECT post.*,  user.id AS authorId, user.username AS authorName FROM {$this->table} INNER JOIN user ON post.authorId = user.id WHERE post.published = 1 ORDER BY post.publishedAt DESC LIMIT {$limit}");
     }
 
     /** Trouver un post avec son ID
@@ -67,8 +67,8 @@ class ArticlesModel
                                             post.updatedAt, 
                                             post.content, 
                                             post.picture, 
-                                            post.like, 
-                                            post.dislike, 
+                                            post.likes, 
+                                            post.dislikes, 
                                             post.share, 
                                             user.id AS authorId, 
                                             user.username AS authorName 
@@ -187,6 +187,36 @@ class ArticlesModel
 
         $limitedStr = func_num_args() == 2 && $limit !=0 ? "LIMIT {$limit}" : '';
         return $this->dbh->query('SELECT *, TIMESTAMPDIFF(MINUTE,updatedAt,CURRENT_TIMESTAMP) AS timePast FROM '.$this->table.' WHERE authorId=? ORDER BY updatedAt '.$limitedStr.' ',[$id]);
+    }
+
+
+    /**
+     * setAction
+     * 
+     * Ajoute une unité sur le count de l'action
+     * @param int id
+     * @param string action (likes, dislikes, share)
+     * @return mixed 
+     * @author ODRC
+     */
+    public function setAction(int $id, string $action)
+    {
+        return $this->dbh->executeSql("UPDATE {$this->table} SET {$action}={$action} + 1 WHERE id=?",[$id]);
+    }
+
+    /**
+     * countAction
+     * 
+     * Return le total pour une action (likes, dislikes, share)
+     * 
+     * @param int id
+     * @param string action 
+     * @return int 
+     * @author ODRC
+     */
+    public function countAction(int $id, string $action)
+    {
+        return $this->dbh->queryOne("SELECT {$action} FROM {$this->table} WHERE id=?", [$id]);
     }
 
    

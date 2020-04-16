@@ -13,9 +13,21 @@ class HomeController
 	
 		
 	
-		
-		
-		return ;
+		$ArticlesModel = new ArticlesModel();
+		$catModel = new CategoriesModel();
+		$flashbag = new FlashBag();
+
+		$articleList = $ArticlesModel->listPublishedAll(3);
+		$catList = $catModel->listAll();
+
+
+
+
+		$gateway = 	['articlesList' => $articleList,
+					'catList' => $catList,
+					'flashbag' => $flashbag->fetchMessages()
+					];	
+		return $gateway;
     }
 
     public function httpPostMethod(Http $http, array $formFields)

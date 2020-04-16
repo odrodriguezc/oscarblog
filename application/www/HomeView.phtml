@@ -3,9 +3,9 @@
 <!-- Code HTML à écrire -->
 
 <!--vendor-->
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.css">
 <link rel="stylesheet" href="<?= $wwwUrl ?>/css/flexslider.css">
-<script src="<?= $wwwUrl ?>/assets/plugins/jquery/jquery.flexslider-min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flexslider/2.7.2/jquery.flexslider-min.js"></script>
 
 <!-- flexslider function -->
 <script>
@@ -40,167 +40,37 @@
 
   <section class="blog">
     
-    <!-- Post Article -->
+   <!-- Post Article -->
+   <?php if (isset($articlesList) && is_array($articlesList)):?>
+        <?php foreach ($articlesList as $key => $article) : ?> 
     <article class="post">
-      <header class="post">
-        <h1 class="title">Lorem, ipsum dolor sit amet consectetur </h1>
-        <h2 class="subtitle">Lorem ipsum dolor sit amet, consectetur adipisicing elit. </h2>
-      </header>
+        <header class="post">
+            <h1 class="title"><a href="/articles/article/?id=<?= $article['id']?>"><?=$article['title']?></a> </h1>
+            <h4 class="subtitle"><?=$article['metaTitle']?>  </h4>
+         </header>
       
-      <section class="body-post">
-        <img class="post-img img-big" src="<?= $wwwUrl ?>/images/upload/articles/777-1200x600.jpg" alt="article">
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione accusantium ad consequatur dicta. Nobis eum impedit vero minima quod quibusdam non beatae omnis eligendi, eaque id aperiam. Quae, eos sunt?</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione accusantium ad consequatur dicta. Nobis eum impedit vero minima quod quibusdam non beatae omnis eligendi, eaque id aperiam. Quae, eos sunt?</p>
-      </section>
+        <section class="body-post">
+            <img class="post-img small-img" src="<?= $wwwUrl ?>/assets/images/posts/sm_<?=$article['picture'] != 'NULL' ? $article['picture'] : 'default_picture.jpg' ?> " alt="article">
+            <p><?=$article['summary']?> </p>
+        </section>
       
-      <footer class="post">
-        <aside class="post flex">
-            <p class="post references">Created by <a id="post-author" href="#">Oskr</a> at <span id="post-date"> 23/04/2020</span></p>
-            <p class="post-references"><a class="open-modal" href="#modal-open"><i class="fas fa-share"></i>Share</a></p>
-
-            <div id="modal-open" class="modal-dialog">
-              <div class="modal-content">
-                <a href="#close" title="Close" class="modal-close"><i class="fas fa-times"></i></a>
-                <h4>Share</h4>
-                <nav class="post-share">
-                  <ul class="share-buttons">
-                    <li>
-                      <a href="#"><i class="fab fa-facebook"></i>Facebook  
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="fab fa-twitter"></i>Twitter
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="fab fa-instagram"></i>Instagram
-                    </a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="fab fa-paper-plane"></i>Mail
-                    </a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="fab fa-whatsapp"></i>Whatsapp
-                    </a>
-                    </li>
-                  </ul>
-                </nav>
-              </div>
+        <footer class="post">
+            <aside class="post flex">
+                <p class="post references">Ecrit par <a id="post-author" href="#"><?=$article['authorName']?> </a> at <span id="post-date"> <?=$article['createdAt']?> </span></p>
+            </aside>
+            <div class="reactions">
+                <span>likes   <?=$article['likes']?> </span>  <span>Dislikes  <?=$article['dislikes']?> </span> <span>Shares   <?=$article['share']?></span>
             </div>
-        </aside>
-      </footer>
+        </footer>
     </article>
-
-    <!-- Post Article -->
-    <article class="post">
-      <header class="post">
-        <h1 class="title">Lorem, ipsum dolor sit amet consectetur </h1>
-        <h2 class="subtitle">Lorem ipsum dolor sit amet, consectetur adipisicing elit. </h2>
-      </header>
-      
-      <section class="body-post">
-        <img class="post-img img-big" src="<?= $wwwUrl ?>/images/upload/articles/1000-1200x600" alt="article">
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione accusantium ad consequatur dicta. Nobis eum impedit vero minima quod quibusdam non beatae omnis eligendi, eaque id aperiam. Quae, eos sunt?</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione accusantium ad consequatur dicta. Nobis eum impedit vero minima quod quibusdam non beatae omnis eligendi, eaque id aperiam. Quae, eos sunt?</p>
-      </section>
-      
-      <footer class="post">
-        <aside class="post flex">
-            <p class="post references">Created by <a id="post-author" href="#">Oskr</a> at <span id="post-date"> 23/04/2020</span></p>
-            <p class="post-references"><a class="open-modal" href="#modal-open"><i class="fas fa-share"></i>Share</a></p>
-
-            <div id="modal-open" class="modal-dialog">
-              <div class="modal-content">
-                <a href="#close" title="Close" class="modal-close"><i class="fas fa-times"></i></a>
-                <h4>Share</h4>
-                <nav class="post-share">
-                  <ul class="share-buttons">
-                    <li>
-                      <a href="#"><i class="fab fa-facebook"></i>Facebook  
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="fab fa-twitter"></i>Twitter
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="fab fa-instagram"></i>Instagram
-                    </a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="fab fa-paper-plane"></i>Mail
-                    </a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="fab fa-whatsapp"></i>Whatsapp
-                    </a>
-                    </li>
-                  </ul>
-                </nav>
-              </div>
-            </div>
-        </aside>
-      </footer>
-    </article>
-
-    <!-- Post Article -->
-    <article class="post">
-      <header class="post">
-        <h1 class="title">Lorem, ipsum dolor sit amet consectetur </h1>
-        <h2 class="subtitle">Lorem ipsum dolor sit amet, consectetur adipisicing elit. </h2>
-      </header>
-      
-      <section class="body-post">
-        <img class="post-img img-big" src="<?= $wwwUrl ?>/images/upload/articles/test.png" alt="article">
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione accusantium ad consequatur dicta. Nobis eum impedit vero minima quod quibusdam non beatae omnis eligendi, eaque id aperiam. Quae, eos sunt?</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione accusantium ad consequatur dicta. Nobis eum impedit vero minima quod quibusdam non beatae omnis eligendi, eaque id aperiam. Quae, eos sunt?</p>
-      </section>
-      
-      <footer class="post">
-        <aside class="post flex">
-            <p class="post references">Created by <a id="post-author" href="#">Oskr</a> at <span id="post-date"> 23/04/2020</span></p>
-            <p class="post-references"><a class="open-modal" href="#modal-open"><i class="fas fa-share"></i>Share</a></p>
-
-            <div id="modal-open" class="modal-dialog">
-              <div class="modal-content">
-                <a href="#close" title="Close" class="modal-close"><i class="fas fa-times"></i></a>
-                <h4>Share</h4>
-                <nav class="post-share">
-                  <ul class="share-buttons">
-                    <li>
-                      <a href="#"><i class="fab fa-facebook"></i>Facebook  
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="fab fa-twitter"></i>Twitter
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="fab fa-instagram"></i>Instagram
-                    </a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="fab fa-paper-plane"></i>Mail
-                    </a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="fab fa-whatsapp"></i>Whatsapp
-                    </a>
-                    </li>
-                  </ul>
-                </nav>
-              </div>
-            </div>
-        </aside>
-      </footer>
-    </article>
+        <?php endforeach ?>
+    <?php endif ?>
 
       <!-- Go up Nav -->
     <div class="nav-bar go-up">
       <nav class="flex">
         <a href="#">Go up</a>
-        <a href="#">More</a>
+        <a href="/articles/">More</a>
       </nav>
     </div>
   </section>
@@ -208,47 +78,34 @@
 
   <aside class="sidebar">
 
-    <section class="wethear">
-     
+    <section class="weather">
+     <h1>
+      <span id="city"></span>
+      <span id="cityWeather" class="tooltip">Ecrivez une autre ville</span>
+     </h1> 
+     <i id="weatherIcon" class=""></i>
+     <h2>
+      <span id="temperature"> </span> C°  - <span id="conditions"></span>
+     </h2>
     </section>
 
-    <section class="trend">
+    <section class="trends">
 
 
     </section>
 
-   <section class="seccions">
-     <h2>Seccions</h2>
+   <section class="categories">
+     <h2>Categories</h2>
      <nav class="">
-       <ul class="seccions-list">
-          <li class="">
-            <a href="#">Photos</a>
-            <a href="#"><span class="rond-counter">3</span></a>
+       <ul class="categories-list">
+       <?php if (isset($catList) && is_array($catList)):?>
+        <?php foreach ($catList as $key => $cat) : ?> 
+          <li class="category-item">
+            <a href="#"><?=$cat['title']?></a>
+            <a href="#"><span class="rond-counter">(<?=$cat['post']?>)</span></a>
           </li>
-          <li>
-            <a href="#">Literary</a>
-            <a href="#"><span class="rond-counter">3</span></a>
-          </li>
-          <li>
-            <a href="#">History</a>
-            <a href="#"><span class="rond-counter">3</span></a>
-          </li>
-          <li>
-            <a href="#">Funny</a>
-            <a href="#"><span class="rond-counter">3</span></a>
-          </li>
-          <li>
-            <a href="#">Cinema</a>
-            <a href="#"><span class="rond-counter">3</span></a>
-            </li>
-          <li>
-            <a href="#">Music</a>
-            <a href="#"><span class="rond-counter">3</span></a>
-            </li>
-          <li>
-            <a href="#">Traveling</a>
-            <a href="#"><span class="rond-counter">3</span></a>
-          </li>
+        <?php endforeach ?>
+      <?php endif ?>
        </ul>
      </nav>
    </section>
@@ -320,7 +177,7 @@
 </div>
 
 			
-
+<script src="<?= $wwwUrl ?>/js/weather.js"></script>
 	
 			
 

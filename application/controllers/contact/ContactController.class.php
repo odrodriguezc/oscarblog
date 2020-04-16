@@ -13,7 +13,14 @@ class ContactController
 	
 		$flashbag = new FlashBag();
 		$userSession = new UserSession();
-		$gateway = ['flashbag' => $flashbag->fetchMessages()
+		$articlesModel = new ArticlesModel();
+
+		$contacts =  $articlesModel->findByTitle('__Contacts__');
+
+		$contacts['title'] = strtr($contacts['title'],'_', '');
+
+		$gateway = ['flashbag' => $flashbag->fetchMessages(),
+					'contact' => $contacts
 					];
 		
 		
