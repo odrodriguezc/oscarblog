@@ -24,7 +24,7 @@
         <?php foreach ($articlesList as $key => $article) : ?> 
     <article class="post">
         <header class="post">
-            <h1 class="title"><a href="/articles/article/?id=<?= $article['id']?>"><?=$article['title']?></a> </h1>
+            <h1 class="title"><a href="<?= $requestUrl ?>/articles/article/?id=<?= $article['id']?>"><?=$article['title']?></a> </h1>
             <h4 class="subtitle left"><?=$article['metaTitle']?>  </h4>
          </header>
       
@@ -40,12 +40,12 @@
                 </p>
             </aside>
             <div class="reactions">
-                <a class="likes" href="/articles/action/?id=<?=$article['id']?>&action=likes" data-id="<?=$article['id']?>">
+                <a class="likes" href="<?= $requestUrl ?>/articles/action/?id=<?=$article['id']?>&action=likes" data-id="<?=$article['id']?>">
                     <i class="fas fa-heart"></i>
                 </a>  
                 <span data-id="<?=$article['id']?>" class="likesCount"> <?=$article['likes']?> </span>
                 
-                <a class="dislikes" href="/articles/action/?id=<?=$article['id']?>&action=dislikes" data-id="<?=$article['id']?>"><i class="fas fa-heart-broken"></i>
+                <a class="dislikes" href="<?= $requestUrl ?>/articles/action/?id=<?=$article['id']?>&action=dislikes" data-id="<?=$article['id']?>"><i class="fas fa-heart-broken"></i>
                 </a>
                  <span class="dislikesCount" data-id="<?=$article['id']?>">  <?=$article['dislikes']?> </span> 
                 <a class="share" class="open-modal share-items" href="#modal-open"  data-id="<?=$article['id']?>" data-title="<?=$article['title']?>"><i class="fas fa-share"></i>

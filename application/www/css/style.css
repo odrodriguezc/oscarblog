@@ -242,6 +242,8 @@ article.post {
 .post-content{
     text-align: justify;
     line-height: 1.8rem;
+    margin-bottom: 0.5rem;
+    margin-top: 1rem;
 }
 
 .title{
@@ -351,7 +353,7 @@ form.contact input.txt, textarea{
   -o-transition: all 0.30s ease-in-out;
 }
 
-form.contact input:focus, textarea:focus{
+form.contact input:focus, textarea:focus, #city:focus{
     background-color: none;
     box-shadow: 0 0 5px rgb(25, 29, 31);
     /*padding: 3px 0px 3px 3px;

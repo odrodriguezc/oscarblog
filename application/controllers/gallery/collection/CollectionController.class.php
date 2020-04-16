@@ -13,7 +13,7 @@ class CollectionController
          */
         if ( !array_key_exists('id', $queryFields) || $queryFields['id']==='')
         {   $flashbag->add('Une collection doit etre indiqué');
-            $http->redirectTo('/admin/');
+            $http->redirectTo('/');
         }
         
         $validator = new DataValidation();
