@@ -39,8 +39,8 @@
                               <td><?=$article['createdAt']?></td>
                               <td><?=$article['published']?></td>
                               <td>
-                                  <a class="editLink mr-1" href="<?= $requestUrl ?>/admin/articles/edit/?id=<?=$article['id']?>"><i class="fas fa-user-edit"></i></a>
-                                  <a class="delLink ml-1" data-toggle="modal" data-target="#delArticleModal" href="#delArticleModal" data-id="<?=$article['id']?>" data-title="<?=$article['title']?>"><i class="fas fa-trash-alt"></i></a>
+                                  <a class="editLink mr-1" href="<?= $requestUrl ?>/admin/articles/edit/?id=<?=$article['id']?>"><i class="mdi mdi-account-edit"></i></a>
+                                  <a class="delLink ml-1" data-toggle="modal" data-target="#delArticleModal" href="#delArticleModal" data-id="<?=$article['id']?>" data-title="<?=$article['title']?>"><i class="mdi mdi-delete"></i></a>
                               </td>
                           </tr>
                       <?php endforeach;?>

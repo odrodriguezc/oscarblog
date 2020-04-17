@@ -45,7 +45,7 @@ class ArticleController
         $selectedCat = $catModel->findByPost(intval($dataId));
 
 
-		$gateway = ['article' => $article, 'selectedCat' => $selectedCat];
+		$gateway = ['article' => $article, 'selectedCat' => $selectedCat, 'pageTitle' => $http->getRequestFile()];
 	
 		return $gateway;
     }

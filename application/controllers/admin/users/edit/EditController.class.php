@@ -51,7 +51,7 @@ class EditController
 		 * 
 		 */
         $user = $userModel->find($dataId);
-		$gateway['roles'] = $userModel->role;
+		
 
         if ($user == false) 
         {
@@ -74,7 +74,9 @@ class EditController
 						'status' => $user['status'],
                         'originalAvatar' => $user['avatar']
                     ));
-		$gateway['_form'] = $form;
+        $gateway = ['_form' => $form,
+                    'roles' => $userModel->role,
+                    'pageTitle' => $http->getRequestFile()];
 		
 		return $gateway;
     }

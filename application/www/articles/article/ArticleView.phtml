@@ -39,6 +39,20 @@
     </article>
 </section>
 
+<section class="comments container-80">
+    <p>Commentaires</p>
+    <?php if (isset($comments)):?>
+        <?php foreach ($comments as $key => $comment) : ?>
+            <article>
+                <h6><?=$comment['title']?></h6>
+                <div>
+                    <?=$comment['content']?>
+                </div>
+                <p>Redigé par <span><?=$comment['username']?></span> le <span><?=$comment['publishedAt']?></span></p>
+            </article>
+        <?php endforeach ?>
+    <?php endif ?>
+    <p><a clas="link" href="#">Ajouter un commentaire</a></p>
 <div id="modal-open" class="modal-dialog">
     <div class="modal-content">
     <a href="#close" title="Close" class="modal-close"><i class="fas fa-times"></i></a>

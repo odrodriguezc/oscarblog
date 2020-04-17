@@ -50,15 +50,15 @@
             <div class="card-block">
                 <h4>Stats</h4>
                 <div class="container d-flex justify-content-around">
-                    <span><i class="far fa-thumbs-up"></i><?=$article['likes']?></span>
-                    <span><i class="far fa-thumbs-down"></i><?=$article['dislikes']?></span>
-                    <span><i class="far fa-share-square"></i><?=$article['share']?></span>
+                    <span><i class=" mdi mdi-thumb-up"></i><?=$article['likes']?></span>
+                    <span><i class=" mdi mdi-thumb-down"></i><?=$article['dislikes']?></span>
+                    <span><i class=" mdi mdi-share"></i><?=$article['share']?></span>
                 </div>
             </div>
         </div>
         <div class="card">
             <div class="card-block">
-                <a class="link" href="<?= $requestUrl ?>/admin/articles/preview/?id=<?=$article['id']?>'"><i class="far fa-eye"></i> Apercu</a>
+                <a class="link" href="<?= $requestUrl ?>/admin/articles/preview/?id=<?=$article['id']?>'"><i class="mdi-eye"></i> Apercu</a>
                 <label class="checkbox-inline"> <span class="mr-5"> Publier : </span>
                     <input type="checkbox" name="published" id="publishedChk" value="1" data-toggle="toggle" data-style="ios" data-offstyle="danger" <?= $article['published']==1 ? 'checked' : ''?>> 
                 </label>

@@ -40,7 +40,8 @@ class UsersController
 		 */
 		$gateway = ['usersList' => $userModel->listAll(),
 					'roles' => $userModel->role,
-					'flashbag' => $flashbag->fetchMessages()
+					'flashbag' => $flashbag->fetchMessages(),
+					'pageTitle' => $http->getRequestFile()
 					];
 		
 		return $gateway;

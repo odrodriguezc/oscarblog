@@ -40,7 +40,8 @@ class ArticlesController
 		$ArticlesModel = new ArticlesModel();
 
 		$gateway = ['articlesList' => $ArticlesModel->listAll(),
-					'flashbag' => $flashbag->fetchMessages()
+					'flashbag' => $flashbag->fetchMessages(),
+					'pageTitle' => $http->getRequestFile()
 					];
 
 		return $gateway;

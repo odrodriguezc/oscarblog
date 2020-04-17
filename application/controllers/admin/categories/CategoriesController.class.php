@@ -40,7 +40,8 @@ class CategoriesController
 		 * @var array fetchMessages appel à la methode fechtMessages de lac la class Flashbag
 		 */
 		$gateway = ['catList' => $catModel->orderCategories($catModel->listAll()),
-					'flashbag' => $flashbag->fetchMessages()
+					'flashbag' => $flashbag->fetchMessages(),
+					'pageTitle' => $http->getRequestFile()
 					];
 
 		/** Function récursive (qui s'appelle elle même) permettant d'afficher un tableau 
@@ -59,8 +60,8 @@ class CategoriesController
 				else
 					$classBadge = 'badge-primary';
 				
-				$html.= '<li class="list-group-item d-flex justify-content-between align-items-center">'.$category['title'].' <span><a href="'.$url.'/admin/categories/edit/?id='.$category['id'].'&pId='.$category['parentId'].'"><i class="far fa-edit"></i></a> 
-					<a class="delLink" href="#delCatModal" data-id='.$category['id'].' data-parent='.$category['parentId'].'  data-title='.$category['title'].' data-toggle="modal" data-target="#delCatModal"><i class="icon-trash"></i></a>
+				$html.= '<li class="list-group-item d-flex justify-content-between align-items-center">'.$category['title'].' <span><a href="'.$url.'/admin/categories/edit/?id='.$category['id'].'&pId='.$category['parentId'].'"><i class="mdi mdi-grease-pencil"></i></a> 
+					<a class="delLink" href="#delCatModal" data-id='.$category['id'].' data-parent='.$category['parentId'].'  data-title='.$category['title'].' data-toggle="modal" data-target="#delCatModal"><i class="mdi mdi-delete"></i></a>
 				<span class="badge badge-pill '.$classBadge.'">'.$category['post'].' article(s)</span></span>';
 				
 				if(isset($category['childrens']))

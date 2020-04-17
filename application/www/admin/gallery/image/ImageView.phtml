@@ -43,7 +43,7 @@
                             <?php foreach ($collections as $key => $collection) :?>
                             <span class="inCollection" data-collectionId=<?=$collection['id']?>>
                                 <a class="colLink" data-collectionId = "<?=$collection['id']?>"   href="<?= $requestUrl ?>/admin/gallery/gallery/collections/col/?id=<?=$collection['id']?>"><?=$collection['title']?></a>
-                                <a class="ml-1 popOff" data-collectionId ="<?=$collection['id']?>"  href="<?= $requestUrl ?>/admin/gallery/gallery/collections/pop/"><i class="far fa-trash-alt"></i></a>
+                                <a class="ml-1 popOff" data-collectionId ="<?=$collection['id']?>"  href="<?= $requestUrl ?>/admin/gallery/gallery/collections/pop/"><i class="mdi mdi-delete-sweep"></i></a>
                             </span>
                             <?php endforeach ?>
                         <?php endif ?>

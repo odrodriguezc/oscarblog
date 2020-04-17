@@ -102,7 +102,9 @@ class ProfileController
 					'user' => $user,
 					'articles' => $articles,
 					'comments' => $comments,
-					'pics' => $pics
+					'pics' => $pics,
+					'flashbag' => $flashbag->fetchMessages(),
+					'pageTitle' => 'Profile'
 					];
 
 

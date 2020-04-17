@@ -108,10 +108,10 @@ class ArticlesModel
         if ($published == 1) 
         {   
             $date = new DateTime();
-            $publishedAt= $date->getTimestamp();
         } else {
-            $publishedAt = '0000-00-00 00:00:00';
+            $date = new DateTime('1988-07-16');
         }
+        $publishedAt= $date->format('Y-m-d H:i:s');
         return $this->dbh->executeSQL('INSERT INTO '.$this->table.' (title, metaTitle, slug, summary,  content, published, publishedAt, picture, authorId) VALUES (?,?,?,?,?,?,?,?,?)',[$title, $metaTitle, $slug, $summary,  $content, $published, $publishedAt,  $picture, $authorId]);
     }
 
@@ -130,12 +130,13 @@ class ArticlesModel
      */
     public function update(int $id, string $title, string $metaTitle, string $summary, string $content, int $published, string $picture )
     {
-        if ($published ==1) 
-        {
-            $publishedAt= date('Y-m-d, H:i:s');
+        if ($published == 1) 
+        {   
+            $date = new DateTime();
         } else {
-            $publishedAt = '';
+            $date = new DateTime('1988-07-16');
         }
+        $publishedAt= $date->format('Y-m-d H:i:s');
         $slug = preg_replace("/-$/","",preg_replace(self::SLUG_PATTERN, "-", strtolower($title)));
         $this->dbh->executeSQL('UPDATE '.$this->table.' SET title=?, slug=?, metaTitle=?, summary=?, content=?, published=?, publishedAt=?, picture=? WHERE id=?',[$title, $slug, $metaTitle, $summary, $content, $published, $publishedAt, $picture, $id]); 
 

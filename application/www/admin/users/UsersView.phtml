@@ -33,8 +33,8 @@
                                 <td data-UseRole="<?=$user['role']?>"><?= array_search($user['role'], $roles)?></td>
                                 <td><?=$user['status']?></td>
                                 <td>
-                                    <a class="editLink mr-1"href="<?= $requestUrl ?>/admin/users/edit/?id=<?=$user['id']?>"><i class="fas fa-user-edit"></i></a>
-                                    <a class="delLink ml-1" data-toggle="modal" data-target="#delUserModal" href="#delUserModal" data-id=<?=$user['id']?> data-username=<?=$user['username']?>><i class="fas fa-trash-alt"></i></span>
+                                    <a class="editLink mr-1"href="<?= $requestUrl ?>/admin/users/edit/?id=<?=$user['id']?>"><i class="mdi mdi-account-edit"></i></a>
+                                    <a class="delLink ml-1" data-toggle="modal" data-target="#delUserModal" href="#delUserModal" data-id=<?=$user['id']?> data-username=<?=$user['username']?>><i class="mdi mdi-delete"></i></span>
                                 </td>
                             </tr>
                         <?php endforeach;?>

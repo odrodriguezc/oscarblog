@@ -36,7 +36,7 @@ class EditController
 		 * 
 		 */
 		$user = $userModel->find($userSession->getId());
-		$gateway['roles'] = $userModel->role;
+	
 
 		/**
 		 * Instance du formulair user et passage de l'information  de l'utilisateur dans la vue à l'exception du password pour des raison de securité 
@@ -54,7 +54,9 @@ class EditController
 						'status' => $user['status'],
                         'originalAvatar' => $user['avatar']
                     ));
-		$gateway['_form'] = $form;
+        $gateway = ['_form' => $form,
+                    'roles' => $userModel->role,
+                'pageTitle' => $http->getRequestFile()];
 		
 		return $gateway;
     }
@@ -86,21 +88,37 @@ class EditController
         }
 
 
-        $usersModel = new UsersModel();
-        //recuperation de l'utilisateur à modifier en BDD 
-        $selectedUser = $usersModel->find($userSession->getId());
 		try
         {            
-           //On vérifie que tous les champs obligatoires sont remplis 
+            $usersModel = new UsersModel();
+            //recuperation de l'utilisateur à modifier en BDD 
+            $selectedUser = $usersModel->find($userSession->getId());
+
+            if (!$selectedUser) {
+                throw new DomainException("le profil n'a pas été trouvé");
+            }
+
             $validator = new DataValidation();
-            $validator->obligatoryFields(['username' => $formFields['username'], 
-                                             'email' => $formFields['email'],
-                                             'role' => $formFields['role'],
-                                             'status' => $formFields['status'],
-                                             'currentPassword' =>$formFields['currentPassword'],
-                                             'password' =>$formFields['password'],
-                                             'confirmPassword' =>$formFields['confirmPassword']
-                                        ]); 
+           //On vérifie que tous les champs obligatoires sont remplis 
+
+            if (isset($formFields['changePassword']))
+            {
+                $validator->obligatoryFields(['username' => $formFields['username'], 
+                                                 'email' => $formFields['email'],
+                                                 'role' => $formFields['role'],
+                                                 'status' => $formFields['status'],
+                                                 'currentPassword' =>$formFields['currentPassword'],
+                                                 'password' =>$formFields['password'],
+                                                 'confirmPassword' =>$formFields['confirmPassword']
+                                            ]); 
+                
+            } else {
+                $validator->obligatoryFields(['username' => $formFields['username'], 
+                                                 'email' => $formFields['email'],
+                                                 'role' => $formFields['role'],
+                                                 'status' => $formFields['status']
+                                            ]); 
+            }
 
             //securisation de la donné 
             $data = $validator->formFilter($formFields);
@@ -122,14 +140,26 @@ class EditController
             if ($data['profile']!='')
                 $validator->lengtOne($data['profile'],'Profil',5000);
             
-           /**current Password check */
-           if(!$selectedUser || !password_verify($data['password'],$selectedUser['passwordHash']))
-                $validator->addError('Mot de passe incorrect !');
-
-            //password
-            if($validator->password($data['password'], $data['confirmPassword']))  
-                /**Chifrage du mot de pass avec la methode HASH */
-                $passwordHash = password_hash($data['password'], PASSWORD_DEFAULT);
+            if (isset($formFields['changePassword']))
+            {
+                /**current Password check */
+                if (!password_verify($data['currentPassword'],$selectedUser['passwordHash']))
+                {
+                    $validator->addError('Mot de passe actuel incorrect !');
+                } else{
+                    
+                    if ($validator->password($data['password'], $data['confirmPassword']))
+                    {
+                        /**
+                         * @todo ajouter une condition pour eviter que le user ne enregistre l'ancien pasword
+                         */
+                        $passwordHash = password_hash($data['password'], PASSWORD_DEFAULT);
+                    }  
+                    $passwordHash = $selectedUser['passwordHash'];
+                }
+            } else {
+                $passwordHash = $selectedUser['passwordHash'];
+            }
 
             /**
              * verification d'unicité du username et du mail 
@@ -201,7 +231,7 @@ class EditController
                 $avatarName = $formFields['originalAvatar'];
             }
 
-            if (empty($validator->getErrors()) != true)
+            if (!empty($validator->getErrors()))
             {
                 //supprimer images
                 if ($avatarName != $formFields['originalAvatar'] && file_exists(WWW_PATH."/assets/images/users/bg_".$avatarName))
@@ -236,6 +266,9 @@ class EditController
             
             /** Ajout du flashbag */
             $flashbag->add('L\'utilisateur a bien été modifiée');
+
+            //mettre a jour la session
+            $_SESSION['user']['avatar'] = $avatarName;
             
             /** Redirection vers la liste */
             $http->redirectTo('/admin/profile/');
@@ -252,7 +285,8 @@ class EditController
             $form->addError($exception->getMessage());
  
         return      ['_form' => $form,
-                        'roles' => $usersModel->role
+                        'roles' => $usersModel->role,
+                        'pageTitle' => $http->getRequestFile()
                     ];
         
         }

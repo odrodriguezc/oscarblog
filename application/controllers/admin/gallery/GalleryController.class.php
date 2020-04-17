@@ -54,7 +54,8 @@ class GalleryController
 		 */
 		$gateway = ['picList' => $picList,
 					'picsByCollection' => $sortPicsByCollection,
-					'flashbag' => $flashbag->fetchMessages()
+					'flashbag' => $flashbag->fetchMessages(),
+					'pageTitle' => $http->getRequestFile()
 					];
 
 		return $gateway;

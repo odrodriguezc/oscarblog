@@ -37,6 +37,15 @@ class CommentsModel
         return $this->dbh->query("SELECT * FROM {$this->table}");
     }
 
+    public function listByPost(int $postId)
+    {
+    return $this->dbh->query("SELECT *, u.username AS username 
+                                FROM {$this->table}
+                                INNER JOIN user AS u ON u.id = {$this->table}.authorId
+                                WHERE postId = ? AND published=1",
+                                [$postId]);
+    }
+
     /**
      * findByPostAuthor
      * 

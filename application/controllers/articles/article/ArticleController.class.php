@@ -5,7 +5,7 @@ class ArticleController
     public function httpGetMethod(Http $http, array $queryFields)
     {
     	
-		$ArticlesModel = new ArticlesModel();
+        $ArticlesModel = new ArticlesModel();
         $flashbag = new FlashBag();
         
         if ( !array_key_exists('id', $queryFields) || $queryFields['id'] ==='')
@@ -13,13 +13,16 @@ class ArticleController
             $http->redirectTo('/home/');
         }
         
+        $commentsModel = new CommentsModel();
         $validator = new DataValidation();
         $dataId = $validator->inputFilter($queryFields['id']);
 
         $article = $ArticlesModel->find($dataId);
+        $comments = $commentsModel->listByPost($dataId);
         
         $gateway =  ['article' => $article,
-					'flashbag' => $flashbag->fetchMessages()
+                    'flashbag' => $flashbag->fetchMessages(),
+                    'comments' => $comments
                     ];
 		
 		return $gateway;
