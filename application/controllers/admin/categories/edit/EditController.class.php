@@ -55,7 +55,8 @@ class EditController
 		  * @var _form Array contenat les variables fournis par la class UsersForm
 		  */
         $gateway = ['_form' => $form,
-                    'catList' => $catList
+					'catList' => $catList,
+					'pageTitle' => $http->getRequestFile()
 		];
 
 	

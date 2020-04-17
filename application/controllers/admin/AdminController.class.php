@@ -25,8 +25,11 @@ class AdminController
         if ($userSession->isAuthorized([1,2,3])==false)
 			$http->redirectTo('/admin/');
 		
+		//temporaire
+		$http->redirectTo('/admin/profile/');
 		
-		return ['flashbag' => $flashbag->fetchMessages()];
+		return ['flashbag' => $flashbag->fetchMessages(),
+				'pageTitle' => $http->getRequestFile()];
     }
 
     public function httpPostMethod(Http $http, array $formFields)

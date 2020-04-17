@@ -166,5 +166,5 @@ class UserSession
 			return in_array(intval($_SESSION['user']['role']),$authorizedRoles,$strict = true);
 		}
 
-
+	
 	}

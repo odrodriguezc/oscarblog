@@ -32,7 +32,8 @@ class NewController
 		$catList = $catModel->listAll();
 
 		return ['_form' => new ArticlesForm(),
-				'catList' => $catList
+				'catList' => $catList,
+				'pageTitle' => $http->getRequestFile()
 				];
     }
 
@@ -156,21 +157,24 @@ class NewController
 			
 			$authorId = $userSession->getId();
 
-			/** Enregistrer les données dans la base de données */
-			$lastArticle = $articlesModel->add($data['title'], 
-										$data['metaTitle'],
-										$data['summary'],
-										$data['content'],
-										$data['published'],
-										$pictureNameBd,
-										$authorId
-										);
-			/** enregistrement des categories dans la bdd */
-			if (isset($lastArticle) && !empty($categories))
-			{
-				$catModel = new CategoriesModel();
-				$catModel->addCategories($lastArticle, $categories);
-			}
+
+		
+				/** Enregistrer les données dans la base de données */
+				$lastArticle = $articlesModel->add($data['title'], 
+											$data['metaTitle'],
+											$data['summary'],
+											$data['content'],
+											$data['published'],
+											$pictureNameBd,
+											$authorId
+											);
+				/** enregistrement des categories dans la bdd */
+				if (isset($lastArticle) && !empty($categories))
+				{
+					$catModel = new CategoriesModel();
+					$catModel->addCategories($lastArticle, $categories);
+				}
+			
 
 
 			/** Ajout du flashbag */

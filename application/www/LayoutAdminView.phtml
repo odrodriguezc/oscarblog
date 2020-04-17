@@ -11,15 +11,12 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="<?= $wwwUrl ?>/assets/images/favicon.png">
-    <title>Material Pro Admin Template - The Most Complete & Trusted Bootstrap 4 Admin Template</title>
+    <title>Oscarblog backoffice</title>
     <!-- Bootstrap Core CSS -->
     <link href="<?= $wwwUrl ?>/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Toogle -->
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-    <!-- chartist CSS - 
-    <link href="<?= $wwwUrl ?>/assets/plugins/chartist-js/dist/chartist.min.css" rel="stylesheet">
-    <link href="<?= $wwwUrl ?>/assets/plugins/chartist-js/dist/chartist-init.css" rel="stylesheet">
-    <link href="<?= $wwwUrl ?>/assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.css" rel="stylesheet">-->
+    
     <!--This page css - Morris CSS -->
     <link href="<?= $wwwUrl ?>/assets/plugins/c3-master/c3.min.css" rel="stylesheet">
     <!-- Custom CSS -->
@@ -51,18 +48,15 @@
                 <!-- Logo -->
                 <!-- ============================================================== -->
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="index.html">
-                        <!-- Logo icon --><b>
+                    <a class="navbar-brand" href="<?=$requestUrl ?>">
+                        <!-- Logo icon -->
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
-                            
                             <!-- Light Logo icon -->
-                            <img src="<?= $wwwUrl ?>/assets/images/logo-light-icon.png" alt="homepage" class="light-logo" />
-                        </b>
+                        <i class="mdi mdi-settings fa-2x text-white"></i>
                         <!--End Logo icon -->
-                        <!-- Logo text --><span>
-                         
-                         <!-- Light Logo text -->    
-                         <img src="<?= $wwwUrl ?>/assets/images/logo-light-text.png" class="light-logo" alt="homepage" /></span> </a>
+                        <span class="text-white">oscarblog</span> 
+                        <!-- Logo text -->
+                    </a>
                 </div>
                 <!-- ============================================================== -->
                 <!-- End Logo -->
@@ -90,7 +84,7 @@
                         <!-- Profile -->
                         <!-- ============================================================== -->
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="<?= $requestUrl ?>/admin/profile/"   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="<?= $wwwUrl ?>/assets/images/users/bg_<?=$userSession->getAvatar() ? $userSession->getAvatar() : "default_avatar.jpg" ?>" alt="user" class="profile-pic m-r-10" /><?=$userSession->getUsername();?></a>
+                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="<?= $requestUrl ?>/admin/profile/"   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="<?= $wwwUrl ?>/assets/images/users/sm_<?=$userSession->getAvatar() ? $userSession->getAvatar() : "default_avatar.jpg" ?>" alt="user" class="profile-pic m-r-10" /><?=$userSession->getUsername();?></a>
                         </li>
                     </ul>
                 </div>
@@ -108,19 +102,17 @@
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
-                        <li> <a class="waves-effect waves-dark" href="<?= $requestUrl ?>/admin/" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Dashboard</span></a>
+                        <li> <a class="waves-effect waves-dark" href="javascript:void(0);" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Dashboard</span></a>
                         </li>
                         <li> <a class="waves-effect waves-dark" href="<?= $requestUrl ?>/admin/profile/" aria-expanded="false"><i class="mdi mdi-account-check"></i><span class="hide-menu">Profile</span></a>
                         </li>
-                        <li> <a class="waves-effect waves-dark" href="<?= $requestUrl ?>/admin/users/" aria-expanded="false"><i class="mdi mdi-table"></i><span class="hide-menu">Users</span></a>
+                        <li> <a class="waves-effect waves-dark" href="<?= $requestUrl ?>/admin/users/" aria-expanded="false"><i class="mdi mdi-account-multiple"></i><span class="hide-menu">Users</span></a>
                         </li>
-                        <li> <a class="waves-effect waves-dark" href="<?= $requestUrl ?>/admin/articles/" aria-expanded="false"><i class="mdi mdi-emoticon"></i><span class="hide-menu">Articles</span></a>
+                        <li> <a class="waves-effect waves-dark" href="<?= $requestUrl ?>/admin/articles/" aria-expanded="false"><i class="mdi mdi-table"></i><span class="hide-menu">Articles</span></a>
                         </li>
-                        <li> <a class="waves-effect waves-dark" href="<?= $requestUrl ?>/admin/categories/" aria-expanded="false"><i class="mdi mdi-earth"></i><span class="hide-menu">Categories</span></a>
+                        <li> <a class="waves-effect waves-dark" href="<?= $requestUrl ?>/admin/categories/" aria-expanded="false"><i class="mdi mdi-format-list-bulleted"></i><span class="hide-menu">Categories</span></a>
                         </li>
-                        <li> <a class="waves-effect waves-dark" href="<?= $requestUrl ?>/admin/gallery/" aria-expanded="false"><i class="far fa-images"></i><span class="hide-menu">Gallery</span></a>
-                        </li>
-                        <li> <a class="waves-effect waves-dark" href="<?= $requestUrl ?>/admin/stats/" aria-expanded="false"><i class="mdi mdi-book-open-variant"></i><span class="hide-menu">Stats</span></a>
+                        <li> <a class="waves-effect waves-dark" href="<?= $requestUrl ?>/admin/gallery/" aria-expanded="false"><i class="mdi mdi-image-multiple"></i><span class="hide-menu">Gallery</span></a>
                         </li>
                     </ul>
                 </nav>
@@ -129,8 +121,7 @@
             <!-- End Sidebar scroll-->
             <!-- Bottom points-->
             <div class="sidebar-footer">
-                <!-- item--><a href="" class="link" data-toggle="tooltip" title="Settings"><i class="ti-settings"></i></a>
-                <!-- item--><a href="" class="link" data-toggle="tooltip" title="Email"><i class="mdi mdi-gmail"></i></a>
+                <!-- item--><a href="<?= $requestUrl ?>" class="link" data-toggle="tooltip" title="Go to blog"><i class="mdi mdi-arrange-bring-to-front"></i></a>
                 <!-- item--><a href="<?= $requestUrl ?>/logout/" class="link" data-toggle="tooltip" title="Logout"><i class="mdi mdi-power"></i></a> 
             </div>
             <!-- End Bottom points-->
@@ -153,8 +144,8 @@
                     <div class="col-md-5 col-8 align-self-center">
                         <h3 class="text-themecolor">Dashboard</h3>
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                            <li class="breadcrumb-item active">Dashboard</li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0)"><?=$pageTitle?></a></li>
+                            <li class="breadcrumb-item active">item</li>
                         </ol>
                     </div>
                     <div class="col-md-7 col-4 align-self-center">
@@ -198,7 +189,7 @@
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
-            <footer class="footer"> © 2017 Material Pro Admin by wrappixel.com </footer>
+            <footer class="footer"> © 2020 ODRC based on Material Pro Admin by wrappixel.com </footer>
             <!-- ============================================================== -->
             <!-- End footer -->
             <!-- ============================================================== -->
@@ -218,9 +209,6 @@
 <!-- ============================================================== -->
 <!-- ============================================================== -->
 <!-- ============================================================== -->
-    <!-- Fontawesome -->
-    <script src="https://kit.fontawesome.com/a7f1e788fd.js" crossorigin="anonymous"></script>
-        
     <!-- All Jquery -->
     <!-- ============================================================== -->
     <script src="<?= $wwwUrl ?>/assets/plugins/jquery/jquery.min.js"></script>
@@ -244,14 +232,6 @@
     <!-- ============================================================== -->
     <!-- This page plugins -->
     <!-- ============================================================== -->
-    <!-- chartist chart -->
-    <!--<script src="<?= $wwwUrl ?>/assets/plugins/chartist-js/dist/chartist.min.js"></script>
-    <script src="<?= $wwwUrl ?>/assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
-    !--c3 JavaScript -
-    <script src="<?= $wwwUrl ?>/assets/plugins/d3/d3.min.js"></script>
-    <script src="<?= $wwwUrl ?>/assets/plugins/c3-master/c3.min.js"></script>
-    !-- Chart JS --
-    <script src="<?= $wwwUrl ?>/js/admin/dashboard1.js"></script>-->
 </body>
 
 </html>

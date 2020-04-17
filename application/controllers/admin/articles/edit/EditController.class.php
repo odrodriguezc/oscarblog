@@ -26,20 +26,18 @@ class EditController
         $validator = new DataValidation();
 		$artId = $validator->inputFilter($queryFields['id']);
         $article = $articlesModel->find($artId);
+        
+        if (!$article)
+        {
+            $flashbag->add("L'article n'a pas été trouvé");
+            $http->redirectTo('/admin/articles/');
+        }
 
         //Si l'utilisateur n'est pas autorisé
-		if ($userSession->isAuthorized([2,3])==false)
+		if (!$userSession->isAuthorized([2,3]) && ($article['authorId'] != $userSession->getId()))
 		{
-			//recherche de l'article à editer
-			if ($article==false)
-			{
-				$flashbag->add("L'article n'a pas été trouvé");
-			
 			// si l'utilisateur n'est pas l'auteur de l'article
-			} elseif ($article['authorId'] != $userSession->getId())
-			{
-				$flashbag->add("Vous n'etes pas autorisé à editer cette article");
-			}
+	    	$flashbag->add("Vous n'etes pas autorisé à editer cette article");
 			$http->redirectTo('/admin/articles/');
 		}
 
@@ -69,7 +67,8 @@ class EditController
                         'categories' => $selectedCatId
         ));
         $gateway = ['_form' => $form,
-                    'catList' => $catList];
+                    'catList' => $catList,
+                    'pageTitle' => $http->getRequestFile()];
 		
 		return $gateway;
     }

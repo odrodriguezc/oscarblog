@@ -42,6 +42,7 @@ class NewController
 		  */
 		$gateway = ['roles' => $userModel->role,
 					'_form' => new UsersForm(),
+					'pageTitle' => $http->getRequestFile()
 		];
 
 

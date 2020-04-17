@@ -55,7 +55,7 @@ function addPicToCollection()
                 const str = `<span class="inCollection">
                 <a class="colLink" data-collectionid = "${picId}"  href="${getRequestUrl()}/admin/gallery/gallery/collections/col/?id=${picId}">${selectedCol[0].textContent}
                 </a>
-                <a class="ml-1 popOff" data-collectionid ="${picId}" href="${getRequestUrl()}/admin/gallery/gallery/collections/pop/"><i class="far fa-trash-alt"></i>
+                <a class="ml-1 popOff" data-collectionid ="${picId}" href="${getRequestUrl()}/admin/gallery/gallery/collections/pop/"><i class="mdi mdi-delete-sweep"></i>
                 </a>
                 </span>`
                 $('#inCollectionGroup').append(str);

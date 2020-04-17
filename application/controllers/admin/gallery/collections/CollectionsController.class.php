@@ -33,7 +33,7 @@ class CollectionsController
 
 		
 	
-		return [];
+		return ['pageTitle' => $http->getRequestFile()];
     }
 
     public function httpPostMethod(Http $http, array $formFields)

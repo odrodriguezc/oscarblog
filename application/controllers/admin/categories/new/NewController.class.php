@@ -38,7 +38,8 @@ class NewController
 		  * @var _form Array contenat les variables fournis par la class UsersForm
 		  */
         $gateway = ['_form' => new CategoriesForm(),
-                    'catList' => $catList
+					'catList' => $catList,
+					'pageTitle' => $http->getRequestFile()
 		];
 
 	

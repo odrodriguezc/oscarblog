@@ -58,7 +58,8 @@ class UserController
 		unset($user['passwordHash']);
 
 		$gateway = ['user'=> $user,
-					'roles' => $userModel->role
+					'roles' => $userModel->role,
+					'pageTitle' => $http->getRequestFile()
 					];
 
 		return $gateway;

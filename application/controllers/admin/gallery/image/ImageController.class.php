@@ -77,7 +77,8 @@ class ImageController
 		
 
         $gateway =  [ '_form' => $form, 
-                    'collectionList' => $collectionList
+                    'collectionList' => $collectionList,
+                    'pageTitle' => $http->getRequestFile()
                     ];
 	
 		return $gateway;
