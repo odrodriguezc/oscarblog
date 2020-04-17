@@ -144,13 +144,13 @@ class GalleryModel
                                         col.updatedAt AS collectionUpdatedAt,
                                         u.username AS username
                                     FROM
-                                        blog.picture AS pic
+                                         picture AS pic
                                             INNER JOIN
-                                        blog.picture_has_collection AS col_has ON col_has.pictureId = pic.id
+                                         picture_has_collection AS col_has ON col_has.pictureId = pic.id
                                             INNER JOIN
-                                            blog.picture_collection AS col ON col.id = col_has.collectionId
+                                             picture_collection AS col ON col.id = col_has.collectionId
                                         INNER JOIN 
-                                        blog.user AS u ON u.id = col.userId
+                                         user AS u ON u.id = col.userId
                                     WHERE 
                                         col.published = 1 AND col.id = ?",
                                 [$colId]);
@@ -190,9 +190,9 @@ class GalleryModel
                                         col.updatedAt AS collectionUpdatedAt,
                                         u.username AS username
                                     FROM
-                                        blog.picture AS pic
+                                         picture AS pic
                                             INNER JOIN
-                                        blog.picture_has_collection AS col_has ON col_has.pictureId = pic.id
+                                         picture_has_collection AS col_has ON col_has.pictureId = pic.id
                                             INNER JOIN
                                 ",[]);
 
@@ -218,13 +218,13 @@ class GalleryModel
                                         col.updatedAt AS collectionUpdatedAt,
                                         u.username AS username
                                     FROM
-                                        blog.picture AS pic
+                                         picture AS pic
                                             INNER JOIN
-                                        blog.picture_has_collection AS col_has ON col_has.pictureId = pic.id
+                                         picture_has_collection AS col_has ON col_has.pictureId = pic.id
                                             INNER JOIN
-                                            blog.picture_collection AS col ON col.id = col_has.collectionId
+                                             picture_collection AS col ON col.id = col_has.collectionId
                                            INNER JOIN 
-                                        blog.user AS u ON u.id = col.userId
+                                         user AS u ON u.id = col.userId
                                     WHERE 
                                         col.published = 1
                                 ",[]);
@@ -251,11 +251,11 @@ class GalleryModel
                                         col.createdAt AS collectionCreatedAt,
                                         col.updatedAt AS collectionUpdatedAt
                                     FROM
-                                        blog.picture AS pic
+                                         picture AS pic
                                             INNER JOIN
-                                        blog.picture_has_collection AS col_has ON col_has.pictureId = pic.id
+                                         picture_has_collection AS col_has ON col_has.pictureId = pic.id
                                             INNER JOIN
-                                        blog.picture_collection AS col ON col.id = col_has.collectionId
+                                         picture_collection AS col ON col.id = col_has.collectionId
                                     WHERE
                                         pic.userId = ?",[$userId]);
     }
@@ -274,7 +274,7 @@ class GalleryModel
         return $this->dbh->query("SELECT 
                                         *
                                     FROM
-                                        blog.picture_collection AS col
+                                         picture_collection AS col
                                     WHERE
                                         col.userId = ?;",
                                     [$userId]
@@ -299,9 +299,9 @@ class GalleryModel
         return $this->dbh->query("SELECT 
                                         *
                                     FROM
-                                        blog.picture_collection AS col
+                                         picture_collection AS col
                                             INNER JOIN
-                                        blog.picture_has_collection AS colHas ON col.id = colHas.collectionId
+                                         picture_has_collection AS colHas ON col.id = colHas.collectionId
                                     WHERE
                                         colHas.pictureId = ?", [$picId]);
     }

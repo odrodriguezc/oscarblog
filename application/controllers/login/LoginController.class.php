@@ -87,7 +87,7 @@ class LoginController
             $flashbag = new Flashbag();
             $flashbag->add('Vous êtes maintenant connecté !');
 
-            /** Redirection vers la liste des clients */
+
             $http->redirectTo('/admin/');
         }
         catch(DomainException $exception)
