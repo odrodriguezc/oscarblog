@@ -1,29 +1,14 @@
 <?php
 
-class ContactModel
+class ContactModel extends MasterModel
 {
-    
-    /**
-     * @var Database Objet Database pour effectuer des requête
-    */
-    private $dbh;
+
 
     /**
      * @var string Database table utilisée pour les requête
      */
-    private $table;
+    private $table = 'contact';
 
-    /**  Constructeur
-     *
-     * @param void
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->dbh = new Database();
-        $this->table = 'contact';
-
-    }
 
     /**
      * addMessage
@@ -36,11 +21,8 @@ class ContactModel
      * @return mixed
      * @author ODRC
      */
-    public function addMessage(string $email, string $message, string $name='')
+    public function addMessage(string $email, string $message, string $name = '')
     {
-        return $this->dbh->executeSql("INSERT INTO {$this->table} (email, name, message) VALUES (?,?,?)",[$email, $name, $message]);
+        return $this->dbh->executeSql("INSERT INTO {$this->table} (email, name, message) VALUES (?,?,?)", [$email, $name, $message]);
     }
-
-   
-
 }

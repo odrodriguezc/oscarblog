@@ -1,51 +1,35 @@
 <?php
 
-class ArticlesModel
+class ArticlesModel extends MasterModel
 {
     /**
      * @var const constante avec la pattern regulier pour construir le slug
      * @author ODRC
-    */
+     */
     private const SLUG_PATTERN = '/[^a-z0-9]+/i';
 
-    /**
-     * @var Database Objet Database pour effectuer des requête
-    */
-    private $dbh;
 
     /**
      * @var string Database table utilisée pour les requête
      */
-    private $table;
-
-    /**  Constructeur
-     *
-     * @param void
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->dbh = new Database();
-        $this->table = 'post';
-
-    }
+    private $table = 'post';
 
     /** Retourner un tableau de tous les posts
      *
      * @param void
      * @return Array Jeu d'enregistrement représentant tous les posts
      */
-    public function listAll() 
+    public function listAll()
     {
-        return $this->dbh->query('SELECT post.id, post.title, post.metaTitle, post.summary, post.createdAt, post.published,  user.id AS authorId, user.username AS authorName FROM '.$this->table.' INNER JOIN user ON post.authorId = user.id ORDER BY post.createdAt DESC');
+        return $this->dbh->query('SELECT post.id, post.title, post.metaTitle, post.summary, post.createdAt, post.published,  user.id AS authorId, user.username AS authorName FROM ' . $this->table . ' INNER JOIN user ON post.authorId = user.id ORDER BY post.createdAt DESC');
     }
 
-     /** Retourner un tableau de tous les posts publiés
+    /** Retourner un tableau de tous les posts publiés
      *
      * @param int limit 
      * @return Array Jeu d'enregistrement représentant tous les posts
      */
-    public function listPublishedAll(int $limit = 1000) 
+    public function listPublishedAll(int $limit = 1000)
     {
         return $this->dbh->query("SELECT post.*,  user.id AS authorId, user.username AS authorName FROM {$this->table} INNER JOIN user ON post.authorId = user.id WHERE post.published = 1 ORDER BY post.publishedAt DESC LIMIT {$limit}");
     }
@@ -57,7 +41,8 @@ class ArticlesModel
      */
     public function find($id)
     {
-        return $this->dbh->queryOne("SELECT post.id, 
+        return $this->dbh->queryOne(
+            "SELECT post.id, 
                                             post.title, 
                                             post.metaTitle,
                                             post.summary, 
@@ -74,8 +59,9 @@ class ArticlesModel
                                             user.username AS authorName 
                                             FROM {$this->table} 
                                             INNER JOIN user ON post.authorId = user.id 
-                                            WHERE post.id = ?",[$id]
-                                        );
+                                            WHERE post.id = ?",
+            [$id]
+        );
     }
 
     /**
@@ -85,7 +71,7 @@ class ArticlesModel
      */
     public function delete(int $id)
     {
-        return  $this->dbh->executeSQL('DELETE FROM '.$this->table.' WHERE id=?',[$id]);
+        return  $this->dbh->executeSQL('DELETE FROM ' . $this->table . ' WHERE id=?', [$id]);
     }
 
 
@@ -102,17 +88,16 @@ class ArticlesModel
      * @return int lastInsertId
      * @author ODRC
      */
-    public function add(string $title, string $metaTitle, string $summary, string $content, int $published, string $picture, int $authorId) 
-    {   
-        $slug = preg_replace("/-$/","",preg_replace(self::SLUG_PATTERN, "-", strtolower($title)));
-        if ($published == 1) 
-        {   
+    public function add(string $title, string $metaTitle, string $summary, string $content, int $published, string $picture, int $authorId)
+    {
+        $slug = preg_replace("/-$/", "", preg_replace(self::SLUG_PATTERN, "-", strtolower($title)));
+        if ($published == 1) {
             $date = new DateTime();
         } else {
             $date = new DateTime('1988-07-16');
         }
-        $publishedAt= $date->format('Y-m-d H:i:s');
-        return $this->dbh->executeSQL('INSERT INTO '.$this->table.' (title, metaTitle, slug, summary,  content, published, publishedAt, picture, authorId) VALUES (?,?,?,?,?,?,?,?,?)',[$title, $metaTitle, $slug, $summary,  $content, $published, $publishedAt,  $picture, $authorId]);
+        $publishedAt = $date->format('Y-m-d H:i:s');
+        return $this->dbh->executeSQL('INSERT INTO ' . $this->table . ' (title, metaTitle, slug, summary,  content, published, publishedAt, picture, authorId) VALUES (?,?,?,?,?,?,?,?,?)', [$title, $metaTitle, $slug, $summary,  $content, $published, $publishedAt,  $picture, $authorId]);
     }
 
     /**
@@ -128,18 +113,16 @@ class ArticlesModel
      * @return int $updatedId id du dernier article updated
      * @author ODRC
      */
-    public function update(int $id, string $title, string $metaTitle, string $summary, string $content, int $published, string $picture )
+    public function update(int $id, string $title, string $metaTitle, string $summary, string $content, int $published, string $picture)
     {
-        if ($published == 1) 
-        {   
+        if ($published == 1) {
             $date = new DateTime();
         } else {
             $date = new DateTime('1988-07-16');
         }
-        $publishedAt= $date->format('Y-m-d H:i:s');
-        $slug = preg_replace("/-$/","",preg_replace(self::SLUG_PATTERN, "-", strtolower($title)));
-        $this->dbh->executeSQL('UPDATE '.$this->table.' SET title=?, slug=?, metaTitle=?, summary=?, content=?, published=?, publishedAt=?, picture=? WHERE id=?',[$title, $slug, $metaTitle, $summary, $content, $published, $publishedAt, $picture, $id]); 
-
+        $publishedAt = $date->format('Y-m-d H:i:s');
+        $slug = preg_replace("/-$/", "", preg_replace(self::SLUG_PATTERN, "-", strtolower($title)));
+        $this->dbh->executeSQL('UPDATE ' . $this->table . ' SET title=?, slug=?, metaTitle=?, summary=?, content=?, published=?, publishedAt=?, picture=? WHERE id=?', [$title, $slug, $metaTitle, $summary, $content, $published, $publishedAt, $picture, $id]);
     }
 
     /**
@@ -153,7 +136,7 @@ class ArticlesModel
      */
     public function findByTitle(string $title)
     {
-       return $this->dbh->queryOne("SELECT * FROM $this->table WHERE title=?",[$title]);
+        return $this->dbh->queryOne("SELECT * FROM $this->table WHERE title=?", [$title]);
     }
 
     /**
@@ -168,7 +151,7 @@ class ArticlesModel
      */
     public function findByNewTitle(string $title, int $id)
     {
-        return $this->dbh->queryOne("SELECT * FROM $this->table WHERE title=? AND id!=?",[$title, $id]); 
+        return $this->dbh->queryOne("SELECT * FROM $this->table WHERE title=? AND id!=?", [$title, $id]);
     }
 
     /**
@@ -186,8 +169,8 @@ class ArticlesModel
     public function findByAuthor(int $id, int $limit = 1000): array
     {
 
-        $limitedStr = func_num_args() == 2 && $limit !=0 ? "LIMIT {$limit}" : '';
-        return $this->dbh->query('SELECT *, TIMESTAMPDIFF(MINUTE,updatedAt,CURRENT_TIMESTAMP) AS timePast FROM '.$this->table.' WHERE authorId=? ORDER BY updatedAt '.$limitedStr.' ',[$id]);
+        $limitedStr = func_num_args() == 2 && $limit != 0 ? "LIMIT {$limit}" : '';
+        return $this->dbh->query('SELECT *, TIMESTAMPDIFF(MINUTE,updatedAt,CURRENT_TIMESTAMP) AS timePast FROM ' . $this->table . ' WHERE authorId=? ORDER BY updatedAt ' . $limitedStr . ' ', [$id]);
     }
 
 
@@ -202,7 +185,7 @@ class ArticlesModel
      */
     public function setAction(int $id, string $action)
     {
-        return $this->dbh->executeSql("UPDATE {$this->table} SET {$action}={$action} + 1 WHERE id=?",[$id]);
+        return $this->dbh->executeSql("UPDATE {$this->table} SET {$action}={$action} + 1 WHERE id=?", [$id]);
     }
 
     /**
@@ -219,7 +202,4 @@ class ArticlesModel
     {
         return $this->dbh->queryOne("SELECT {$action} FROM {$this->table} WHERE id=?", [$id]);
     }
-
-   
-
 }

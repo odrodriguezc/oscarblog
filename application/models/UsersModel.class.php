@@ -1,49 +1,34 @@
 <?php
 
-class UsersModel
+class UsersModel extends MasterModel
 {
-     /**
-     * @var Database Objet Database pour effectuer des requête
-     */
-    private $dbh;
 
     /**
      * @var string Database table utilisée pour les requête
      */
-    private $table;
+    private $table = 'user';
 
     /**
      * role
      * 
      * @var Role Array contenant les roles des utilisateurs
      * @author ODRC
-    */
-    public $role;
-
-    /**  Constructeur
-     *
-     * @param void
-     * @return void
      */
-    public function __construct()
-    {
-        $this->dbh = new Database();
-        $this->table = 'user';
+    public $role = [
+        'Author' => 1,
+        'Editor' => 2,
+        'Admin' => 3
+    ];
 
-        /* Definitios des roles */
-        $this->role = [ 'Author'=> 1,
-                        'Editor'=> 2,
-                        'Admin'=> 3];
-    }
 
     /** Retourner un tableau de tous les users en base
      *
      * @param void
      * @return Array Jeu d'enregistrement représentant tous les users en base
      */
-    public function listAll() 
+    public function listAll()
     {
-        return $this->dbh->query('SELECT * FROM '.$this->table);
+        return $this->dbh->query('SELECT * FROM ' . $this->table);
     }
 
     /** Trouver un user avec son ID
@@ -53,10 +38,10 @@ class UsersModel
      */
     public function find($id)
     {
-        return $this->dbh->queryOne('SELECT * FROM '.$this->table.' WHERE id = ?',[$id]);
+        return $this->dbh->queryOne('SELECT * FROM ' . $this->table . ' WHERE id = ?', [$id]);
     }
 
-    
+
     /** Trouver un user avec son Email
      *
      * @param string $email email du user
@@ -64,7 +49,7 @@ class UsersModel
      */
     public function findByEmail($email)
     {
-        return $this->dbh->queryOne('SELECT * FROM '.$this->table.' WHERE email = ?',[$email]);
+        return $this->dbh->queryOne('SELECT * FROM ' . $this->table . ' WHERE email = ?', [$email]);
     }
 
     /** Trouver un user avec son username
@@ -74,7 +59,7 @@ class UsersModel
      */
     public function findByUsername($username)
     {
-        return $this->dbh->queryOne('SELECT * FROM '.$this->table.' WHERE username = ?',[$username]);
+        return $this->dbh->queryOne('SELECT * FROM ' . $this->table . ' WHERE username = ?', [$username]);
     }
 
     /**
@@ -82,11 +67,10 @@ class UsersModel
      * @param integer $id identifian du user
      * @return int  
      */
-     public function delete($id):int
-     {
-        return $this->dbh->executeSQL('DELETE FROM '.$this->table.' WHERE id=?',[$id]);
-
-     }
+    public function delete($id): int
+    {
+        return $this->dbh->executeSQL('DELETE FROM ' . $this->table . ' WHERE id=?', [$id]);
+    }
 
     /** Ajouter un user en base
      *
@@ -103,13 +87,13 @@ class UsersModel
      * @param string $image
      * @return void
      */
-    public function add($username, $firstname, $lastname, $email, $password, $phone, $intro, $profile, $role, $status, $avatar) 
+    public function add($username, $firstname, $lastname, $email, $password, $phone, $intro, $profile, $role, $status, $avatar)
     {
         $registeredAtDate = date('Y-m-d');
-        return $this->dbh->executeSQL('INSERT INTO '.$this->table.' (username, firstname, lastname, email, passwordHash, phone, intro, profile, role, status, avatar, registeredAt) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',[$username, $firstname, $lastname, $email, $password, $phone, $intro, $profile, $role, $status, $avatar, $registeredAtDate]);
+        return $this->dbh->executeSQL('INSERT INTO ' . $this->table . ' (username, firstname, lastname, email, passwordHash, phone, intro, profile, role, status, avatar, registeredAt) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)', [$username, $firstname, $lastname, $email, $password, $phone, $intro, $profile, $role, $status, $avatar, $registeredAtDate]);
     }
 
-     /** Modifie un utilisateur en base
+    /** Modifie un utilisateur en base
      *
      * @param integer $id identifiant de l'utilisateur
      * @param string $username nom d'utilisateur 
@@ -127,7 +111,7 @@ class UsersModel
      */
     public function update($username, $firstname, $lastname, $email, $password, $phone, $intro, $profile, $role, $status, $avatar, $id)
     {
-        $this->dbh->executeSQL('UPDATE '.$this->table.' SET username=?, firstname=?, lastname=?, email=?, passwordHash=?, phone=?, intro=?, profile=?, role=?, status=?, avatar=? WHERE id=?',[$username, $firstname, $lastname, $email, $password, $phone, $intro, $profile, $role, $status, $avatar, $id]); 
+        $this->dbh->executeSQL('UPDATE ' . $this->table . ' SET username=?, firstname=?, lastname=?, email=?, passwordHash=?, phone=?, intro=?, profile=?, role=?, status=?, avatar=? WHERE id=?', [$username, $firstname, $lastname, $email, $password, $phone, $intro, $profile, $role, $status, $avatar, $id]);
     }
 
     /** 
@@ -139,9 +123,9 @@ class UsersModel
      * @author ODRC
      */
     public function updateLogin(int $id)
-    {   
+    {
         $Logindate = date('Y-m-d, H:i:s');
-        $this->dbh->executeSQL('UPDATE '.$this->table.' SET lastLogin=? WHERE id=?', [$Logindate, $id]);
+        $this->dbh->executeSQL('UPDATE ' . $this->table . ' SET lastLogin=? WHERE id=?', [$Logindate, $id]);
     }
 
     /**
@@ -161,15 +145,16 @@ class UsersModel
      */
     public function findByUsernameOrEmail(string $username, string $email, int $id = -1)
     {
-    return $this->dbh->query("SELECT 
+        return $this->dbh->query(
+            "SELECT 
                                     username, 
                                     email 
                                 FROM {$this->table} 
                                 WHERE (username=? OR email=?) AND id!=?",
-                                [$username, $email, $id]
-                            );
+            [$username, $email, $id]
+        );
     }
-    
+
     /**
      * findRecentActivity
      * 
@@ -181,10 +166,11 @@ class UsersModel
      * 
      * @author ODRC
      */
-    public function findRecentActivity(int $id, int $limit) 
+    public function findRecentActivity(int $id, int $limit)
     {
-        $limitedStr = func_num_args() == 2 && $limit !=0 ? "LIMIT {$limit}" : '';
-        return $this->dbh->query("SELECT 
+        $limitedStr = func_num_args() == 2 && $limit != 0 ? "LIMIT {$limit}" : '';
+        return $this->dbh->query(
+            "SELECT 
                                         p.id AS postId,
                                         p.title AS postTitle,
                                         p.picture,
@@ -210,7 +196,6 @@ class UsersModel
                                         p.author_id = 14
                                     ORDER BY commentPastTime DESC , postPastTime DESC
                                     {$limitedStr}"
-                                );
-}
-
+        );
+    }
 }

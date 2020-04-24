@@ -1,29 +1,13 @@
 <?php
 
-class CommentsModel
+class CommentsModel extends MasterModel
 {
 
-    /**
-     * @var Database Objet Database pour effectuer des requête
-    */
-    private $dbh;
 
     /**
      * @var string Database table utilisée pour les requête
      */
-    private $table;
-
-    /**  Constructeur
-     *
-     * @param void
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->dbh = new Database();
-        $this->table = 'post_comment';
-
-    }
+    private $table = 'post_comment';
 
     /** 
      * Retourner un tableau de tous les commentaires
@@ -32,18 +16,20 @@ class CommentsModel
      * @return array Jeu d'enregistrement représentant tous les posts
      * @author ODRC
      */
-    public function listAll():array 
+    public function listAll(): array
     {
         return $this->dbh->query("SELECT * FROM {$this->table}");
     }
 
     public function listByPost(int $postId)
     {
-    return $this->dbh->query("SELECT *, u.username AS username 
+        return $this->dbh->query(
+            "SELECT *, u.username AS username 
                                 FROM {$this->table}
                                 INNER JOIN user AS u ON u.id = {$this->table}.authorId
                                 WHERE postId = ? AND published=1",
-                                [$postId]);
+            [$postId]
+        );
     }
 
     /**
@@ -56,10 +42,11 @@ class CommentsModel
      * @return mixed array|false 
      * @author ODRC
      */
-    public function findByPostAuthor(int $id, int $limit = 1000):array
+    public function findByPostAuthor(int $id, int $limit = 1000): array
     {
-        $limitedStr = func_num_args() == 2 && $limit !=0 ? "LIMIT {$limit}" : '';
-        return $this->dbh->query("SELECT 
+        $limitedStr = func_num_args() == 2 && $limit != 0 ? "LIMIT {$limit}" : '';
+        return $this->dbh->query(
+            "SELECT 
                                         user.id AS userId,
                                         user.avatar AS userAvatar,
                                         post.id AS postId,
@@ -80,9 +67,9 @@ class CommentsModel
 		                                user ON user.id = post_comment.authorId
                                     WHERE
                                         post.authorId =? OR post_comment.authorId =?
-                                    ORDER BY timePast ASC {$limitedStr}", 
-                                    [$id, $id]
-                                );                                    
+                                    ORDER BY timePast ASC {$limitedStr}",
+            [$id, $id]
+        );
     }
 
 
@@ -91,13 +78,8 @@ class CommentsModel
      * @param integer $id identifian du post
      * @return int  dernier row
      */
-    public function delete($id):int
+    public function delete($id): int
     {
-        return  $this->dbh->executeSQL('DELETE FROM '.$this->table.' WHERE id=?',[$id]);
+        return  $this->dbh->executeSQL('DELETE FROM ' . $this->table . ' WHERE id=?', [$id]);
     }
-
-
-    
-
-
 }
