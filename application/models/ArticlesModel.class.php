@@ -12,7 +12,7 @@ class ArticlesModel extends MasterModel
     /**
      * @var string Database table utilisée pour les requête
      */
-    private $table = 'post';
+    protected string $table = 'post';
 
     /** Retourner un tableau de tous les posts
      *
@@ -43,35 +43,25 @@ class ArticlesModel extends MasterModel
     {
         return $this->dbh->queryOne(
             "SELECT post.id, 
-                                            post.title, 
-                                            post.metaTitle,
-                                            post.summary, 
-                                            post.createdAt, 
-                                            post.published, 
-                                            post.publishedAt, 
-                                            post.updatedAt, 
-                                            post.content, 
-                                            post.picture, 
-                                            post.likes, 
-                                            post.dislikes, 
-                                            post.share, 
-                                            user.id AS authorId, 
-                                            user.username AS authorName 
-                                            FROM {$this->table} 
-                                            INNER JOIN user ON post.authorId = user.id 
-                                            WHERE post.id = ?",
+                    post.title, 
+                    post.metaTitle,
+                    post.summary, 
+                    post.createdAt, 
+                    post.published, 
+                    post.publishedAt, 
+                    post.updatedAt, 
+                    post.content, 
+                    post.picture, 
+                    post.likes, 
+                    post.dislikes, 
+                    post.share, 
+                    user.id AS authorId, 
+                    user.username AS authorName 
+                    FROM {$this->table} 
+                    INNER JOIN user ON post.authorId = user.id 
+                    WHERE post.id = ?",
             [$id]
         );
-    }
-
-    /**
-     * Supprimer un post avec son id
-     * @param integer $id identifian du post
-     * @return void 
-     */
-    public function delete(int $id)
-    {
-        return  $this->dbh->executeSQL('DELETE FROM ' . $this->table . ' WHERE id=?', [$id]);
     }
 
 

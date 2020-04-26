@@ -6,7 +6,7 @@ class UsersModel extends MasterModel
     /**
      * @var string Database table utilisée pour les requête
      */
-    private $table = 'user';
+    protected string $table = 'user';
 
     /**
      * role
@@ -20,7 +20,6 @@ class UsersModel extends MasterModel
         'Admin' => 3
     ];
 
-
     /** Retourner un tableau de tous les users en base
      *
      * @param void
@@ -29,16 +28,6 @@ class UsersModel extends MasterModel
     public function listAll()
     {
         return $this->dbh->query('SELECT * FROM ' . $this->table);
-    }
-
-    /** Trouver un user avec son ID
-     *
-     * @param integer $id identifiant du user
-     * @return Array Jeu d'enregistrement comportant le user trouvé
-     */
-    public function find($id)
-    {
-        return $this->dbh->queryOne('SELECT * FROM ' . $this->table . ' WHERE id = ?', [$id]);
     }
 
 
@@ -62,15 +51,6 @@ class UsersModel extends MasterModel
         return $this->dbh->queryOne('SELECT * FROM ' . $this->table . ' WHERE username = ?', [$username]);
     }
 
-    /**
-     * Supprimer un user avec son id
-     * @param integer $id identifian du user
-     * @return int  
-     */
-    public function delete($id): int
-    {
-        return $this->dbh->executeSQL('DELETE FROM ' . $this->table . ' WHERE id=?', [$id]);
-    }
 
     /** Ajouter un user en base
      *
@@ -147,10 +127,10 @@ class UsersModel extends MasterModel
     {
         return $this->dbh->query(
             "SELECT 
-                                    username, 
-                                    email 
-                                FROM {$this->table} 
-                                WHERE (username=? OR email=?) AND id!=?",
+                username, 
+                email 
+            FROM {$this->table} 
+            WHERE (username=? OR email=?) AND id!=?",
             [$username, $email, $id]
         );
     }
@@ -171,31 +151,31 @@ class UsersModel extends MasterModel
         $limitedStr = func_num_args() == 2 && $limit != 0 ? "LIMIT {$limit}" : '';
         return $this->dbh->query(
             "SELECT 
-                                        p.id AS postId,
-                                        p.title AS postTitle,
-                                        p.picture,
-                                        p.likes,
-                                        p.dislikes,
-                                        p.share,
-                                        p.metaTitle,
-                                        p.authorId,
-                                        TIMESTAMPDIFF(MINUTE,
-                                            p.updatedAt,
-                                            CURRENT_TIMESTAMP) AS postPastTime,
-                                        c.id AS commentId,
-                                        c.title AS commentTitle,
-                                        C.createdAt AS commentCreatedAt,
-                                        TIMESTAMPDIFF(MINUTE,
-                                            c.createdAt,
-                                            CURRENT_TIMESTAMP) AS commentPastTime
-                                    FROM
-                                        post AS p
-                                            LEFT JOIN
-                                        post_comment AS c ON (P.id = c.postId)
-                                    WHERE
-                                        p.author_id = 14
-                                    ORDER BY commentPastTime DESC , postPastTime DESC
-                                    {$limitedStr}"
+                p.id AS postId,
+                p.title AS postTitle,
+                p.picture,
+                p.likes,
+                p.dislikes,
+                p.share,
+                p.metaTitle,
+                p.authorId,
+                TIMESTAMPDIFF(MINUTE,
+                    p.updatedAt,
+                    CURRENT_TIMESTAMP) AS postPastTime,
+                c.id AS commentId,
+                c.title AS commentTitle,
+                C.createdAt AS commentCreatedAt,
+                TIMESTAMPDIFF(MINUTE,
+                    c.createdAt,
+                    CURRENT_TIMESTAMP) AS commentPastTime
+            FROM
+                post AS p
+                    LEFT JOIN
+                post_comment AS c ON (P.id = c.postId)
+            WHERE
+                p.author_id = 14
+            ORDER BY commentPastTime DESC , postPastTime DESC
+            {$limitedStr}"
         );
     }
 }

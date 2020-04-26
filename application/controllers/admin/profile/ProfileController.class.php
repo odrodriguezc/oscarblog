@@ -2,9 +2,9 @@
 
 class ProfileController
 {
-    public function httpGetMethod(Http $http, array $queryFields)
-    {
-    	/*
+	public function httpGetMethod(Http $http, array $queryFields)
+	{
+		/*
     	 * Méthode appelée en cas de requête HTTP GET
     	 *
     	 * L'argument $http est un objet permettant de faire des redirections etc.
@@ -12,28 +12,27 @@ class ProfileController
     	*/
 
 		/** 
-		  * UserSession - instance de la classe session
-		  * 
-		  * - isAutheticated va nous permettre de savoir si l'utilisateur est connecté 
-		*/
+		 * UserSession - instance de la classe session
+		 * 
+		 * - isAutheticated va nous permettre de savoir si l'utilisateur est connecté 
+		 */
 		$userSession = new UserSession();
 		$flashbag = new FlashBag();
-		if ($userSession->isAuthenticated()==false) 
+		if ($userSession->isAuthenticated() == false)
 			/** Redirection vers le login */
 			$http->redirectTo('/login/');
-        
-		if ($userSession->isAuthorized([1,2,3])==false)
-		{
+
+		if ($userSession->isAuthorized([1, 2, 3]) == false) {
 			$flashbag->add("Vous n'estes pas autorisé");
 			$http->redirectTo('/admin/');
 		}
-		
+
 
 		/**
 		 * usermodel
 		 * @var UsersModel instance de la class UserModel
 		 * @author ODRC 
-		*/
+		 */
 		$usersModel = new UsersModel();
 		$articlesModel = new ArticlesModel();
 		$commentsModel = new CommentsModel();
@@ -49,7 +48,7 @@ class ProfileController
 		 * @var array $recently tableau receptacle ou seron melangé les resultats des requetes precedantes
 		 * @author ODRC
 		 */
-		$user = $usersModel->find($userId);
+		$user = $usersModel->findById($userId);
 		$articles = $articlesModel->findByAuthor($userId, 5);
 		$comments = $commentsModel->findByPostAuthor($userId, 5);
 		$pics = $galleryModel->findByUser($userId, 5);
@@ -60,7 +59,7 @@ class ProfileController
 		 * @return string $formatedDate
 		 * @author ODRC
 		 */
-		function dateFormat(string $date):string
+		function dateFormat(string $date): string
 		{
 			$dateObj = date_create($date);
 			return date_format($dateObj, 'g:ia \o\n l jS F Y');
@@ -76,51 +75,49 @@ class ProfileController
 		 * @return string $timePastStr 
 		 * @author ODRC
 		 */
-		function calcTimePast(string $timePast):string
+		function calcTimePast(string $timePast): string
 		{
 			$time = intval($timePast);
 			if ($time < 60)
-				$timePastStr = $time.' minutes';
-			elseif ($time >= 60 && $time < 1440) 
-				$timePastStr = number_format($time/60,0) .' heures';
-			elseif ($time >= 1440  && $time < 10080 )
-				$timePastStr = number_format($time/1440) .' jours';
+				$timePastStr = $time . ' minutes';
+			elseif ($time >= 60 && $time < 1440)
+				$timePastStr = number_format($time / 60, 0) . ' heures';
+			elseif ($time >= 1440  && $time < 10080)
+				$timePastStr = number_format($time / 1440) . ' jours';
 			elseif ($time >= 10080)
-				$timePastStr = number_format($time/10080) .' semaines';
+				$timePastStr = number_format($time / 10080) . ' semaines';
 
 			return $timePastStr;
 		}
 
 
 		/**
-		  * 
-		  * @var user array information correspondante à l'utilisateur recherché
-		  * @var roles array liste de roles conus
-		  * 
-		*/
-		$gateway = ['roles' => $usersModel->role,
-					'user' => $user,
-					'articles' => $articles,
-					'comments' => $comments,
-					'pics' => $pics,
-					'flashbag' => $flashbag->fetchMessages(),
-					'pageTitle' => 'Profile'
-					];
+		 * 
+		 * @var user array information correspondante à l'utilisateur recherché
+		 * @var roles array liste de roles conus
+		 * 
+		 */
+		$gateway = [
+			'roles' => $usersModel->role,
+			'user' => $user,
+			'articles' => $articles,
+			'comments' => $comments,
+			'pics' => $pics,
+			'flashbag' => $flashbag->fetchMessages(),
+			'pageTitle' => 'Profile'
+		];
 
 
 		return $gateway;
-    }
+	}
 
-    public function httpPostMethod(Http $http, array $formFields)
-    {
-    	/*
+	public function httpPostMethod(Http $http, array $formFields)
+	{
+		/*
     	 * Méthode appelée en cas de requête HTTP POST
     	 *
     	 * L'argument $http est un objet permettant de faire des redirections etc.
     	 * L'argument $formFields contient l'équivalent de $_POST en PHP natif.
 		*/
-
-
-		
-    }
+	}
 }

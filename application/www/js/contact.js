@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 // DATA
 /////////////////////////////////////////////////////////////////////////////////////////
-let formValues = {};
+
 
 
 
@@ -16,28 +16,46 @@ let formValues = {};
  * @param event
  * @author ODRC
  */
-function formValidate() 
-{  
-    
+function formValidate() {
+
     event.preventDefault();
-    if (formValues.email.value === '' || formValues.message.value === '')
-    {
-        alert(`Veillez remplir les champs email et message s'il vous plait`);
-    } else {
-        document.querySelector('form').submit();
-        alert(`Votre message a été transmit`);
+    const contact = {
+        name: document.querySelector('input[name="name"]').value,
+        email: document.querySelector('input[name="email"]').value,
+        message: document.querySelector('#message').value
     }
 
+    if (contact.email === '' || contact.message === '') {
+        alert(`Veillez remplir les champs email et message s'il vous plait`);
+        return;
+    } else {
+        if (!validateEmail(contact.email)) {
+            alert(`votre adresse mail n'est pas conforme`);
+            return;
+        } else {
+            $('form#contact').submit();
+            alert(`Votre message a été transmit.`);
+        }
+    }
+}
+
+/**
+ * Determine si une chaine de caracters est un email 
+ * @param {string} mail 
+ * @returns {boolean}
+ * @author {ODRC}
+ */
+function validateEmail(mail) {
+    return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) ? true : false;
 }
 
 /**
  * Annule la validation du formulaire en cas d'appui de la touche Enter
  * @param {Event} event 
  */
-function cancelSubmit(event) 
-{
+function cancelSubmit(event) {
     if (event.key === "Enter")
-    event.preventDefault();
+        event.preventDefault();
 }
 
 
@@ -46,15 +64,12 @@ function cancelSubmit(event)
 /////////////////////////////////////////////////////////////////////////////////////////
 // CODE PRINCIPAL                                                                      //
 /////////////////////////////////////////////////////////////////////////////////////////
-document.addEventListener('DOMContentLoaded',function(){    
+document.addEventListener('DOMContentLoaded', function () {
 
     document.querySelector('#sendMessage').addEventListener('click', formValidate);
-    formValues.name = document.querySelector('input[name="name"]')
-    formValues.email = document.querySelector('input[name = "email"')
-    formValues.message = document.querySelector('input[name= "message"]');
     //cancel submit via enter
-    formValues.name.addEventListener('keydown', cancelSubmit);
-    formValues.email.addEventListener('keydown', cancelSubmit);
+    document.querySelector('input[name="name"]').addEventListener('keydown', cancelSubmit);
+    document.querySelector('input[name="name"]').addEventListener('keydown', cancelSubmit);
 
-    
+
 });

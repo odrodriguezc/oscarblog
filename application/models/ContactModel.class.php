@@ -7,7 +7,7 @@ class ContactModel extends MasterModel
     /**
      * @var string Database table utilisée pour les requête
      */
-    private $table = 'contact';
+    protected string $table = 'contact';
 
 
     /**

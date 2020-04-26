@@ -6,7 +6,7 @@ class GalleryModel extends MasterModel
     /**
      * @var string Database table utilisée pour les requête
      */
-    private $table = 'picture';
+    protected string $table = 'picture';
 
     /**
      * @var string Database table has post utilisée pour les requête
@@ -22,20 +22,6 @@ class GalleryModel extends MasterModel
     public function listAll(int $userId)
     {
         return $this->dbh->query("SELECT * FROM {$this->table} WHERE userId = ?", [$userId]);
-    }
-
-    /**
-     * 
-     */
-
-    /** Trouver une picture avec son ID
-     *
-     * @param integer $id identifiant 
-     * @return Array Jeu d'enregistrement comportant le picture trouvé
-     */
-    public function find($id)
-    {
-        return $this->dbh->queryOne('SELECT * FROM ' . $this->table . ' WHERE id = ?', [$id]);
     }
 
     /**
@@ -55,17 +41,6 @@ class GalleryModel extends MasterModel
 
         $limitedStr = func_num_args() == 2 && $limit != 0 ? "LIMIT {$limit}" : '';
         return $this->dbh->query('SELECT *, TIMESTAMPDIFF(MINUTE,uploadAt,CURRENT_TIMESTAMP) AS timePast FROM ' . $this->table . ' WHERE userId=? ORDER BY timePast ' . $limitedStr . ' ', [$id]);
-    }
-
-
-    /**
-     * Supprimer une picture avec son id
-     * @param integer $id identifian 
-     * @return int  
-     */
-    public function delete($id): int
-    {
-        return $this->dbh->executeSQL('DELETE FROM ' . $this->table . ' WHERE id=?', [$id]);
     }
 
 

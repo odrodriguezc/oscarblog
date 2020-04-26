@@ -7,7 +7,7 @@ class CommentsModel extends MasterModel
     /**
      * @var string Database table utilisée pour les requête
      */
-    private $table = 'post_comment';
+    protected string $table = 'post_comment';
 
     /** 
      * Retourner un tableau de tous les commentaires
@@ -70,16 +70,5 @@ class CommentsModel extends MasterModel
                                     ORDER BY timePast ASC {$limitedStr}",
             [$id, $id]
         );
-    }
-
-
-    /**
-     * Supprimer un commentaire avec son id
-     * @param integer $id identifian du post
-     * @return int  dernier row
-     */
-    public function delete($id): int
-    {
-        return  $this->dbh->executeSQL('DELETE FROM ' . $this->table . ' WHERE id=?', [$id]);
     }
 }

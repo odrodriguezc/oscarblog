@@ -8,12 +8,12 @@ class CategoriesModel extends MasterModel
     /**
      * @var string Database table utilisée pour les requête
      */
-    private $table  = 'category';
+    protected string $table  = 'category';
 
     /**
      * @var string Database table has post utilisée pour les requête
      */
-    private $tableHas =  'post_has_category';
+    protected $tableHas =  'post_has_category';
 
     /** Retourne un tableau de toutes les catégories en base
      *
@@ -24,20 +24,20 @@ class CategoriesModel extends MasterModel
     {
         return $this->dbh->query(
             "SELECT 
-                                        c1.id,
-                                        c1.title,
-                                        c1.description,
-                                        c2.title AS parent,
-                                        c1.parentId,
-                                        COUNT(p.postId) AS post
-                                    FROM
-                                         category c1
-                                            LEFT JOIN
-                                         category c2 ON c1.parentId = c2.id
-                                            LEFT JOIN
-                                         post_has_category p ON c1.id = p.categoryId
-                                    GROUP BY c1.id , c2.id
-                                    ORDER BY c1.title , c1.parentId"
+                c1.id,
+                c1.title,
+                c1.description,
+                c2.title AS parent,
+                c1.parentId,
+                COUNT(p.postId) AS post
+            FROM
+                    category c1
+                    LEFT JOIN
+                    category c2 ON c1.parentId = c2.id
+                    LEFT JOIN
+                    post_has_category p ON c1.id = p.categoryId
+            GROUP BY c1.id , c2.id
+            ORDER BY c1.title , c1.parentId"
         );
     }
 
@@ -53,15 +53,6 @@ class CategoriesModel extends MasterModel
         return $this->dbh->executeSQL('INSERT INTO ' . $this->table . ' (title, description, slug, parentId) VALUES (?,?,?,?)', [$title, $description, $slug, $parentId]);
     }
 
-    /** Trouve une catégorie avec son ID
-     *
-     * @param integer $id identifiant de la catégorie
-     * @return Array Jeu d'enregistrement comportant la catégorie trouvée
-     */
-    public function find($id)
-    {
-        return $this->dbh->queryOne('SELECT * FROM ' . $this->table . ' WHERE id = ?', [$id]);
-    }
 
     /**
      * findByPost
@@ -76,9 +67,12 @@ class CategoriesModel extends MasterModel
     {
         return $this->dbh->query(
             "SELECT *
-                                    FROM {$this->table} AS cat
-                                    INNER JOIN {$this->tableHas} AS has ON cat.id = has.categoryId
-                                    WHERE has.postId = ?",
+            FROM 
+                {$this->table} AS cat
+            INNER JOIN 
+                {$this->tableHas} AS has ON cat.id = has.categoryId
+            WHERE 
+                has.postId = ?",
             [$postId]
         );
     }
@@ -98,19 +92,6 @@ class CategoriesModel extends MasterModel
         $slug = $parentId . $title . uniqid();
         $this->dbh->executeSQL('UPDATE ' . $this->table . ' SET title=?, description=?, slug=?, parentId=? WHERE id=?', [$title, $description, $slug, $parentId, $id]);
     }
-
-
-    /** 
-     * Supprime une catégorie avec son ID
-     *
-     * @param integer $id identifiant de la catégorie
-     * @return void
-     */
-    public function delete($id)
-    {
-        $this->dbh->executeSQL('DELETE FROM ' . $this->table . ' WHERE id=?', [$id]);
-    }
-
 
     /**
      * Ajouter des categories dans un article

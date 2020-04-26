@@ -1,33 +1,33 @@
 <!-- Main Content -->
 <section class="contact container-80 main">
-    <!-- Post Article -->
-    <!-- Post Article -->
-    <article class="post">
-      <header class="post">
-        <h1 class="title">Nous contacter </h1>
-        <h2 class="subtitle"><?= $contacts['metaTitle']?> </h2>
-      </header>
-      
-      <section class="body-post">
-        <img class="post-img img-big" src="<?= $wwwUrl ?>/assets/images/posts/md_<?= $contacts['picture'] ? $contacts['picture'] : 'default_picture.jpg' ?>" alt="article">
-        <div class="post-content"> 
-        <?= $contacts['content']?>
-        </div>
-      </section>
-    </article>
+  <!-- Post Article -->
+  <!-- Post Article -->
+  <article class="post">
+    <header class="post">
+      <h1 class="title">Nous contacter </h1>
+      <h2 class="subtitle"><?= $contacts['metaTitle'] ?> </h2>
+    </header>
+
+    <section class="body-post">
+      <img class="post-img img-big" src="<?= $wwwUrl ?>/assets/images/posts/md_<?= $contacts['picture'] ? $contacts['picture'] : 'default_picture.jpg' ?>" alt="article">
+      <div class="post-content">
+        <?= $contacts['content'] ?>
+      </div>
+    </section>
+  </article>
 
 
-    <form class="contact" action="<?= $requestUrl ?>/contact/" method="post">
+  <form id="contact" class="contact" action="<?= $requestUrl ?>/contact/" method="post">
 
-        <input class="txt" type="text" name="name" id="name" placeholder="Name">
-    
-        <input class="txt" type="email" name="email" id="email" placeholder="Email" required>
-    
-        <textarea name="message" id="message" cols="30" rows="10" placeholder="Message" required></textarea>
-        <input id="sendMessage" class="btn flat-button" type="submit" value="Send">
-    </form>
+    <input class="txt" type="text" name="name" id="name" placeholder="Name">
+
+    <input class="txt" type="email" name="email" id="email" placeholder="Email" required>
+
+    <textarea name="message" id="message" cols="30" rows="10" placeholder="Message" required></textarea>
+
+    <input id="sendMessage" class="btn flat-button" type="submit" value="Send">
+  </form>
 </section>
 
 
 <script src="<?= $wwwUrl ?>/js/contact.js"></script>
-
