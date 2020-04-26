@@ -14,6 +14,5 @@
 $config['autoload-chain'] = false;
 
 // List of all the intercepting filters classes.
-$config['intercepting-filters'] = [ ];
-$config['layouts'] = ['admin'=>'LayoutAdmin'];
+$config['layouts'] = ['admin' => 'LayoutAdmin'];
 $config['intercepting-filters'] = ['UserSession', 'DataValidation', 'Upload'];

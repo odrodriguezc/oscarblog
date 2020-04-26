@@ -1,5 +1,8 @@
 <?php
 
+use Email\Email;
+use Email\SendEmail;
+
 class ContactController
 {
 	public function httpGetMethod(Http $http, array $queryFields)
@@ -53,9 +56,16 @@ class ContactController
 			/** Enregistrer les données dans la base de données */
 			$contactModel->addMessage($data['email'], $data['message'], $data['name']);
 
-			$http->redirectTo('/');
-
 			//generer email automatique pour demander la confimation de l'adhesion
+			$email = new Email($data['email'], 'contact.oscarblog@gmail.com', "Confirmation de reception de votre message", "<p>fkaldfadlñ</p><p>kfadfñkadkfajdkfajdñfkajdñfakdjfñakdjfñkajd dkjfak fka dfkadj fkadjfñadkfjañdkfadjñfkadj f</p>");
+
+			$mailler = new SendEmail();
+			$response = $mailler->process($email);
+
+			///envoyer link pour creer le profil
+
+
+			$http->redirectTo('/');
 		} catch (DomainException $th) {
 			//throw $th;
 			/** Réaffichage du formulaire avec un message d'erreur. */

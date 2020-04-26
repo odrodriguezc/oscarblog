@@ -14,7 +14,7 @@ class MicroKernel
 
     public function __construct()
     {
-        $this->applicationPath = realpath(ROOT_PATH.'/application');
+        $this->applicationPath = realpath(ROOT_PATH . '/application');
         $this->configuration   = new Configuration();
         $this->controllerPath  = null;
     }
@@ -22,7 +22,7 @@ class MicroKernel
     public function bootstrap()
     {
         // Enable project classes autoloading.
-        spl_autoload_register([ $this, 'loadClass' ]);
+        spl_autoload_register([$this, 'loadClass',]);
 
         // Load configuration files.
         $this->configuration->load('database');
@@ -30,53 +30,49 @@ class MicroKernel
 
         // Convert all PHP errors to exceptions.
         error_reporting(E_ALL);
-        set_error_handler(function($code, $message, $filename, $lineNumber)
-        {
+        set_error_handler(function ($code, $message, $filename, $lineNumber) {
             throw new ErrorException($message, $code, 1, $filename, $lineNumber);
         });
 
         return $this;
     }
 
+    // public function autoload($className)
+    // {
+    //     $className = __DIR__ . '/' . str_replace(['Application', '\\'], ['src', '/'], $className) . '.php';
+
+    //     if (file_exists($className)) {
+    //         require_once $className;
+    //     }
+    // }
+
     public function loadClass($class)
     {
         // Enable PSR-4 style namespace support.
         $class = str_replace('\\', DIRECTORY_SEPARATOR, $class);
 
-        if(substr($class, -10) == 'Controller')
-        {
+        if (substr($class, -10) == 'Controller') {
             // This is a controller class file.
             $filename = "$this->controllerPath/$class.class.php";
-        }
-        else if(substr($class, -4) == 'Form')
-        {
+        } else if (substr($class, -4) == 'Form') {
             // This is a form class file.
             $filename = "$this->applicationPath/forms/$class.class.php";
-        }
-        elseif(substr($class, -5) == 'Model')
-        {
+        } elseif (substr($class, -5) == 'Model') {
             // This is a model class file.
             $filename = "$this->applicationPath/models/$class.class.php";
-        }
-        else
-        {
+        } else {
             // This is an application class file (outside of MVC).
             $filename = "$this->applicationPath/classes/$class.class.php";
         }
 
-        if(file_exists($filename) == true)
-        {
+        if (file_exists($filename) == true) {
             /** @noinspection PhpIncludeInspection */
             include $filename;
-        }
-        else
-        {
-            if($this->configuration->get('library', 'autoload-chain', false) == false)
-            {
-                throw new ErrorException
-                (
-                    "La classe <strong>$class</strong> ne se trouve pas ".
-                    "dans le fichier<br><strong>$filename</strong>"
+        } else {
+            if ($this->configuration->get('library', 'autoload-chain', false) == false) {
+                throw new ErrorException(
+                    "La classe <strong>$class</strong> ne se trouve pas " .
+                        "dans le fichier<br><strong>$filename</strong>"
                 );
             }
         }
@@ -84,8 +80,7 @@ class MicroKernel
 
     public function run(FrontController $frontController)
     {
-        try
-        {
+        try {
             // Enable output buffering.
             ob_start();
 
@@ -101,20 +96,19 @@ class MicroKernel
 
             // Send HTTP response and turn off output buffering.
             ob_end_flush();
-        }
-        catch(Exception $exception)
-        {
+        } catch (Exception $exception) {
             // Destroy any output buffer contents that could have been added.
             ob_clean();
 
-            $frontController->renderErrorView
-            (
-                implode('<br>',
-                [
-                    $exception->getMessage(),
-                    "<strong>Fichier</strong> : ".$exception->getFile(),
-                    "<strong>Ligne</strong> : ".$exception->getLine()
-                ])
+            $frontController->renderErrorView(
+                implode(
+                    '<br>',
+                    [
+                        $exception->getMessage(),
+                        "<strong>Fichier</strong> : " . $exception->getFile(),
+                        "<strong>Ligne</strong> : " . $exception->getLine()
+                    ]
+                )
             );
         }
     }
