@@ -57,15 +57,40 @@ class ContactController
 			$contactModel->addMessage($data['email'], $data['message'], $data['name']);
 
 			//generer email automatique pour demander la confimation de l'adhesion
-			$email = new Email($data['email'], 'contact.oscarblog@gmail.com', "Confirmation de reception de votre message", "<p>fkaldfadlñ</p><p>kfadfñkadkfajdkfajdñfkajdñfakdjfñakdjfñkajd dkjfak fka dfkadj fkadjfñadkfjañdkfadjñfkadj f</p>");
+			if (!empty($data['subscribe']) && $data['subscribe'] === 'on') {
+				$token = bin2hex(random_bytes(12));
+				$tokenModel = new TokensModel();
+				$tokenModel->generate($token, $data['email']);
+				$email = new Email(
+					$data['email'],
+					'contact.oscarblog@gmail.com',
+					"Merci de nous contacter - Creer votre profil",
+					"<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Non, dolorum velit libero sequi illum maxime?</p>
+					<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veritatis inventore ex recusandae perspiciatis! Obcaecati, inventore nemo neque officiis aperiam fugit sint dolores ad, repudiandae sunt officia repellendus itaque deleniti velit nihil hic numquam nisi perspiciatis illum tempore? Ipsam, quisquam officiis!</p>
+					<br><br><br>
+					<a href=\"www.oscarblog.com/register/?token={$token}\">Ceer votre profil</a>"
+				);
+			} else {
+				$email = new Email(
+					$data['email'],
+					'contact.oscarblog@gmail.com',
+					"Merci de nous contacter",
+					"<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Non, dolorum velit libero sequi illum maxime?</p>
+				<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veritatis inventore ex recusandae perspiciatis! Obcaecati, inventore nemo neque officiis aperiam fugit sint dolores ad, repudiandae sunt officia repellendus itaque deleniti velit nihil hic numquam nisi perspiciatis illum tempore? Ipsam, quisquam officiis!</p>"
+				);
+			}
 
 			$mailler = new SendEmail();
 			$response = $mailler->process($email);
 
-			///envoyer link pour creer le profil
+			$articlesModel = new ArticlesModel();
+			$contacts =  $articlesModel->findByTitle('_CONTACTS');
+			$flashbag->add($response);
 
-
-			$http->redirectTo('/');
+			return [
+				'flashbag' => $flashbag->fetchMessage(),
+				'contacts' => $contacts
+			];
 		} catch (DomainException $th) {
 			//throw $th;
 			/** Réaffichage du formulaire avec un message d'erreur. */
@@ -77,8 +102,6 @@ class ContactController
 			//erreur lancé dans l'exeption
 			$form->addError($th->getMessage());
 
-			$articlesModel = new ArticlesModel();
-			$contacts =  $articlesModel->findByTitle('_CONTACTS');
 
 			return   [
 				'_form' => $form,

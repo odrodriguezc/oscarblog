@@ -342,8 +342,8 @@ class GalleryModel extends MasterModel
     {
         return $this->dbh->executeSql(
             "INSERT INTO 
-                                        picture_collection (userId, title, description, published)
-                                        VALUES(?,?,?,?)",
+                picture_collection (userId, title, description, published)
+                VALUES(?,?,?,?)",
             [$userId, $title, $description, $published]
         );
     }

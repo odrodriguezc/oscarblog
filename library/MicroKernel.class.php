@@ -37,15 +37,6 @@ class MicroKernel
         return $this;
     }
 
-    // public function autoload($className)
-    // {
-    //     $className = __DIR__ . '/' . str_replace(['Application', '\\'], ['src', '/'], $className) . '.php';
-
-    //     if (file_exists($className)) {
-    //         require_once $className;
-    //     }
-    // }
-
     public function loadClass($class)
     {
         // Enable PSR-4 style namespace support.
