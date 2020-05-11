@@ -24,6 +24,25 @@ class MicroKernel
         // Enable project classes autoloading.
         spl_autoload_register([$this, 'loadClass',]);
 
+        spl_autoload_register(function ($className) {
+            $className = ltrim($className, '\\');
+            $fileName = '';
+            if ($lastNsPos = strripos($className, '\\')) {
+                $namespace = substr($className, 0, $lastNsPos);
+                $className = substr($className, $lastNsPos + 1);
+                $fileName = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
+            }
+            $fileName = __DIR__ . DIRECTORY_SEPARATOR . $fileName . $className . '.php';
+            if (file_exists($fileName)) {
+                require $fileName;
+
+                return true;
+            }
+
+            return false;
+        });
+
+
         // Load configuration files.
         $this->configuration->load('database');
         $this->configuration->load('library');
@@ -53,20 +72,52 @@ class MicroKernel
             $filename = "$this->applicationPath/models/$class.class.php";
         } else {
             // This is an application class file (outside of MVC).
-            $filename = "$this->applicationPath/classes/$class.class.php";
+            $filename = "$this->applicationPath/classes/$class.php";
         }
 
-        if (file_exists($filename) == true) {
-            /** @noinspection PhpIncludeInspection */
-            include $filename;
+        /**
+         * modif sauvage pour ajoute le autoload de faker
+         * @todo supprimer en face prod
+         */
+        if (file_exists($filename) == false) {
+            $className = ltrim($class, '\\');
+            $fileName = '';
+            if ($lastNsPos = strripos($className, '\\')) {
+                $namespace = substr($className, 0, $lastNsPos);
+                $className = substr($className, $lastNsPos + 1);
+                $fileName = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
+            }
+            $fileName = __DIR__ . DIRECTORY_SEPARATOR . $fileName . $className . '.php';
+            if (file_exists($fileName)) {
+                require $fileName;
+            }
         } else {
-            if ($this->configuration->get('library', 'autoload-chain', false) == false) {
-                throw new ErrorException(
-                    "La classe <strong>$class</strong> ne se trouve pas " .
-                        "dans le fichier<br><strong>$filename</strong>"
-                );
+            if (file_exists($filename) == true) {
+                /** @noinspection PhpIncludeInspection */
+                include $filename;
+            } else {
+
+                if ($this->configuration->get('library', 'autoload-chain', false) == false) {
+                    throw new ErrorException(
+                        "La classe <strong>$class</strong> ne se trouve pas " .
+                            "dans le fichier<br><strong>$filename</strong>"
+                    );
+                }
             }
         }
+
+        // if (file_exists($filename) == true) {
+        //     /** @noinspection PhpIncludeInspection */
+        //     include $filename;
+        // } else {
+
+        //     if ($this->configuration->get('library', 'autoload-chain', false) == false) {
+        //         throw new ErrorException(
+        //             "La classe <strong>$class</strong> ne se trouve pas " .
+        //                 "dans le fichier<br><strong>$filename</strong>"
+        //         );
+        //     }
+        // }
     }
 
     public function run(FrontController $frontController)

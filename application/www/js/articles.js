@@ -3,6 +3,9 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 // FONCTIONS                                                                           //
 /////////////////////////////////////////////////////////////////////////////////////////
+const DEFAULT_IMG = "default_picture.jpg";
+const RANDOM_IMG = "https://picsum.photos/1200/800?random=";
+
 let actionsBag = {
     likes: [],
     dislikes: [],
@@ -203,6 +206,12 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     document.querySelectorAll('.share').forEach(element => {
         element.addEventListener('click', share);
+    });
+
+    document.querySelectorAll('.post-img').forEach((element, key) => {
+        if (element.src.indexOf(DEFAULT_IMG) !== -1) {
+            element.src = RANDOM_IMG + (key + 1);
+        }
     });
 
 });

@@ -1,25 +1,25 @@
 <!-- Start Page Content -->
 <!-- ============================================================== -->
 <!-- Afichage des erreurs de telechargement s'il y en a -->
-<?php if (isset($errorMessages) && count($errorMessages) != 0):?>
-  <?php foreach ($errorMessages as $key => $message):?>
-    <div class="alert alert-warning alert-dismissible fade show"><?= $message ?>
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-  <?php endforeach; ?>
+<?php if (isset($errorMessages) && count($errorMessages) != 0) : ?>
+    <?php foreach ($errorMessages as $key => $message) : ?>
+        <div class="alert alert-warning alert-dismissible fade show"><?= $message ?>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    <?php endforeach; ?>
 <?php endif; ?>
 
 <!-- Afichage des erreur du uploadSUcces s'il y en a -->
-<?php if (isset($uploadSucces) && count($uploadSucces) != 0):?>
-  <?php foreach ($uploadSucces as $key => $message):?>
-    <div class="alert alert-succes alert-dismissible fade show"><?= $message ?>
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-  <?php endforeach; ?>
+<?php if (isset($uploadSucces) && count($uploadSucces) != 0) : ?>
+    <?php foreach ($uploadSucces as $key => $message) : ?>
+        <div class="alert alert-succes alert-dismissible fade show"><?= $message ?>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    <?php endforeach; ?>
 <?php endif; ?>
 
 <div class="row">
@@ -32,11 +32,14 @@
 
             <div class="card-block">
                 <div class="container row">
-                    <form class="search-box col-10" action="jquery" method="post">
-                       <input class="form-control" type="search" name="search-picture" id="search-picture" placeholder="Search & enter">
-                       <input class="d-none" type="submit" value="search">
-                   </form>
-                   <a id="upload" class="btn btn-primary col-2"  data-toggle="collapse" href="#uploadImages" role="button" aria-expanded="false" aria-controls="uploadImages">Ajouter</a>
+                    <form class="search-box col-sm-6 col-md-8" action="jquery" method="post">
+                        <input class="form-control" type="search" name="search-picture" id="search-picture" placeholder="Search & enter">
+                        <input class="d-none" type="submit" value="search">
+                    </form>
+                    <div class="col-6 col-md-4 align-middle">
+                        <a id="upload" class="stretched-link mr-2 " data-toggle="collapse" href="#uploadImages" role="button" aria-expanded="false col" aria-controls="uploadImages">Importer</a>
+                        <a id="newColBtn" class="stretched-link" data-toggle="modal" data-target="#newColModal" href="#newColModal">Creer</a>
+                    </div>
                 </div>
             </div><!-- fin cardblok -->
 
@@ -46,52 +49,96 @@
                     <div class="container">
                         <h4 class="card-subtitle">Ajouter des images</h4>
                         <div class="container dropzone">
-                            <span class="text-center">Drop image</span>
+                            <!-- <span class="text-center">Drop image</span> -->
+                            <ul id="fileList">
+
+                            </ul>
                             <form class="" action="<?= $requestUrl ?>/admin/gallery/" method="post" enctype="multipart/form-data">
-                                <input type="file" id="fileupload" class="inputfile" name="file[]" multiple data-maxUpload = "5"> 
-                                <input type="submit" value="Upload">
+                                <input type="file" id="fileupload" class="inputfile" name="file[]" multiple data-maxUpload="5">
+                                <input id="uploadSubmit" type="submit" value="Upload">
                             </form>
                         </div>
                     </div>
-                </div><!--fin cardblock-->
-            </section>
-          
-            <?php foreach ($picsByCollection as $key => $collection) :?>
-            <div class="card-block">
-                <div class="container">
-                    <h6 class="card-subtitle"><?=$collection[0]['collectionTitle']?></h6>
-                    <div class="row text-center text-lg-left">
-                    <?php foreach ($collection as $key => $pic) : ?>
-                        <div class="col-lg-3 col-md-4 col-6">
-                            <a href="<?= $requestUrl ?>/admin/gallery/image/?id=<?= $pic['id']?>" class="d-block mb-4 h-100">
-                                <img class="img-fluid img-thumbnail" src="<?= $wwwUrl ?>/assets/images/gallery/sm_<?=$pic['uniqueName']?>" alt="">
-                            </a>
-                        </div>
-                    <?php endforeach ?>
-                    </div><!-- fin row -->
                 </div>
-            </div>
-            <?php endforeach ?>
+                <!--fin cardblock-->
+            </section>
+
+            <?php if (!empty($picsByCollection)) : ?>
+                <?php foreach ($picsByCollection as $key => $collection) : ?>
+                    <div class="card-block">
+                        <div class="container">
+                            <h6 class="card-subtitle"><?= $collection[0]['collectionTitle'] ?></h6>
+                            <div class="row text-center text-lg-left">
+                                <?php foreach ($collection as $key => $pic) : ?>
+                                    <div class="col-lg-3 col-md-4 col-6">
+                                        <a href="<?= $requestUrl ?>/admin/gallery/image/?id=<?= $pic['id'] ?>" class="d-block mb-4 h-100">
+                                            <img class="img-fluid img-thumbnail" src="<?= $wwwUrl ?>/assets/images/gallery/sm_<?= $pic['uniqueName'] ?>" alt="">
+                                        </a>
+                                    </div>
+                                <?php endforeach ?>
+                            </div><!-- fin row -->
+                        </div>
+                    </div>
+                <?php endforeach ?>
+            <?php endif ?>
 
             <!--Toutes les photos -->
             <div class="card-block">
                 <div class="container">
-                <h6 class="card-subtitle">Toutes</h6>
+                    <h6 class="card-subtitle">Toutes</h6>
                     <div class="row text-center text-lg-left">
-                    <?php foreach ($picList as $key => $pic) : ?>
-                        <div class="col-lg-3 col-md-4 col-6">
-                            <a href="<?= $requestUrl ?>/admin/gallery/image/?id=<?= $pic['id']?>" class="d-block mb-4 h-100">
-                                <img class="img-fluid img-thumbnail" src="<?= $wwwUrl ?>/assets/images/gallery/sm_<?=$pic['uniqueName']?>" alt="">
-                            </a>
-                        </div>
-                    <?php endforeach ?>
+                        <?php foreach ($picList as $key => $pic) : ?>
+                            <div class="col-lg-3 col-md-4 col-6">
+                                <a href="<?= $requestUrl ?>/admin/gallery/image/?id=<?= $pic['id'] ?>" class="d-block mb-4 h-100">
+                                    <img class="img-fluid img-thumbnail" src="<?= $wwwUrl ?>/assets/images/gallery/sm_<?= $pic['uniqueName'] ?>" alt="">
+                                </a>
+                            </div>
+                        <?php endforeach ?>
                     </div><!-- fin row -->
-                </div> <!--fin container-->
+                </div>
+                <!--fin container-->
             </div><!-- fin cardblok -->
         </div>
     </section>
 </div>
 
+<!-- Modal New Collection -->
+<div class="modal fade" id="newColModal" tabindex="-1" role="dialog" aria-labelledby="newColModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newColModalLabel">Nouvelle collection</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-control" id="newCollectionForm" method="POST" action="<?= $requestUrl ?>/admin/gallery/collections/new/">
+                    <div class="form-group">
+                        <label for="colTitle" class="col-form-label">Titre:</label>
+                        <input type="text" class="form-control" name="title" id="colTitle">
+                    </div>
+                    <div class="form-group">
+                        <label for="colDescription" class="col-form-label">Description:</label>
+                        <textarea class="form-control" name="description" id="colDescription"></textarea>
+                    </div>
+                    <div class="form-control form-radio form-control-inline">
+                        <input type="radio" id="public" name="published" value="1" class="form-control-input">
+                        <label class="form-control-label" for="public">Publique</label>
+                    </div>
+                    <div class="form-control form-radio form-control-inline">
+                        <input type="radio" id="private" name="published" value="0" checked class="form-control-input">
+                        <label class="form-control-label" for="private">Privée</label>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <input id="newColValidate" type="submit" class="btn btn-primary" value="envoyer">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -120,4 +167,4 @@
 <!-- ============================================================== -->
 <!-- Scripts JS -->
 <!-- ============================================================== -->
-<!--<script src="<?= $wwwUrl ?>/js/admin/gallery.js"></script>-->
+<script src="<?= $wwwUrl ?>/js/admin/gallery.js"></script>

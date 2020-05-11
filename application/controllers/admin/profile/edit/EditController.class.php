@@ -65,18 +65,7 @@ class EditController
 
     public function httpPostMethod(Http $http, array $formFields)
     {
-        /*
-    	 * Méthode appelée en cas de requête HTTP POST
-    	 *
-    	 * L'argument $http est un objet permettant de faire des redirections etc.
-    	 * L'argument $formFields contient l'équivalent de $_POST en PHP natif.
-    	 */
 
-        /** 
-         * UserSession - instance de la classe session
-         * 
-         * - isAutheticated va nous permettre de savoir si l'utilisateur est connecté 
-         */
         $userSession = new UserSession();
         $flashbag = new FlashBag();
         if ($userSession->isAuthenticated() == false)
@@ -105,7 +94,6 @@ class EditController
                 $validator->obligatoryFields([
                     'username' => $formFields['username'],
                     'email' => $formFields['email'],
-                    'role' => $formFields['role'],
                     'status' => $formFields['status'],
                     'currentPassword' => $formFields['currentPassword'],
                     'password' => $formFields['password'],
@@ -115,7 +103,6 @@ class EditController
                 $validator->obligatoryFields([
                     'username' => $formFields['username'],
                     'email' => $formFields['email'],
-                    'role' => $formFields['role'],
                     'status' => $formFields['status']
                 ]);
             }
@@ -126,8 +113,7 @@ class EditController
             $validator->username($data['username']);
             // format attendu : courriel
             $validator->email($data['email']);
-            //role
-            $validator->role($data['role'], $usersModel->role);
+
             //status
             $validator->status($data['status']);
             //phone 
@@ -237,6 +223,8 @@ class EditController
                 unlink(WWW_PATH . "/assets/images/users/sm_{$formFields['originalAvatar']}");
 
 
+            $role = $selectedUser['role'] ?? '1';
+
             /** Enregistrer les données dans la base de données */
             $usersModel->update(
                 $data['username'],
@@ -247,7 +235,7 @@ class EditController
                 $data['phone'],
                 $data['intro'],
                 $data['profile'],
-                $data['role'],
+                $role,
                 $data['status'],
                 $avatarName,
                 $data['id']

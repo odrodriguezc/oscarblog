@@ -10,134 +10,134 @@
 <!-- Start Page Content -->
 <!-- ============================================================== -->
 <!-- Afichage des erreur du formulair s'il y en a -->
-<?php if (count($errorMessage) != 0):?>
-  <?php foreach ($errorMessage as $key => $message):?>
+<?php if (count($errorMessage) != 0) : ?>
+  <?php foreach ($errorMessage as $key => $message) : ?>
     <div class="alert alert-warning alert-dismissible fade show"><?= $message ?>
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+        <span aria-hidden="true">&times;</span>
       </button>
     </div>
   <?php endforeach; ?>
 <?php endif; ?>
 <!-- Row -->
 <div class="row">
-    <!-- Column -->
-    <div class="col-lg-4 col-xlg-3 col-md-5">
-        <div class="card">
-          <form id="formUpdate" class="form-horizontal form-material" action="<?= $requestUrl ?>/admin/profile/edit/" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="id" value="<?=$id?>" readonly>
-            <div class="card-block text-center">
-              <div class="m-t-30"> 
-                <img class="img-circle" width="150" src="<?= $wwwUrl ?>/assets/images/users/sm_<?=$originalAvatar ? $originalAvatar : "default_avatar.jpg"?>"/>
-                <input class="form-control-file" type="file" name="avatar" id="avatar" accept="image/png,image/jpeg,image/gif">
-                <!--input caché pour passer l'index originalAvatar-->
-                <input type="hidden" name="originalAvatar" value="<?=$originalAvatar?>">
-                <input class="card-title m-t-10 form-control form-control-line text-center " type="text" id="username" name="username" required  maxlength="50" value="<?=$username?>" >
-                <select class="form-control form-control-line text-center " name="role" id="role">
-                  <?php foreach ($roles as $key => $value) :?>
-                  <option value="<?=$role?>" <?= $retSelection = ($value == $role) ? 'selected' : '' ; ?> ><?= $key?></option>
-                  <?php endforeach ?>
-                </select>
-                <select class="form-control form-control-line text-center " name="status" id="status">
-                  <option value="1">Actif</option>
-                  <option value="0">Inactif</option>
-                </select>
-                <div class="row text-center justify-content-md-center">
-                  <div class="col-4">
-                    <a href="javascript:void(0)" class="link"><i class="icon-people"></i> <span class="font-medium">254</span></a>
-                  </div>
-                  <div class="col-4">
-                    <a href="javascript:void(0)" class="link"><i class="icon-picture"></i> <span class="font-medium">54</span></a>
-                  </div>
-                </div>
-                </div>
+  <!-- Column -->
+  <div class="col-lg-4 col-xlg-3 col-md-5">
+    <div class="card">
+      <form id="formUpdate" class="form-horizontal form-material" action="<?= $requestUrl ?>/admin/profile/edit/" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="<?= $id ?>" readonly>
+        <div class="card-block text-center">
+          <div class="m-t-30">
+            <img class="img-circle" width="150" src="<?= $wwwUrl ?>/assets/images/users/sm_<?= $originalAvatar ? $originalAvatar : "default_avatar.jpg" ?>" />
+            <input class="form-control-file" type="file" name="avatar" id="avatar" accept="image/png,image/jpeg,image/gif">
+            <!--input caché pour passer l'index originalAvatar-->
+            <input type="hidden" name="originalAvatar" value="<?= $originalAvatar ?>">
+            <input class="card-title m-t-10 form-control form-control-line text-center " type="text" id="username" name="username" required maxlength="50" value="<?= $username ?>">
+            <select class="form-control form-control-line text-center " name="role" id="role" disabled>
+              <?php foreach ($roles as $key => $value) : ?>
+                <option value="<?= $role ?>" <?= $retSelection = ($value == $role) ? 'selected' : ''; ?>><?= $key ?></option>
+              <?php endforeach ?>
+            </select>
+            <select class="form-control form-control-line text-center " name="status" id="status">
+              <option value="1">Actif</option>
+              <option value="0">Inactif</option>
+            </select>
+            <div class="row text-center justify-content-md-center">
+              <div class="col-4">
+                <a href="javascript:void(0)" class="link"><i class="icon-people"></i> <span class="font-medium">254</span></a>
+              </div>
+              <div class="col-4">
+                <a href="javascript:void(0)" class="link"><i class="icon-picture"></i> <span class="font-medium">54</span></a>
+              </div>
             </div>
           </div>
-        <div class="card">
-            <div class="card-block text-center">
-            <a class="btn btn-danger" data-toggle="modal" data-target="#delUserModal" href="#delUserModal">Supprimer</a>
-            </div>
         </div>
     </div>
-    <!-- Column -->
-    <!-- Column -->
-    <div class="col-lg-8 col-xlg-9 col-md-7">
-        <div class="card">
-            <div class="card-block">
-                <div class="form-horizontal form-material">
-                    <div class="form-group">
-                        <label class="col-md-12" for="firsname">Firstname</label>
-                        <div class="col-md-12">
-                            <input class="form-control form-control-line " type="text" name="firstname" id="firstname" maxlength="100" value="<?=$firstname?>">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-md-12" for="lastname">Lastname</label>
-                      <div class="col-md-12">
-                        <input class="form-control form-control-line " type="text" name="lastname" id="lastname"  maxlength="100" value="<?=$lastname?>" >
-                      </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="email" class="col-md-12">Email</label>
-                        <div class="col-md-12">
-                            <input class="form-control form-control-line " type="email" required value="<?=$email?>"  name="email" id="email" >
-                        </div>
-                    </div>
-                    <div class="form-group">
-                      <label for="changePassword" class="col-md-12">Modifier mot de pass</label>
-
-                        <input class="form-control form-control-line " type="checkbox"  value="on"  name="changePassword" id="changePassword" >
-                    </div>
-                    <div id="passwordSection" class="hide"> 
-                      <div id="currentPasswordGroup" class="form-group">
-                          <label class="col-md-12" for="currentPassword">Actuel Password </label>
-                          <div class="col-md-12">
-                              <input class="form-control form-control-line" type="password" name="currentPassword" id="currentPassword" value="">
-                          </div>
-                      </div>
-                      <div id="passwordGroup" class="form-group ">
-                          <label class="col-md-12" for="password">Nouveau Password</label>
-                          <div class="col-md-12">
-                              <input class="form-control form-control-line " type="password" name="password" id="password" value="">
-                          </div>
-                      </div>
-                      <div id="confirmPasswordGroup" class="form-group " >
-                          <label class="col-md-12" for="confirmPassword">Confirm Password</label>
-                          <div class="col-md-12">
-                              <input class="form-control form-control-line " type="password" name="confirmPassword" id="confirmPassword" value="">
-                          </div>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-12" for="phone">Phone No.</label>
-                        <div class="col-md-12">
-                            <input class="form-control form-control-line " type="text" name="phone" id="phone" maxlength="100" value="<?=$phone?>" >
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-12" for="intro">Intro</label>
-                        <div class="col-md-12">
-                            <textarea rows="5" class="form-control form-control-line " name="intro" id="intro" ><?=$intro?></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-12" for="profile">Profile</label>
-                        <div class="col-md-12">
-                            <textarea rows="5" class="form-control form-control-line " name="profile" id="profile" ><?=$profile?></textarea>
-                        </div>
-                    </div>
-
-                    <div id="btnUpdateGroup" class="form-group ">
-                        <div class="col-sm-12">
-                            <a class="btn btn-success" data-toggle="modal" data-target="#updateConfirmModal"href="#updateConfirmModal" >Envoyer</a>
-                            <a class="btn btn-primary" href="#cancelModal" data-toggle="modal" data-target="#cancelModal">Annuler</a>
-                        </div>
-                    </div>
-                </div>
+    <div class="card">
+      <div class="card-block text-center">
+        <a class="btn btn-danger" data-toggle="modal" data-target="#delUserModal" href="#delUserModal">Supprimer</a>
+      </div>
+    </div>
+  </div>
+  <!-- Column -->
+  <!-- Column -->
+  <div class="col-lg-8 col-xlg-9 col-md-7">
+    <div class="card">
+      <div class="card-block">
+        <div class="form-horizontal form-material">
+          <div class="form-group">
+            <label class="col-md-12" for="firsname">Firstname</label>
+            <div class="col-md-12">
+              <input class="form-control form-control-line " type="text" name="firstname" id="firstname" maxlength="100" value="<?= $firstname ?>">
             </div>
           </div>
+          <div class="form-group">
+            <label class="col-md-12" for="lastname">Lastname</label>
+            <div class="col-md-12">
+              <input class="form-control form-control-line " type="text" name="lastname" id="lastname" maxlength="100" value="<?= $lastname ?>">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email" class="col-md-12">Email</label>
+            <div class="col-md-12">
+              <input class="form-control form-control-line " type="email" required value="<?= $email ?>" name="email" id="email">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="changePassword" class="col-md-12">Modifier mot de pass</label>
+
+            <input class="form-control form-control-line " type="checkbox" value="on" name="changePassword" id="changePassword">
+          </div>
+          <div id="passwordSection" class="hide">
+            <div id="currentPasswordGroup" class="form-group">
+              <label class="col-md-12" for="currentPassword">Actuel Password </label>
+              <div class="col-md-12">
+                <input class="form-control form-control-line" type="password" name="currentPassword" id="currentPassword" value="">
+              </div>
+            </div>
+            <div id="passwordGroup" class="form-group ">
+              <label class="col-md-12" for="password">Nouveau Password</label>
+              <div class="col-md-12">
+                <input class="form-control form-control-line " type="password" name="password" id="password" value="">
+              </div>
+            </div>
+            <div id="confirmPasswordGroup" class="form-group ">
+              <label class="col-md-12" for="confirmPassword">Confirm Password</label>
+              <div class="col-md-12">
+                <input class="form-control form-control-line " type="password" name="confirmPassword" id="confirmPassword" value="">
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-12" for="phone">Phone No.</label>
+            <div class="col-md-12">
+              <input class="form-control form-control-line " type="text" name="phone" id="phone" maxlength="100" value="<?= $phone ?>">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-12" for="intro">Intro</label>
+            <div class="col-md-12">
+              <textarea rows="5" class="form-control form-control-line " name="intro" id="intro"><?= $intro ?></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-12" for="profile">Profile</label>
+            <div class="col-md-12">
+              <textarea rows="5" class="form-control form-control-line " name="profile" id="profile"><?= $profile ?></textarea>
+            </div>
+          </div>
+
+          <div id="btnUpdateGroup" class="form-group ">
+            <div class="col-sm-12">
+              <a class="btn btn-success" data-toggle="modal" data-target="#updateConfirmModal" href="#updateConfirmModal">Envoyer</a>
+              <a class="btn btn-primary" href="#cancelModal" data-toggle="modal" data-target="#cancelModal">Annuler</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <!-- Column -->
+  </div>
+  <!-- Column -->
 </div>
 
 <!--  Modal pour confirmer les modifications et l'update -->
@@ -197,7 +197,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-        <a class="btn btn-success" id="updateBtnModal" href="<?= $requestUrl ?>/admin/users/del/?id=<?=$id?>">Confirmer</a>
+        <a class="btn btn-success" id="updateBtnModal" href="<?= $requestUrl ?>/admin/users/del/?id=<?= $id ?>">Confirmer</a>
       </div>
     </div>
   </div>

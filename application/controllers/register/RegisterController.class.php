@@ -31,7 +31,7 @@ class RegisterController
         $today = new DateTime('now');
         $interval = $createdAt->diff($today);
         if ($interval->days > 60) {
-            $flashbag->add("Votre invitation n'est plus valable, veilleuz en demander une autre.");
+            $flashbag->add("Votre invitation a expirée, veilleuz en demander une autre.");
             $http->redirectTo("/contact/");
         }
 

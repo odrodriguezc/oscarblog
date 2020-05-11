@@ -347,4 +347,17 @@ class GalleryModel extends MasterModel
             [$userId, $title, $description, $published]
         );
     }
+
+    public function sortPicByColletion(array $picsByCollection): array
+    {
+        $sortPicsByCollection = [];
+        foreach ($picsByCollection as $key => $pic) {
+            if (!array_key_exists($pic['collectionId'], $sortPicsByCollection)) {
+                $sortPicsByCollection[$pic['collectionId']][] = $pic;
+            } else {
+                $sortPicsByCollection[$pic['collectionId']][] = $pic;
+            }
+        }
+        return $sortPicsByCollection;
+    }
 }

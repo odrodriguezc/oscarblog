@@ -1,185 +1,189 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title> Oscar Rodriguez blog</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-		<!--  Vendor -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<head>
+	<title> Oscar Rodriguez blog</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-		<!-- Custom fonts for this template -->
-		<link href="https://fonts.googleapis.com/css?family=Playfair+Display&display=swap" rel="stylesheet"> 
+	<!--  Vendor -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-		<!-- Fontawesome -->
-		<script src="https://kit.fontawesome.com/a7f1e788fd.js" crossorigin="anonymous"></script>
-		
-		<!-- Custom styles for this template -->
-		<link href="<?= $wwwUrl ?>/css/normalize.css" rel="stylesheet">
-		<link href="<?= $wwwUrl ?>/css/style.css" rel="stylesheet">
+	<!-- Custom fonts for this template -->
+	<link href="https://fonts.googleapis.com/css?family=Playfair+Display&display=swap" rel="stylesheet">
 
+	<!-- Fontawesome -->
+	<script src="https://kit.fontawesome.com/a7f1e788fd.js" crossorigin="anonymous"></script>
 
-		<!-- Code principal JavaScript de l'application -->
-		<script src="<?= $wwwUrl ?>/js/utilities.js"></script>
+	<!-- Custom styles for this template -->
+	<link href="<?= $wwwUrl ?>/css/normalize.css" rel="stylesheet">
+	<link href="<?= $wwwUrl ?>/css/style.css" rel="stylesheet">
 
 
-	
-	</head>
-	<body>
-		<!--HEADER-->
-		<header>
-			<div class="bar">
-				<div class="top-bar container-80 flex">
-					<form class="search-form" action="" method="get">
-						<input id="search-text" type="search" name="search" id="search-top" placeholder="Search...">
-						<input class="element-invisible" type="submit" value="">
-					</form>
+	<!-- Code principal JavaScript de l'application -->
+	<script src="<?= $wwwUrl ?>/js/utilities.js"></script>
 
-					<nav class="nav-bar network flex">
-						<a class="link" href="https://www.facebook.com/odrodriguezc">
-							<i class="fab fa-facebook"></i>
-						</a>
-						<a class="link" href="https://www/instagram.com/odrodriguezc">
-							<i class="fab fa-instagram"></i>
-						</a>
-						<a class="link" href="https://www/linkedin.com/in/odrodriguezc">
-							<i class="fab fa-linkedin-in"></i>					
-						</a>
-						<a class="link" href="https://www/twitter.com/odrodriguezc">
-							<i class="fab fa-twitter"></i>						
-						</a>
-						<a class="link" href="tel:+33 6000000">
-							<i class="fab fa-whatsapp"></i>
-						</a>
-						<a class="link" href="https://www/github.com/odrodriguezc" title="Sign-in">
-							<i class="fab fa-github"></i>
-						</a>
-						<a class="link" href="<?= $requestUrl ?>/login/">
-							<i class="fas fa-sign-in-alt"></i>
-						</a>
-					</nav>
-				</div>
-			</div>
 
-			<div class="inner-header container-80">
-				<a  class="flex" href="<?= $requestUrl ?>">
-					<img id="logo-big" src="<?= $wwwUrl ?>/images/logo.svg" alt="oscar blog logo">
-					<h1>Oscar Blog</h1>
-				</a>
-			</div>
 
-			<div class="bar ">
-				<nav class="container-80 nav-bar flex">
-					<a class="nav-link" href="<?= $requestUrl ?>">Home</a>
-					<a class="nav-link" href="<?= $requestUrl ?>/articles/">Articles</a>
-					<a class="nav-link" href="<?= $requestUrl ?>/gallery/">Gallery</a>
-					<a class="nav-link" href="<?= $requestUrl ?>/about/">About</a>
-					<a class="nav-link" href="<?= $requestUrl ?>/contact/">Contact</a>
+</head>
+
+<body>
+	<!--HEADER-->
+	<header>
+		<div class="bar">
+			<div class="top-bar container-80 flex">
+				<form class="search-form" action="" method="get">
+					<input id="search-text" type="search" name="search" id="search-top" placeholder="Search...">
+					<input class="element-invisible" type="submit" value="">
+				</form>
+
+				<nav class="nav-bar network flex">
+					<a class="link" href="https://www.facebook.com/odrodriguezc">
+						<i class="fab fa-facebook"></i>
+					</a>
+					<a class="link" href="https://www/instagram.com/odrodriguezc">
+						<i class="fab fa-instagram"></i>
+					</a>
+					<a class="link" href="https://www/linkedin.com/in/odrodriguezc">
+						<i class="fab fa-linkedin-in"></i>
+					</a>
+					<a class="link" href="https://www/twitter.com/odrodriguezc">
+						<i class="fab fa-twitter"></i>
+					</a>
+					<a class="link" href="tel:+33 6000000">
+						<i class="fab fa-whatsapp"></i>
+					</a>
+					<a class="link" href="https://www/github.com/odrodriguezc" title="Sign-in">
+						<i class="fab fa-github"></i>
+					</a>
+					<a class="link" href="<?= $requestUrl ?>/login/">
+						<i class="fas fa-sign-in-alt"></i>
+					</a>
 				</nav>
 			</div>
+		</div>
 
-		</header>
+		<div class="inner-header container-80">
+			<a class="flex" href="<?= $requestUrl ?>">
+				<img id="logo-big" src="<?= $wwwUrl ?>/images/logo.svg" alt="oscar blog logo">
+				<h1>Oscar Blog</h1>
+			</a>
+		</div>
+
+		<div class="bar ">
+			<nav class="container-80 nav-bar flex">
+				<a class="nav-link" href="<?= $requestUrl ?>">Home</a>
+				<a class="nav-link" href="<?= $requestUrl ?>/articles/">Articles</a>
+				<a class="nav-link" href="<?= $requestUrl ?>/gallery/">Gallery</a>
+				<a class="nav-link" href="<?= $requestUrl ?>/about/">About</a>
+				<a class="nav-link" href="<?= $requestUrl ?>/contact/">Contact</a>
+			</nav>
+		</div>
+
+	</header>
 
 
-		<main>
-			<!-- Affichage du template lié à la vue -->
-			<?php include $this->viewData['template'] ?>
+	<main>
 
-		</main>
+		<!-- Affichage du template lié à la vue -->
+		<?php include $this->viewData['template'] ?>
+
+	</main>
 
 
-<!-- Footer -->
-		<footer>
-			<section class="carrousel flex blur">
-				<div class="img-min">
-					<img src="https://picsum.photos/id/141/200/150/" alt="image 1">
-					<div class="fluid-leyend">
-						<a href="#">
-							<h5 class="h5">gallery</h5>
-						</a>
-						<a href="#">
-							<h3 class="h3">Title lorem romea</h3>
-						</a>
-					</div>
+	<!-- Footer -->
+	<footer>
+		<section class="carrousel flex blur">
+			<div class="img-min">
+				<img src="https://picsum.photos/id/141/200/150/" alt="image 1">
+				<div class="fluid-leyend">
+					<a href="#">
+						<h5 class="h5">gallery</h5>
+					</a>
+					<a href="#">
+						<h3 class="h3">Title lorem romea</h3>
+					</a>
 				</div>
-
-				<div class="img-min">
-					<img src="https://picsum.photos/id/351/200/150/" alt="image 1">
-					<div class="fluid-leyend">
-						<a href="#">
-							<h5 class="h5">gallery</h5>
-						</a>
-						<a href="#">
-							<h3 class="h3">Title lorem romea</h3>
-						</a>
-					</div>
-				</div>
-
-				<div class="img-min">
-					<img src="https://picsum.photos/id/144/200/150/" alt="image 1">
-					<div class="fluid-leyend">
-						<a href="#">
-							<h5 class="h5">gallery</h5>
-						</a>
-						<a href="#">
-							<h3 class="h3">Title lorem romea</h3>
-						</a>
-					</div>
-				</div>
-
-				<div class="img-min">
-					<img src="https://picsum.photos/id/111/200/150/" alt="image 1">
-					<div class="fluid-leyend">
-						<a href="#">
-							<h5 class="h5">gallery</h5>
-						</a>
-						<a href="#">
-							<h3 class="h3">Title lorem romea</h3>
-						</a>
-					</div>
-				</div>
-
-				<div class="img-min">
-					<img src="https://picsum.photos/id/121/200/150/" alt="image 1">
-					<div class="fluid-leyend">
-						<a href="#">
-							<h5 class="h5">gallery</h5>
-						</a>
-						<a href="#">
-							<h3 class="h3">Title lorem romea</h3>
-						</a>
-					</div>
-				</div>
-				<div class="img-min">
-					<img src="https://picsum.photos/id/121/200/150/" alt="image 1">
-					<div class="fluid-leyend">
-						<a href="#">
-							<h5 class="h5">gallery</h5>
-						</a>
-						<a href="#">
-							<h3 class="h3">Title lorem romea</h3>
-						</a>
-					</div>
-				</div>
-			</section>
-			<div class="bar ">
-				<nav class="nav-bar container-80 flex">
-					<a class="nav-link" href="<?= $requestUrl ?>">Home</a>
-					<a class="nav-link" href="<?= $requestUrl ?>/articles/">Articles</a>
-					<a class="nav-link" href="<?= $requestUrl ?>/gallery/">gallery</a>
-					<a class="nav-link" href="<?= $requestUrl ?>/about/">About</a>
-					<a class="nav-link" href="<?= $requestUrl ?>/contact/">Contact</a>
-				</nav>
 			</div>
 
-			<section class="copyright container-80">
-				<p>&copy;  <span class="this-year">2020</span> odrodriguezc</p>
-			</section>
-		</footer>
+			<div class="img-min">
+				<img src="https://picsum.photos/id/351/200/150/" alt="image 1">
+				<div class="fluid-leyend">
+					<a href="#">
+						<h5 class="h5">gallery</h5>
+					</a>
+					<a href="#">
+						<h3 class="h3">Title lorem romea</h3>
+					</a>
+				</div>
+			</div>
 
-		<!-- Modal Login--->
+			<div class="img-min">
+				<img src="https://picsum.photos/id/144/200/150/" alt="image 1">
+				<div class="fluid-leyend">
+					<a href="#">
+						<h5 class="h5">gallery</h5>
+					</a>
+					<a href="#">
+						<h3 class="h3">Title lorem romea</h3>
+					</a>
+				</div>
+			</div>
 
-	
-	
-	</body>
+			<div class="img-min">
+				<img src="https://picsum.photos/id/111/200/150/" alt="image 1">
+				<div class="fluid-leyend">
+					<a href="#">
+						<h5 class="h5">gallery</h5>
+					</a>
+					<a href="#">
+						<h3 class="h3">Title lorem romea</h3>
+					</a>
+				</div>
+			</div>
+
+			<div class="img-min">
+				<img src="https://picsum.photos/id/121/200/150/" alt="image 1">
+				<div class="fluid-leyend">
+					<a href="#">
+						<h5 class="h5">gallery</h5>
+					</a>
+					<a href="#">
+						<h3 class="h3">Title lorem romea</h3>
+					</a>
+				</div>
+			</div>
+			<div class="img-min">
+				<img src="https://picsum.photos/id/121/200/150/" alt="image 1">
+				<div class="fluid-leyend">
+					<a href="#">
+						<h5 class="h5">gallery</h5>
+					</a>
+					<a href="#">
+						<h3 class="h3">Title lorem romea</h3>
+					</a>
+				</div>
+			</div>
+		</section>
+		<div class="bar ">
+			<nav class="nav-bar container-80 flex">
+				<a class="nav-link" href="<?= $requestUrl ?>">Home</a>
+				<a class="nav-link" href="<?= $requestUrl ?>/articles/">Articles</a>
+				<a class="nav-link" href="<?= $requestUrl ?>/gallery/">gallery</a>
+				<a class="nav-link" href="<?= $requestUrl ?>/about/">About</a>
+				<a class="nav-link" href="<?= $requestUrl ?>/contact/">Contact</a>
+			</nav>
+		</div>
+
+		<section class="copyright container-80">
+			<p>&copy; <span class="this-year">2020</span> odrodriguezc</p>
+		</section>
+	</footer>
+
+	<!-- Modal Login--->
+
+
+
+</body>
+
 </html>

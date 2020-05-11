@@ -25,9 +25,9 @@ class CommentsModel extends MasterModel
     {
         return $this->dbh->query(
             "SELECT *, u.username AS username 
-                                FROM {$this->table}
-                                INNER JOIN user AS u ON u.id = {$this->table}.authorId
-                                WHERE postId = ? AND published=1",
+                FROM {$this->table}
+                INNER JOIN user AS u ON u.id = {$this->table}.authorId
+                WHERE postId = ? AND published=1",
             [$postId]
         );
     }
@@ -47,28 +47,34 @@ class CommentsModel extends MasterModel
         $limitedStr = func_num_args() == 2 && $limit != 0 ? "LIMIT {$limit}" : '';
         return $this->dbh->query(
             "SELECT 
-                                        user.id AS userId,
-                                        user.avatar AS userAvatar,
-                                        post.id AS postId,
-                                        post.title AS postTitle,
-                                        post_comment.id AS commentId,
-                                        post_comment.title AS commentTitle,
-                                        post_comment.content AS commentContent,
-                                        post_comment.authorId AS commentAuthorId,
-                                        post_comment.createdAt AS commentCreatedAt,
-                                        TIMESTAMPDIFF(MINUTE,
-                                            post_comment.createdAt,
-                                            CURRENT_TIMESTAMP) AS timePast
-                                    FROM
-                                        post_comment
-                                            INNER JOIN
-                                        post ON post.id = post_comment.postId
-                                            INNER JOIN
-		                                user ON user.id = post_comment.authorId
-                                    WHERE
-                                        post.authorId =? OR post_comment.authorId =?
-                                    ORDER BY timePast ASC {$limitedStr}",
+                user.id AS userId,
+                user.avatar AS userAvatar,
+                post.id AS postId,
+                post.title AS postTitle,
+                post_comment.id AS commentId,
+                post_comment.title AS commentTitle,
+                post_comment.content AS commentContent,
+                post_comment.authorId AS commentAuthorId,
+                post_comment.createdAt AS commentCreatedAt,
+                TIMESTAMPDIFF(MINUTE,
+                    post_comment.createdAt,
+                    CURRENT_TIMESTAMP) AS timePast
+            FROM
+                post_comment
+                    INNER JOIN
+                post ON post.id = post_comment.postId
+                    INNER JOIN
+                user ON user.id = post_comment.authorId
+            WHERE
+                post.authorId =? OR post_comment.authorId =?
+            ORDER BY timePast ASC {$limitedStr}",
             [$id, $id]
         );
+    }
+
+
+    public function add(string $title, string $content, int $postId, int $authorId)
+    {
+        return $this->dbh->executeSql("INSERT INTO {$this->table} (title, content, postId, authorId ) VALUES (?,?,?,?)", [$title, $content, $postId, $authorId]);
     }
 }
