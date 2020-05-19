@@ -144,15 +144,6 @@ class GalleryModel
                                         col.updatedAt AS collectionUpdatedAt,
                                         u.username AS username
                                     FROM
-<<<<<<< HEAD
-                                        picture AS pic
-                                            INNER JOIN
-                                        picture_has_collection AS col_has ON col_has.pictureId = pic.id
-                                            INNER JOIN
-                                        picture_collection AS col ON col.id = col_has.collectionId
-                                        INNER JOIN 
-                                        user AS u ON u.id = col.userId
-=======
                                          picture AS pic
                                             INNER JOIN
                                          picture_has_collection AS col_has ON col_has.pictureId = pic.id
@@ -160,7 +151,6 @@ class GalleryModel
                                              picture_collection AS col ON col.id = col_has.collectionId
                                         INNER JOIN 
                                          user AS u ON u.id = col.userId
->>>>>>> refs/remotes/origin/master
                                     WHERE 
                                         col.published = 1 AND col.id = ?",
                                 [$colId]);
@@ -200,15 +190,9 @@ class GalleryModel
                                         col.updatedAt AS collectionUpdatedAt,
                                         u.username AS username
                                     FROM
-<<<<<<< HEAD
-                                        picture AS pic
-                                            INNER JOIN
-                                        picture_has_collection AS col_has ON col_has.pictureId = pic.id
-=======
                                          picture AS pic
                                             INNER JOIN
                                          picture_has_collection AS col_has ON col_has.pictureId = pic.id
->>>>>>> refs/remotes/origin/master
                                             INNER JOIN
                                 ",[]);
 
@@ -234,15 +218,6 @@ class GalleryModel
                                         col.updatedAt AS collectionUpdatedAt,
                                         u.username AS username
                                     FROM
-<<<<<<< HEAD
-                                        picture AS pic
-                                            INNER JOIN
-                                        picture_has_collection AS col_has ON col_has.pictureId = pic.id
-                                            INNER JOIN
-                                            picture_collection AS col ON col.id = col_has.collectionId
-                                           INNER JOIN 
-                                        user AS u ON u.id = col.userId
-=======
                                          picture AS pic
                                             INNER JOIN
                                          picture_has_collection AS col_has ON col_has.pictureId = pic.id
@@ -250,7 +225,6 @@ class GalleryModel
                                              picture_collection AS col ON col.id = col_has.collectionId
                                            INNER JOIN 
                                          user AS u ON u.id = col.userId
->>>>>>> refs/remotes/origin/master
                                     WHERE 
                                         col.published = 1
                                 ",[]);
@@ -277,19 +251,11 @@ class GalleryModel
                                         col.createdAt AS collectionCreatedAt,
                                         col.updatedAt AS collectionUpdatedAt
                                     FROM
-<<<<<<< HEAD
-                                        picture AS pic
-                                            INNER JOIN
-                                        picture_has_collection AS col_has ON col_has.pictureId = pic.id
-                                            INNER JOIN
-                                        picture_collection AS col ON col.id = col_has.collectionId
-=======
                                          picture AS pic
                                             INNER JOIN
                                          picture_has_collection AS col_has ON col_has.pictureId = pic.id
                                             INNER JOIN
                                          picture_collection AS col ON col.id = col_has.collectionId
->>>>>>> refs/remotes/origin/master
                                     WHERE
                                         pic.userId = ?",[$userId]);
     }
@@ -308,11 +274,7 @@ class GalleryModel
         return $this->dbh->query("SELECT 
                                         *
                                     FROM
-<<<<<<< HEAD
-                                        picture_collection AS col
-=======
                                          picture_collection AS col
->>>>>>> refs/remotes/origin/master
                                     WHERE
                                         col.userId = ?;",
                                     [$userId]
@@ -337,15 +299,9 @@ class GalleryModel
         return $this->dbh->query("SELECT 
                                         *
                                     FROM
-<<<<<<< HEAD
-                                        picture_collection AS col
-                                            INNER JOIN
-                                        picture_has_collection AS colHas ON col.id = colHas.collectionId
-=======
                                          picture_collection AS col
                                             INNER JOIN
                                          picture_has_collection AS colHas ON col.id = colHas.collectionId
->>>>>>> refs/remotes/origin/master
                                     WHERE
                                         colHas.pictureId = ?", [$picId]);
     }

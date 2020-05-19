@@ -56,6 +56,7 @@ class LoginController
 										]);
 			//securisation de la donné 
 			$data = $validator->formFilter($formFields);
+		
 			// format attendu : courriel
 			if ($validator->email($data['email']))
 				/** Recherche de l'utilisateur en BD   */

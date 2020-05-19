@@ -45,19 +45,11 @@ class CategoriesModel
                                         c1.parentId,
                                         COUNT(p.postId) AS post
                                     FROM
-<<<<<<< HEAD
-                                        category c1
-                                            LEFT JOIN
-                                        category c2 ON c1.parentId = c2.id
-                                            LEFT JOIN
-                                        post_has_category p ON c1.id = p.categoryId
-=======
                                          category c1
                                             LEFT JOIN
                                          category c2 ON c1.parentId = c2.id
                                             LEFT JOIN
                                          post_has_category p ON c1.id = p.categoryId
->>>>>>> refs/remotes/origin/master
                                     GROUP BY c1.id , c2.id
                                     ORDER BY c1.title , c1.parentId"
                                 );

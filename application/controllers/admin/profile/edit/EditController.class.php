@@ -267,8 +267,7 @@ class EditController
             /** Ajout du flashbag */
             $flashbag->add('L\'utilisateur a bien été modifiée');
 
-            //mettre a jour la session
-            $_SESSION['user']['avatar'] = $avatarName;
+           
             
             /** Redirection vers la liste */
             $http->redirectTo('/admin/profile/');
