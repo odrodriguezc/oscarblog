@@ -1,34 +1,17 @@
 <?php
 
-class GalleryModel
+class GalleryModel extends MasterModel
 {
-     /**
-     * @var Database Objet Database pour effectuer des requête
-     */
-    private $dbh;
 
     /**
      * @var string Database table utilisée pour les requête
      */
-    private $table;
+    protected string $table = 'picture';
 
-      /**
+    /**
      * @var string Database table has post utilisée pour les requête
      */
-    private $tableHas;
-
-    /**  Constructeur
-     *
-     * @param void
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->dbh = new Database();
-        $this->table = 'picture';
-        $this->tableHas = 'picture_has_collection';
-
-    }
+    private $tableHas = 'picture_has_collection';
 
     /** 
      * Retourner un tableau de tous les pictures uploades par le user
@@ -36,23 +19,9 @@ class GalleryModel
      * @param int user
      * @return Array Jeu d'enregistrement représentant tous les pictures en base
      */
-    public function listAll(int $userId) 
+    public function listAll(int $userId)
     {
-        return $this->dbh->query("SELECT * FROM {$this->table} WHERE userId = ?",[$userId] );
-    }
-
-    /**
-     * 
-     */
-
-    /** Trouver une picture avec son ID
-     *
-     * @param integer $id identifiant 
-     * @return Array Jeu d'enregistrement comportant le picture trouvé
-     */
-    public function find($id)
-    {
-        return $this->dbh->queryOne('SELECT * FROM '.$this->table.' WHERE id = ?',[$id]);
+        return $this->dbh->query("SELECT * FROM {$this->table} WHERE userId = ?", [$userId]);
     }
 
     /**
@@ -70,23 +39,11 @@ class GalleryModel
     public function findByUser(int $id, int $limit = 1000): array
     {
 
-        $limitedStr = func_num_args() == 2 && $limit !=0 ? "LIMIT {$limit}" : '';
-        return $this->dbh->query('SELECT *, TIMESTAMPDIFF(MINUTE,uploadAt,CURRENT_TIMESTAMP) AS timePast FROM '.$this->table.' WHERE userId=? ORDER BY timePast '.$limitedStr.' ',[$id]);
+        $limitedStr = func_num_args() == 2 && $limit != 0 ? "LIMIT {$limit}" : '';
+        return $this->dbh->query('SELECT *, TIMESTAMPDIFF(MINUTE,uploadAt,CURRENT_TIMESTAMP) AS timePast FROM ' . $this->table . ' WHERE userId=? ORDER BY timePast ' . $limitedStr . ' ', [$id]);
     }
 
 
-    /**
-     * Supprimer une picture avec son id
-     * @param integer $id identifian 
-     * @return int  
-     */
-     public function delete($id):int
-     {
-        return $this->dbh->executeSQL('DELETE FROM '.$this->table.' WHERE id=?',[$id]);
-
-     }
-
-    
     /**
      * add
      * 
@@ -99,11 +56,12 @@ class GalleryModel
      */
     public function add(string $uniqueName, string $label, string $description, int $userId, string $metadata)
     {
-        return $this->dbh->executeSql("INSERT INTO {$this->table} 
+        return $this->dbh->executeSql(
+            "INSERT INTO {$this->table} 
                                     (uniqueName, label, description, userId, metadata) 
                                     VALUES (?,?,?,?,?)",
-                                    [$uniqueName, $label, $description, $userId, $metadata]
-                                    );
+            [$uniqueName, $label, $description, $userId, $metadata]
+        );
     }
 
     /**
@@ -116,7 +74,7 @@ class GalleryModel
      */
     public function update(int $id, string $label, string $description)
     {
-        return $this->dbh->executeSql("UPDATE {$this->table} SET label=?, description=? WHERE id=?",[$label, $description, $id]);
+        return $this->dbh->executeSql("UPDATE {$this->table} SET label=?, description=? WHERE id=?", [$label, $description, $id]);
     }
 
 
@@ -134,7 +92,8 @@ class GalleryModel
      */
     public function listPicByCollectionOne(int $colId)
     {
-        return $this->dbh->query("SELECT 
+        return $this->dbh->query(
+            "SELECT 
                                         pic.*, 
                                         col.id AS collectionId,
                                         col.title AS collectionTitle,
@@ -153,7 +112,8 @@ class GalleryModel
                                          user AS u ON u.id = col.userId
                                     WHERE 
                                         col.published = 1 AND col.id = ?",
-                                [$colId]);
+            [$colId]
+        );
     }
 
 
@@ -194,8 +154,7 @@ class GalleryModel
                                             INNER JOIN
                                          picture_has_collection AS col_has ON col_has.pictureId = pic.id
                                             INNER JOIN
-                                ",[]);
-
+                                ", []);
     }
 
     /**
@@ -227,8 +186,7 @@ class GalleryModel
                                          user AS u ON u.id = col.userId
                                     WHERE 
                                         col.published = 1
-                                ",[]);
-
+                                ", []);
     }
 
     /**
@@ -257,7 +215,7 @@ class GalleryModel
                                             INNER JOIN
                                          picture_collection AS col ON col.id = col_has.collectionId
                                     WHERE
-                                        pic.userId = ?",[$userId]);
+                                        pic.userId = ?", [$userId]);
     }
 
     /**
@@ -271,14 +229,15 @@ class GalleryModel
      */
     public function findCollections(int $userId)
     {
-        return $this->dbh->query("SELECT 
+        return $this->dbh->query(
+            "SELECT 
                                         *
                                     FROM
                                          picture_collection AS col
                                     WHERE
                                         col.userId = ?;",
-                                    [$userId]
-                                );
+            [$userId]
+        );
     }
 
     /**
@@ -319,7 +278,7 @@ class GalleryModel
         return $this->dbh->executeSQL("DELETE FROM {$this->tableHas} WHERE pictureId = ?", [$picId]);
     }
 
-     /**
+    /**
      * Ajouter des pics  dans une collection
      * 
      * @param int picId 
@@ -330,9 +289,8 @@ class GalleryModel
      */
     public function addToCollections(int $picId, array $collectionId)
     {
-        foreach ($collectionId as  $colId) 
-        {
-            return $this->dbh->executeSql("INSERT INTO {$this->tableHas} (pictureId, collectionId) VALUES (?,?)",[$picId, $colId]);
+        foreach ($collectionId as  $colId) {
+            return $this->dbh->executeSql("INSERT INTO {$this->tableHas} (pictureId, collectionId) VALUES (?,?)", [$picId, $colId]);
         }
     }
 
@@ -348,11 +306,13 @@ class GalleryModel
      */
     public function popOffPic(int $picId, int $colId)
     {
-        return $this->dbh->executeSql("DELETE FROM {$this->tableHas} 
-                                        WHERE pictureId = ? AND collectionId = ?", 
-                                        [$picId, $colId]);
+        return $this->dbh->executeSql(
+            "DELETE FROM {$this->tableHas} 
+                                        WHERE pictureId = ? AND collectionId = ?",
+            [$picId, $colId]
+        );
     }
-    
+
     /**
      * findColByTitle
      * 
@@ -364,7 +324,7 @@ class GalleryModel
      */
     public function findColByTitle(string $title)
     {
-        return $this->dbh->query("SELECT * FROM picture_collection WHERE title=?",[$title]);
+        return $this->dbh->query("SELECT * FROM picture_collection WHERE title=?", [$title]);
     }
 
     /**
@@ -378,11 +338,13 @@ class GalleryModel
      * @return mixed
      * @author ODRC
      */
-    public function newCollection(int $userId, string $title, string $description='', int $published=0)
+    public function newCollection(int $userId, string $title, string $description = '', int $published = 0)
     {
-        return $this->dbh->executeSql("INSERT INTO 
-                                        picture_collection (userId, title, description, published)
-                                        VALUES(?,?,?,?)",
-                                        [$userId, $title, $description, $published]);
+        return $this->dbh->executeSql(
+            "INSERT INTO 
+                picture_collection (userId, title, description, published)
+                VALUES(?,?,?,?)",
+            [$userId, $title, $description, $published]
+        );
     }
 }

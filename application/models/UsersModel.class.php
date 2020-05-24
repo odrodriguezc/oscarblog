@@ -1,62 +1,36 @@
 <?php
 
-class UsersModel
+class UsersModel extends MasterModel
 {
-     /**
-     * @var Database Objet Database pour effectuer des requête
-     */
-    private $dbh;
 
     /**
      * @var string Database table utilisée pour les requête
      */
-    private $table;
+    protected string $table = 'user';
 
     /**
      * role
      * 
      * @var Role Array contenant les roles des utilisateurs
      * @author ODRC
-    */
-    public $role;
-
-    /**  Constructeur
-     *
-     * @param void
-     * @return void
      */
-    public function __construct()
-    {
-        $this->dbh = new Database();
-        $this->table = 'user';
-
-        /* Definitios des roles */
-        $this->role = [ 'Author'=> 1,
-                        'Editor'=> 2,
-                        'Admin'=> 3];
-    }
+    public $role = [
+        'Author' => 1,
+        'Editor' => 2,
+        'Admin' => 3
+    ];
 
     /** Retourner un tableau de tous les users en base
      *
      * @param void
      * @return Array Jeu d'enregistrement représentant tous les users en base
      */
-    public function listAll() 
+    public function listAll()
     {
-        return $this->dbh->query('SELECT * FROM '.$this->table);
+        return $this->dbh->query('SELECT * FROM ' . $this->table);
     }
 
-    /** Trouver un user avec son ID
-     *
-     * @param integer $id identifiant du user
-     * @return Array Jeu d'enregistrement comportant le user trouvé
-     */
-    public function find($id)
-    {
-        return $this->dbh->queryOne('SELECT * FROM '.$this->table.' WHERE id = ?',[$id]);
-    }
 
-    
     /** Trouver un user avec son Email
      *
      * @param string $email email du user
@@ -64,7 +38,7 @@ class UsersModel
      */
     public function findByEmail($email)
     {
-        return $this->dbh->queryOne('SELECT * FROM '.$this->table.' WHERE email = ?',[$email]);
+        return $this->dbh->queryOne('SELECT * FROM ' . $this->table . ' WHERE email = ?', [$email]);
     }
 
     /** Trouver un user avec son username
@@ -74,19 +48,9 @@ class UsersModel
      */
     public function findByUsername($username)
     {
-        return $this->dbh->queryOne('SELECT * FROM '.$this->table.' WHERE username = ?',[$username]);
+        return $this->dbh->queryOne('SELECT * FROM ' . $this->table . ' WHERE username = ?', [$username]);
     }
 
-    /**
-     * Supprimer un user avec son id
-     * @param integer $id identifian du user
-     * @return int  
-     */
-     public function delete($id):int
-     {
-        return $this->dbh->executeSQL('DELETE FROM '.$this->table.' WHERE id=?',[$id]);
-
-     }
 
     /** Ajouter un user en base
      *
@@ -103,13 +67,13 @@ class UsersModel
      * @param string $image
      * @return void
      */
-    public function add($username, $firstname, $lastname, $email, $password, $phone, $intro, $profile, $role, $status, $avatar) 
+    public function add($username, $firstname, $lastname, $email, $password, $phone, $intro, $profile, $role = 1, $status = '1', $avatar = NULL)
     {
         $registeredAtDate = date('Y-m-d');
-        return $this->dbh->executeSQL('INSERT INTO '.$this->table.' (username, firstname, lastname, email, passwordHash, phone, intro, profile, role, status, avatar, registeredAt) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',[$username, $firstname, $lastname, $email, $password, $phone, $intro, $profile, $role, $status, $avatar, $registeredAtDate]);
+        return $this->dbh->executeSQL('INSERT INTO ' . $this->table . ' (username, firstname, lastname, email, passwordHash, phone, intro, profile, role, status, avatar, registeredAt) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)', [$username, $firstname, $lastname, $email, $password, $phone, $intro, $profile, $role, $status, $avatar, $registeredAtDate]);
     }
 
-     /** Modifie un utilisateur en base
+    /** Modifie un utilisateur en base
      *
      * @param integer $id identifiant de l'utilisateur
      * @param string $username nom d'utilisateur 
@@ -127,7 +91,7 @@ class UsersModel
      */
     public function update($username, $firstname, $lastname, $email, $password, $phone, $intro, $profile, $role, $status, $avatar, $id)
     {
-        $this->dbh->executeSQL('UPDATE '.$this->table.' SET username=?, firstname=?, lastname=?, email=?, passwordHash=?, phone=?, intro=?, profile=?, role=?, status=?, avatar=? WHERE id=?',[$username, $firstname, $lastname, $email, $password, $phone, $intro, $profile, $role, $status, $avatar, $id]); 
+        $this->dbh->executeSQL('UPDATE ' . $this->table . ' SET username=?, firstname=?, lastname=?, email=?, passwordHash=?, phone=?, intro=?, profile=?, role=?, status=?, avatar=? WHERE id=?', [$username, $firstname, $lastname, $email, $password, $phone, $intro, $profile, $role, $status, $avatar, $id]);
     }
 
     /** 
@@ -139,9 +103,9 @@ class UsersModel
      * @author ODRC
      */
     public function updateLogin(int $id)
-    {   
+    {
         $Logindate = date('Y-m-d, H:i:s');
-        $this->dbh->executeSQL('UPDATE '.$this->table.' SET lastLogin=? WHERE id=?', [$Logindate, $id]);
+        $this->dbh->executeSQL('UPDATE ' . $this->table . ' SET lastLogin=? WHERE id=?', [$Logindate, $id]);
     }
 
     /**
@@ -161,15 +125,16 @@ class UsersModel
      */
     public function findByUsernameOrEmail(string $username, string $email, int $id = -1)
     {
-    return $this->dbh->query("SELECT 
-                                    username, 
-                                    email 
-                                FROM {$this->table} 
-                                WHERE (username=? OR email=?) AND id!=?",
-                                [$username, $email, $id]
-                            );
+        return $this->dbh->query(
+            "SELECT 
+                username, 
+                email 
+            FROM {$this->table} 
+            WHERE (username=? OR email=?) AND id!=?",
+            [$username, $email, $id]
+        );
     }
-    
+
     /**
      * findRecentActivity
      * 
@@ -181,36 +146,36 @@ class UsersModel
      * 
      * @author ODRC
      */
-    public function findRecentActivity(int $id, int $limit) 
+    public function findRecentActivity(int $id, int $limit)
     {
-        $limitedStr = func_num_args() == 2 && $limit !=0 ? "LIMIT {$limit}" : '';
-        return $this->dbh->query("SELECT 
-                                        p.id AS postId,
-                                        p.title AS postTitle,
-                                        p.picture,
-                                        p.likes,
-                                        p.dislikes,
-                                        p.share,
-                                        p.metaTitle,
-                                        p.authorId,
-                                        TIMESTAMPDIFF(MINUTE,
-                                            p.updatedAt,
-                                            CURRENT_TIMESTAMP) AS postPastTime,
-                                        c.id AS commentId,
-                                        c.title AS commentTitle,
-                                        C.createdAt AS commentCreatedAt,
-                                        TIMESTAMPDIFF(MINUTE,
-                                            c.createdAt,
-                                            CURRENT_TIMESTAMP) AS commentPastTime
-                                    FROM
-                                        post AS p
-                                            LEFT JOIN
-                                        post_comment AS c ON (P.id = c.postId)
-                                    WHERE
-                                        p.author_id = 14
-                                    ORDER BY commentPastTime DESC , postPastTime DESC
-                                    {$limitedStr}"
-                                );
-}
-
+        $limitedStr = func_num_args() == 2 && $limit != 0 ? "LIMIT {$limit}" : '';
+        return $this->dbh->query(
+            "SELECT 
+                p.id AS postId,
+                p.title AS postTitle,
+                p.picture,
+                p.likes,
+                p.dislikes,
+                p.share,
+                p.metaTitle,
+                p.authorId,
+                TIMESTAMPDIFF(MINUTE,
+                    p.updatedAt,
+                    CURRENT_TIMESTAMP) AS postPastTime,
+                c.id AS commentId,
+                c.title AS commentTitle,
+                C.createdAt AS commentCreatedAt,
+                TIMESTAMPDIFF(MINUTE,
+                    c.createdAt,
+                    CURRENT_TIMESTAMP) AS commentPastTime
+            FROM
+                post AS p
+                    LEFT JOIN
+                post_comment AS c ON (P.id = c.postId)
+            WHERE
+                p.author_id = 14
+            ORDER BY commentPastTime DESC , postPastTime DESC
+            {$limitedStr}"
+        );
+    }
 }
