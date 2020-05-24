@@ -9,7 +9,6 @@ class ContactModel extends MasterModel
      */
     protected string $table = 'contact';
 
-
     /**
      * addMessage
      * 
@@ -24,5 +23,11 @@ class ContactModel extends MasterModel
     public function addMessage(string $email, string $message, string $name = '')
     {
         return $this->dbh->executeSql("INSERT INTO {$this->table} (email, name, message) VALUES (?,?,?)", [$email, $name, $message]);
+    }
+
+    public function addSubscriber(string $email)
+    {
+
+        return $this->dbh->executeSql("INSERT INTO subscriber (email) VALUES (?)", [$email]);
     }
 }

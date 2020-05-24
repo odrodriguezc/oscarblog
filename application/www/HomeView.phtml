@@ -81,8 +81,8 @@
     <!-- Go up Nav -->
     <div class="nav-bar go-up">
       <nav class="flex">
-        <a href="#">Go up</a>
-        <a href="/articles/">More</a>
+        <a href="#">Monter</a>
+        <a href="<?= $requestUrl ?>/articles/">Voir plus</a>
       </nav>
     </div>
   </section>
@@ -104,7 +104,7 @@
     <section class="trends">
       <div class="stats">
         <h3>Stats</h3>
-        <h5 class="flex"><span>Week </span> <span> Month</span></h5>
+        <h5 class="flex"><span>Semaine </span> <span> Mois</span></h5>
         <canvas class="center" id="weekRing" width="300" height="200"></canvas>
       </div>
     </section>
@@ -126,27 +126,14 @@
     </section>
 
     <section class="follow-me">
-      <h2>Subscribe</h2>
-      <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
-      <form action="" method="post">
-        <input type="text" name="email" id="email" placeholder="write your email">
-        <input class="btn" type="submit" value="Send">
+      <h2>Newsletter</h2>
+      <p>Inscrivez vous à notre Newsletter</p>
+      <form id="newsletter" action="/admin/contact/" method="get">
+        <input type="email" name="email" id="email" placeholder="Ecrivez votre addresse email">
+        <input id="subscribeToNewsletter" class="btn" type="submit" value="Send">
       </form>
     </section>
 
-    <section class="recomended">
-      <h2>Recomended</h2>
-      <ul>
-        <li><a href="#"></a>www.3wacademy.fr</li>
-        <li><a href="#"></a>www.3wacademy.fr</li>
-        <li><a href="#"></a>www.3wacademy.fr</li>
-        <li><a href="#"></a>www.3wacademy.fr</li>
-        <li><a href="#"></a>www.3wacademy.fr</li>
-        <li><a href="#"></a>www.3wacademy.fr</li>
-        <li><a href="#"></a>www.3wacademy.fr</li>
-      </ul>
-
-    </section>
   </aside>
 </div>
 
@@ -182,3 +169,4 @@
 <script src="<?= $wwwUrl ?>/js/weather.js"></script>
 <script src="<?= $wwwUrl ?>/js/stats.js"></script>
 <script src="<?= $wwwUrl ?>/js/articles.js"></script>
+<script src="<?= $wwwUrl ?>/js/home.js"></script>
