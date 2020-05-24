@@ -94,24 +94,24 @@ class GalleryModel extends MasterModel
     {
         return $this->dbh->query(
             "SELECT 
-                                        pic.*, 
-                                        col.id AS collectionId,
-                                        col.title AS collectionTitle,
-                                        col.description AS collectionDescription,
-                                        col.published AS collectionPublished,
-                                        col.createdAt AS collectionCreatedAt,
-                                        col.updatedAt AS collectionUpdatedAt,
-                                        u.username AS username
-                                    FROM
-                                         picture AS pic
-                                            INNER JOIN
-                                         picture_has_collection AS col_has ON col_has.pictureId = pic.id
-                                            INNER JOIN
-                                             picture_collection AS col ON col.id = col_has.collectionId
-                                        INNER JOIN 
-                                         user AS u ON u.id = col.userId
-                                    WHERE 
-                                        col.published = 1 AND col.id = ?",
+                pic.*, 
+                col.id AS collectionId,
+                col.title AS collectionTitle,
+                col.description AS collectionDescription,
+                col.published AS collectionPublished,
+                col.createdAt AS collectionCreatedAt,
+                col.updatedAt AS collectionUpdatedAt,
+                u.username AS username
+            FROM
+                    picture AS pic
+                    INNER JOIN
+                    picture_has_collection AS col_has ON col_has.pictureId = pic.id
+                    INNER JOIN
+                        picture_collection AS col ON col.id = col_has.collectionId
+                INNER JOIN 
+                    user AS u ON u.id = col.userId
+            WHERE 
+                col.published = 1 AND col.id = ?",
             [$colId]
         );
     }
@@ -129,7 +129,6 @@ class GalleryModel extends MasterModel
         return $this->dbh->query("SELECT picture_collection.*, user.username FROM picture_collection INNER JOIN user on user.id = picture_collection.userId WHERE picture_collection.published = 1");
     }
 
-
     /**
      * listbyCollectionsAll
      * 
@@ -141,20 +140,20 @@ class GalleryModel extends MasterModel
     public function listByCollectionAll()
     {
         return $this->dbh->query("SELECT 
-                                        pic.*, 
-                                        col.id AS collectionId,
-                                        col.title AS collectionTitle,
-                                        col.description AS collectionDescription,
-                                        col.published AS collectionPublished,
-                                        col.createdAt AS collectionCreatedAt,
-                                        col.updatedAt AS collectionUpdatedAt,
-                                        u.username AS username
-                                    FROM
-                                         picture AS pic
-                                            INNER JOIN
-                                         picture_has_collection AS col_has ON col_has.pictureId = pic.id
-                                            INNER JOIN
-                                ", []);
+                                    pic.*, 
+                                    col.id AS collectionId,
+                                    col.title AS collectionTitle,
+                                    col.description AS collectionDescription,
+                                    col.published AS collectionPublished,
+                                    col.createdAt AS collectionCreatedAt,
+                                    col.updatedAt AS collectionUpdatedAt,
+                                    u.username AS username
+                                FROM
+                                        picture AS pic
+                                        INNER JOIN
+                                        picture_has_collection AS col_has ON col_has.pictureId = pic.id
+                                        INNER JOIN
+                            ", []);
     }
 
     /**
@@ -346,5 +345,18 @@ class GalleryModel extends MasterModel
                 VALUES(?,?,?,?)",
             [$userId, $title, $description, $published]
         );
+    }
+
+    public function sortPicByColletion(array $picsByCollection): array
+    {
+        $sortPicsByCollection = [];
+        foreach ($picsByCollection as $key => $pic) {
+            if (!array_key_exists($pic['collectionId'], $sortPicsByCollection)) {
+                $sortPicsByCollection[$pic['collectionId']][] = $pic;
+            } else {
+                $sortPicsByCollection[$pic['collectionId']][] = $pic;
+            }
+        }
+        return $sortPicsByCollection;
     }
 }

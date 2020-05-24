@@ -12,6 +12,18 @@ class ContactController
 		$userSession = new UserSession();
 		$articlesModel = new ArticlesModel();
 
+		if (isset($queryFields['email'])) {
+
+			$validator = new DataValidation();
+			$email = $validator->email($queryFields['email']);
+			if (!$email) {
+				die("Email non conforme.");
+			}
+			$contactModel = new ContactModel();
+			$contactModel->addSubscriber($validator->inputFilter($queryFields['email']));
+			die("Votre addresse email a été enregistré");
+		}
+
 		$contacts =  $articlesModel->findByTitle('_CONTACTS');
 
 

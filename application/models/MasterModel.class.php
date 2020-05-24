@@ -17,6 +17,8 @@ abstract class MasterModel
     public function __construct()
     {
         $this->dbh = new Database();
+
+        return $this;
     }
 
     /**
@@ -38,5 +40,21 @@ abstract class MasterModel
     public  function delete(int $id)
     {
         return  $this->dbh->executeSQL("DELETE FROM {$this->table}  WHERE id=?", [$id]);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param string $startDate au format "Y-m-d H:i:s"
+     * @param string $endDate au format "Y-m-d H:i:s"
+     * @param string $criteria propieté qui sert de sort key. champ de la table(createdAt, publishedAt, UpdatedAt)
+     * @return 
+     */
+    public function countSince(string $criteria, string $startDate, string $endDate)
+    {
+        return $this->dbh->queryOne(
+            "SELECT count(id) AS total_{$this->table}_{$criteria} FROM {$this->table} WHERE {$criteria} BETWEEN ? AND ?",
+            [$startDate, $endDate]
+        );
     }
 }

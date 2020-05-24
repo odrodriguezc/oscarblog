@@ -7,24 +7,24 @@
 <!-- Main Content -->
 <section class="gallery main">
   <div class="title">
-      <h1><?=$collection[0]['collectionTitle']?></h1>
+    <h1><?= $collection[0]['collectionTitle'] ?></h1>
   </div>
-  
+
   <div class="gallery-image">
-  <?php if (isset($collection)) :?>
-    <?php foreach ($collection as $key => $pic):?>
+    <?php if (isset($collection)) : ?>
+      <?php foreach ($collection as $key => $pic) : ?>
         <div class="img-box">
-        <a class="picLink" data-id="<?=$pic['id']?>" data-src="<?= $wwwUrl ?>/assets/images/gallery/bg_<?=$pic['uniqueName']?>"  href="#photoModal">
-          <img src="<?= $wwwUrl ?>/assets/images/gallery/sm_<?=$pic['uniqueName']?>" alt="<?=$pic['label']?>" />
-          <div class="transparent-box">
-            <div class="caption">
-              <p><?=$pic['label']?></p>
+          <a class="picLink" data-id="<?= $pic['id'] ?>" data-src="<?= $wwwUrl ?>/assets/images/gallery/bg_<?= $pic['uniqueName'] ?>" href="#photoModal">
+            <img src="<?= $wwwUrl ?>/assets/images/gallery/sm_<?= $pic['uniqueName'] ?>" alt="<?= $pic['label'] ?>" />
+            <div class="transparent-box">
+              <div class="caption">
+                <p><?= $pic['label'] ?></p>
+              </div>
             </div>
-          </div> 
-        </a>
+          </a>
         </div>
-        <?php endforeach?>
-        <?php endif?>
+      <?php endforeach ?>
+    <?php endif ?>
   </div>
 </section>
 
@@ -34,7 +34,14 @@
   <div class="modal-content">
     <span id="closeModal" class="close">&times;</span>
     <div class="">
-      <img id="imgTarget" src="<?= $wwwUrl ?>/assets/images/gallery/sm_" alt="<?=$pic['label']?>" />
+      <img id="imgTarget" src="<?= $wwwUrl ?>/assets/images/gallery/sm_" alt="<?= $pic['label'] ?>" />
+    </div>
+    <div class="center">
+      <nav>
+        <button id="back" class="control" data-id="">Back</button>
+        <button id="random" class="control" data-id="">Random</button>
+        <button id="next" class="control" data-id="">Next</button>
+      </nav>
     </div>
   </div>
 </div>

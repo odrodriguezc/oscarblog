@@ -39,20 +39,36 @@
     </article>
 </section>
 
-<section class="comments container-80">
-    <p>Commentaires</p>
-    <?php if (isset($comments)) : ?>
+<section class="comments container-80 ">
+    <h5 class="center">Commentaires</h5>
+    <?php if (!empty($comments)) : ?>
         <?php foreach ($comments as $key => $comment) : ?>
-            <article>
-                <h6><?= $comment['title'] ?></h6>
-                <div>
+            <article class="post left">
+                <h6 class="title"><?= $comment['title'] ?></h6>
+                <div class="post-content">
                     <?= $comment['content'] ?>
                 </div>
-                <p>Redigé par <span><?= $comment['username'] ?></span> le <span><?= $comment['publishedAt'] ?></span></p>
+                <p class="center">Redigé par <span><?= $comment['username'] ?></span> le <span><?= $comment['publishedAt'] ?></span></p>
             </article>
         <?php endforeach ?>
     <?php endif ?>
-    <p><a clas="link" href="#">Ajouter un commentaire</a></p>
+    <?php if (isset($logged) && $logged === true) : ?>
+        <div class="container-80">
+            <form id="commentForm" class="contact" action="<?= $requestUrl  ?>/articles/comment/" method="post">
+                <h5 class="left">Ecrire un commentaire</h5>
+
+                <input class="txt" type="text" name="title" id="itle" placeholder="Title" required>
+
+                <textarea name="content" id="content" cols="30" rows="10" placeholder="Commentaire" required></textarea>
+
+                <input type="hidden" name="postId" value="<?= $article['id'] ?>">
+
+                <input id="sendMessage" class="btn flat-button" type="submit" value="Envoyer">
+            </form>
+        </div>
+    <?php endif ?>
+
+
     <div id="modal-open" class="modal-dialog">
         <div class="modal-content">
             <a href="#close" title="Close" class="modal-close"><i class="fas fa-times"></i></a>
@@ -81,3 +97,4 @@
     </div>
 
     <script src="<?= $wwwUrl ?>/js/articles.js"></script>
+    <script src="<?= $wwwUrl ?>/js/comment.js"></script>

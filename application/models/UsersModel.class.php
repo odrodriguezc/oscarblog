@@ -67,9 +67,8 @@ class UsersModel extends MasterModel
      * @param string $image
      * @return void
      */
-    public function add($username, $firstname, $lastname, $email, $password, $phone, $intro, $profile, $role = 1, $status = '1', $avatar = NULL)
+    public function add($username, $firstname, $lastname, $email, $password, $phone, $intro, $profile, $role = 1, $status = '1', $avatar = NULL, $registeredAtDate = null)
     {
-        $registeredAtDate = date('Y-m-d');
         return $this->dbh->executeSQL('INSERT INTO ' . $this->table . ' (username, firstname, lastname, email, passwordHash, phone, intro, profile, role, status, avatar, registeredAt) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)', [$username, $firstname, $lastname, $email, $password, $phone, $intro, $profile, $role, $status, $avatar, $registeredAtDate]);
     }
 

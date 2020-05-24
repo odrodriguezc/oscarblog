@@ -1,0 +1,67 @@
+	$userModel = new UsersModel();
+	$fk = Factory::create('fr_FR');
+	$fk->addProvider(new Faker\Provider\fr_FR\PhoneNumber($fk));
+	$fk->addProvider(new Faker\Provider\fr_FR\Text($fk));
+
+
+	for ($i = 0; $i < 100; $i++) { $userModel->add(
+		$fk->userName,
+		$fk->firstName(),
+		$fk->lastName,
+		$fk->safeEmail,
+		password_hash('HelloWorld', PASSWORD_DEFAULT),
+		$fk->phoneNumber,
+		'<p>' . $fk->realText(100, 1) . '</p>',
+		'<p>' . $fk->paragraphs(1, true) . '</p>' . '<p>' . $fk->paragraphs(1, true) . '</p>' . '<p>' . $fk->paragraphs(1, true) . '</p>',
+		'1',
+		'1',
+		null,
+		$fk->dateTimeBetween('- 2 months')->format("Y-m-d H:i:s")
+		);
+		}
+		die();
+
+
+		$faker = Factory::create('fr_FR');
+
+
+		for ($i = 0; $i <= 1000; $i++) {
+			# code...
+			$articlesModel = new ArticlesModel();
+			$articlesModel->add(
+				$faker->sentence(),
+				$faker->sentence(12),
+				'<p>' . $faker->paragraph() . '</p>',
+				'<p>' . $faker->paragraph(5) . '</p><p>' . $faker->paragraph(10) . '</p><p>' . $faker->paragraph(5) . '</p><p>' . $faker->paragraph(10) . '</p><p>' . $faker->paragraph(5) . '</p>',
+				1,
+				'NULL',
+				$faker->numberBetween(40, 140)
+			);
+		}
+		die();
+
+		$catModel = new CategoriesModel();
+		for ($i = 985; $i <= 1100; $i++) {
+			var_dump($i);
+			$cat1 = random_int(1, 5);
+			$cat2 = random_int(6, 13);
+			$catModel->addCategories($i, [$cat1, $cat2]);
+		}
+		die();
+
+		 $faker = Factory::create('fr_FR');
+
+        for ($post = 982; $post <= 984; $post++) {
+            $randCom = random_int(1, 20);
+            for ($i = 0; $i < $randCom; $i++) {
+                $commentsModel->add(
+                    $faker->catchPhrase,
+                    '<p>' . $faker->paragraph(5) . '</p><p>' . $faker->paragraph(5) . '</p>',
+                    $post,
+                    random_int(40, 140)
+                );
+                echo '-' . $i;
+            }
+            echo '<br>' . $post . time();
+        }
+        die();

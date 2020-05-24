@@ -7,22 +7,22 @@
     <div class="col-lg-4 col-xlg-3 col-md-5">
         <div class="card">
             <div class="card-block text-center">
-                <div class="m-t-30"> 
-                    <img src="<?= $wwwUrl ?>/assets/images/users/sm_<?=$user['avatar'] !== 'NULL' ? $user['avatar'] : "default_avatar.jpg"?>" class="img-circle" width="150" />
+                <div class="m-t-30">
+                    <img src="<?= $wwwUrl ?>/assets/images/users/sm_<?= $user['avatar'] !== 'NULL' ? $user['avatar'] : "default_avatar.jpg" ?>" class="img-circle" width="150" />
                     <div class="form-horizontal form-material">
-                        <input class="card-title m-t-10 form-control form-control-line text-center" type="text" id="username" name="username" value="<?=$user['username']?>" readonly>
-                        <h6 id="roleLabel" class="card-subtitle" data-rol="<?=$user['role']?>"><?= array_search($user['role'], $roles)?><span id="status"> <?= $user['status']?></span></h6>
+                        <input class="card-title m-t-10 form-control form-control-line text-center" type="text" id="username" name="username" value="<?= $user['username'] ?>" readonly>
+                        <h6 id="roleLabel" class="card-subtitle" data-rol="<?= $user['role'] ?>"><?= array_search($user['role'], $roles) ?><span id="status"> <?= $user['status'] ?></span></h6>
                     </div>
                     <div class="row text-center justify-content-md-center">
                         <div class="col-4">
                             <a href="javascript:void(0)" class="link">
-                                <i class="icon-people"></i> 
+                                <i class="icon-people"></i>
                                 <span class="font-medium">254</span>
                             </a>
                         </div>
                         <div class="col-4">
                             <a href="javascript:void(0)" class="link">
-                                <i class="icon-picture"></i>   
+                                <i class="icon-picture"></i>
                                 <span class="font-medium">54</span>
                             </a>
                         </div>
@@ -32,48 +32,9 @@
         </div>
         <!-- fin de la carte avec l'image et le nom -->
 
-        <!-- carte avec les contacts -->
-        <!-- Column -->
-        <div class="card">
-            <div class="card-block bg-info">
-                <h4 class="text-white card-title">My Contacts</h4>
-                <h6 class="card-subtitle text-white m-b-0 op-5">Checkout my contacts here</h6>
-            </div>
-            <div class="card-block">
-                <div class="message-box contact-box">
-                    <h2 class="add-ct-btn"><button type="button" class="btn btn-circle btn-lg btn-success waves-effect waves-dark">+</button></h2>
-                    <div class="message-widget contact-widget">
-                        <!-- Message -->
-                        <a href="#">
-                            <div class="user-img"> <img src="assets/images/users/1.jpg" alt="user" class="img-circle"> <span class="profile-status online pull-right"></span> </div>
-                            <div class="mail-contnet">
-                                <h5>Pavan kumar</h5> <span class="mail-desc">info@wrappixel.com</span></div>
-                        </a>
-                        <!-- Message -->
-                        <a href="#">
-                            <div class="user-img"> <img src="assets/images/users/2.jpg" alt="user" class="img-circle"> <span class="profile-status busy pull-right"></span> </div>
-                            <div class="mail-contnet">
-                                <h5>Sonu Nigam</h5> <span class="mail-desc">pamela1987@gmail.com</span></div>
-                        </a>
-                        <!-- Message -->
-                        <a href="#">
-                            <div class="user-img"> <span class="round">A</span> <span class="profile-status away pull-right"></span> </div>
-                            <div class="mail-contnet">
-                                <h5>Arijit Sinh</h5> <span class="mail-desc">cruise1298.fiplip@gmail.com</span></div>
-                        </a>
-                        <!-- Message -->
-                        <a href="#">
-                            <div class="user-img"> <img src="assets/images/users/4.jpg" alt="user" class="img-circle"> <span class="profile-status offline pull-right"></span> </div>
-                            <div class="mail-contnet">
-                                <h5>Pavan kumar</h5> <span class="mail-desc">kat@gmail.com</span></div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- fin de la carte contactes -->
+
     </div>
-        <!-- fin du bloque de gauche -->
+    <!-- fin du bloque de gauche -->
 
     <!-- Column -->
     <!-- Column - Block contenant l'information personnelle de l'utilisateur -->
@@ -81,10 +42,9 @@
     <!-- bLOQUE A TROIS FRAMES -->
     <div class="col-lg-8 col-xlg-9 col-md-7">
         <div class="card">
-        <!-- Nav frames (tabs) -->
+            <!-- Nav frames (tabs) -->
             <ul class="nav nav-tabs profile-tab" role="tablist">
                 <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#profile" role="tab">Profile</a> </li>
-                <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages" role="tab">Messages</a> </li>
                 <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#articles" role="tab">Articles</a> </li>
                 <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#comments" role="tab">Commentaires</a> </li>
                 <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#photos" role="tab">Photos</a> </li>
@@ -99,23 +59,23 @@
                                 <div class="form-group">
                                     <label class="col-md-12" for="fullname">Fullname</label>
                                     <div class="col-md-12">
-                                        <input class="form-control form-control-line readonly" type="text" name="fullname" id="fullname"  value="<?=$user['firstname'].' '.$user['lastname']?>" readonly>
+                                        <input class="form-control form-control-line readonly" type="text" name="fullname" id="fullname" value="<?= $user['firstname'] . ' ' . $user['lastname'] ?>" readonly>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="email" class="col-md-12">Email</label>
                                     <div class="col-md-12">
-                                        <input class="form-control form-control-line readonly" type="email" value="<?=$user['email']?>"  name="email" id="email" readonly>
+                                        <input class="form-control form-control-line readonly" type="email" value="<?= $user['email'] ?>" name="email" id="email" readonly>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-12" for="phone">Phone No.</label>
                                     <div class="col-md-12">
-                                        <input class="form-control form-control-line readonly" type="text" name="phone" id="phone" value="<?=$user['phone']?>" readonly>
+                                        <input class="form-control form-control-line readonly" type="text" name="phone" id="phone" value="<?= $user['phone'] ?>" readonly>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label  class="col-md-12" for="regiteredAt">Registered at</label>
+                                    <label class="col-md-12" for="regiteredAt">Registered at</label>
                                     <div class="col-md-12">
                                         <input class="form-control form-control-line" type="text" name="registerdAt" id="registeredAt" value="<?= $user['registeredAt'] != null ? dateFormat($user['registeredAt']) : 'null' ?>" readonly>
                                     </div>
@@ -123,19 +83,19 @@
                                 <div class="form-group">
                                     <label class="col-md-12" for="lastLogin">Last Login</label>
                                     <div class="col-md-12">
-                                        <input class="form-control form-control-line" type="text" name="lastLogin" id="lastLogin" value="<?= dateFormat($user['lastLogin'])?>" readonly>
+                                        <input class="form-control form-control-line" type="text" name="lastLogin" id="lastLogin" value="<?= dateFormat($user['lastLogin']) ?>" readonly>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-12" for="intro">Intro</label>
                                     <div class="col-md-12">
-                                        <div rows="5" class="form-control form-control-line " name="intro" id="intro" ><?=$user['intro']?></div>
+                                        <div rows="5" class="form-control form-control-line " name="intro" id="intro"><?= $user['intro'] ?></div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-12" for="profile">Profile</label>
                                     <div class="col-md-12">
-                                        <div rows="5" class="form-control form-control-line " name="profile" id="profile" ><?=$user['profile']?></div>
+                                        <div rows="5" class="form-control form-control-line " name="profile" id="profile"><?= $user['profile'] ?></div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -143,134 +103,138 @@
                                     <button id="deleteBtn" class="btn btn-danger" data-toggle="modal" data-target="#delUserModal" href="#">Supprimer</button>
                                 </div>
                             </div><!-- form-horizontal-->
-                        </div> <!--card-block-->
-                    </div><!--card--->
-                </div><!--fin  frame profile -->
-            
+                        </div>
+                        <!--card-block-->
+                    </div>
+                    <!--card--->
+                </div>
+                <!--fin  frame profile -->
+
                 <!-- frame articles -->
                 <div class="tab-pane" id="articles" role="tabpanel">
                     <div class="card-block">
                         <div class="profiletimeline">
                             <!-- Section des articles -->
-                        <?php if ($articles != false) :?>
-                                <?php foreach ($articles as $index => $article) : ?> 
-                                <div class="sl-item">
-                                    <div class="sl-left"> <img src="<?= $wwwUrl ?>/assets/images/users/sm_<?=$user['avatar']?>" alt="user avatar" class="img-circle"> 
-                                    </div>
-                                    <div class="sl-right">
-                                        <div> <a href="<?= $requestUrl ?>/admin/articles/article/?id=<?=$article['id']?>" class="link"><?=$article['title']?></a> <span class="sl-date"><?= calcTimePast($article['timePast'])?> ago</span>
-                                            <div class="m-t-20 row">
-                                                <div class="col-md-3 col-xs-12"><img src="<?= $wwwUrl ?>/assets/images/posts/sm_<?=$article['picture'] !== 'NULL' ? $article['picture'] : 'default_picture.jpg'?>" alt="<?=$article['picture']?>" class="img-responsive radius">
+                            <?php if ($articles != false) : ?>
+                                <?php foreach ($articles as $index => $article) : ?>
+                                    <div class="sl-item">
+                                        <div class="sl-left"> <img src="<?= $wwwUrl ?>/assets/images/users/sm_<?= $user['avatar'] ?>" alt="user avatar" class="img-circle">
+                                        </div>
+                                        <div class="sl-right">
+                                            <div> <a href="<?= $requestUrl ?>/admin/articles/article/?id=<?= $article['id'] ?>" class="link"><?= $article['title'] ?></a> <span class="sl-date"><?= calcTimePast($article['timePast']) ?> ago</span>
+                                                <div class="m-t-20 row">
+                                                    <div class="col-md-3 col-xs-12"><img src="<?= $wwwUrl ?>/assets/images/posts/sm_<?= $article['picture'] !== 'NULL' ? $article['picture'] : 'default_picture.jpg' ?>" alt="<?= $article['picture'] ?>" class="img-responsive radius">
+                                                    </div>
+                                                    <div class="col-md-9 col-xs-12">
+                                                        <p><small> <?= $article['metaTitle'] ?> </small></p>
+                                                    </div>
                                                 </div>
-                                                <div class="col-md-9 col-xs-12">
-                                                    <p><small> <?=$article['metaTitle']?> </small></p>
+                                                <div class="like-comm m-t-20"> <a href="javascript:void(0)" class="link m-r-10"><?= $article['share'] ?> Shares</a> <a href="javascript:void(0)" class="link m-r-10"><i class="mdi-hearttext-danger"></i> <?= $article['likes'] ?> Likes</a>
                                                 </div>
-                                            </div>
-                                            <div class="like-comm m-t-20"> <a href="javascript:void(0)" class="link m-r-10"><?=$article['share']?> Shares</a> <a href="javascript:void(0)" class="link m-r-10"><i class="mdi-hearttext-danger"></i> <?=$article['likes']?> Likes</a> 
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <hr> 
-                            <?php endforeach ?>
-                        <?php endif ?>
+                                    <hr>
+                                <?php endforeach ?>
+                            <?php endif ?>
                         </div>
-                    </div><!--card-block-->
-                </div><!--fin  frame articles -->
+                    </div>
+                    <!--card-block-->
+                </div>
+                <!--fin  frame articles -->
 
                 <!-- frame commentaires -->
                 <div class="tab-pane" id="comments" role="tabpanel">
                     <div class="card-block">
                         <div class="profiletimeline">
-                        <!-- Section des commentaires -->
-                        <?php if ($comments != false) :?>
-                                <?php foreach ($comments as $index => $comment) : ?> 
-                                <div class="sl-item">
-                                    <div class="sl-left"> <img src="<?= $wwwUrl ?>/assets/images/users/<?=$comment['userAvatar']?>" alt="user" class="img-circle"> 
-                                    </div>
-                                    <div class="sl-right">
-                                        <div> <a href="#" class="link"><?= $comment['commentTitle']?></a> <span class="sl-date"><?= calcTimePast($comment['timePast'])?> ago</span>
-                                            <div class="m-t-20 row">
-                                                <div class="col-md-9 col-xs-12">
-                                                    <p> <?= substr($comment['commentContent'],0,200)?> </p>
-                                                    <p><a class="link" href="<?= $requestUrl ?>/admin/articles/article/?id=<?=$comment['postId']?>"><small><?= $comment['postTitle']?></small></a></p>
+                            <!-- Section des commentaires -->
+                            <?php if ($comments != false) : ?>
+                                <?php foreach ($comments as $index => $comment) : ?>
+                                    <div class="sl-item">
+                                        <div class="sl-left"> <img src="<?= $wwwUrl ?>/assets/images/users/<?= $comment['userAvatar'] ?>" alt="user" class="img-circle">
+                                        </div>
+                                        <div class="sl-right">
+                                            <div> <a href="#" class="link"><?= $comment['commentTitle'] ?></a> <span class="sl-date"><?= calcTimePast($comment['timePast']) ?> ago</span>
+                                                <div class="m-t-20 row">
+                                                    <div class="col-md-9 col-xs-12">
+                                                        <p> <?= substr($comment['commentContent'], 0, 200) ?> </p>
+                                                        <p><a class="link" href="<?= $requestUrl ?>/admin/articles/article/?id=<?= $comment['postId'] ?>"><small><?= $comment['postTitle'] ?></small></a></p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <hr> 
-                            <?php endforeach ?>
-                        <?php endif ?>
+                                    <hr>
+                                <?php endforeach ?>
+                            <?php endif ?>
                         </div>
-                    </div><!--card-block-->
-                </div><!--fin comments frame -->
-                
-                
+                    </div>
+                    <!--card-block-->
+                </div>
+                <!--fin comments frame -->
 
-
-                <!-- messages frame -->
-                <div class="tab-pane" id="messages" role="tabpanel">
-                </div> <!--fin message frame -->
 
                 <!-- photos frame -->
                 <div class="tab-pane" id="photos" role="tabpanel">
                     <div class="card-block">
                         <div class="profiletimeline">
-                    <!-- Section des photos -->
-                         <?php if ($pics != false) :?>
-                            <?php foreach ($pics as $index => $pic) : ?> 
-                            <div class="sl-item">
-                                <div class="sl-left"> <img src="<?= $wwwUrl ?>/assets/images/users/sm_<?=$user['avatar']?>" alt="user avatar" class="img-circle"> 
-                                </div>
-                                <div class="sl-right">
-                                    <div> <a href="<?= $requestUrl ?>/admin/gallery/image/?id=<?=$pic['id']?>" class="link"><?=$pic['label']?></a> <span class="sl-date"><?= calcTimePast($pic['timePast'])?> ago</span>
-                                        <div class="m-t-20 row">
-                                            <div class="col-md-3 col-xs-12"><img src="<?= $wwwUrl ?>/assets/images/gallery/sm_<?=$pic['uniqueName'] !== 'NULL' ? $pic['uniqueName'] : 'default_picture.jpg'?>" alt="<?=$pic['label']?>" class="img-responsive radius">
-                                            </div>
-                                            <div class="col-md-9 col-xs-12">
-                                                <p><small> <?=$pic['description']?> </small></p>
-                                            </div>
+                            <!-- Section des photos -->
+                            <?php if ($pics != false) : ?>
+                                <?php foreach ($pics as $index => $pic) : ?>
+                                    <div class="sl-item">
+                                        <div class="sl-left"> <img src="<?= $wwwUrl ?>/assets/images/users/sm_<?= $user['avatar'] ?>" alt="user avatar" class="img-circle">
                                         </div>
-                                        <div class="like-comm m-t-20"> <a href="javascript:void(0)" class="link m-r-10"><?=$pic['share']?> Shares</a> <a href="javascript:void(0)" class="link m-r-10"><i class="mdi-hearttext-danger"></i> <?=$pic['likes']?> Likes</a> 
+                                        <div class="sl-right">
+                                            <div> <a href="<?= $requestUrl ?>/admin/gallery/image/?id=<?= $pic['id'] ?>" class="link"><?= $pic['label'] ?></a> <span class="sl-date"><?= calcTimePast($pic['timePast']) ?> ago</span>
+                                                <div class="m-t-20 row">
+                                                    <div class="col-md-3 col-xs-12"><img src="<?= $wwwUrl ?>/assets/images/gallery/sm_<?= $pic['uniqueName'] !== 'NULL' ? $pic['uniqueName'] : 'default_picture.jpg' ?>" alt="<?= $pic['label'] ?>" class="img-responsive radius">
+                                                    </div>
+                                                    <div class="col-md-9 col-xs-12">
+                                                        <p><small> <?= $pic['description'] ?> </small></p>
+                                                    </div>
+                                                </div>
+                                                <div class="like-comm m-t-20"> <a href="javascript:void(0)" class="link m-r-10"><?= $pic['share'] ?> Shares</a> <a href="javascript:void(0)" class="link m-r-10"><i class="mdi-hearttext-danger"></i> <?= $pic['likes'] ?> Likes</a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <hr> 
-                             <?php endforeach ?>
-                         <?php endif ?>
+                                    <hr>
+                                <?php endforeach ?>
+                            <?php endif ?>
                         </div>
-                    </div><!--card-block-->
-                </div> <!--fin photo frame -->
-            
-           
-           
+                    </div>
+                    <!--card-block-->
+                </div>
+                <!--fin photo frame -->
+
+
+
             </div> <!-- fin des frames content -->
-        </div> <!--card-->
+        </div>
+        <!--card-->
     </div><!-- Column -->
 </div> <!-- row-->
- 
+
 
 <!--  Modal pour confirmer la suppresion de l'utilisateur -->
 <div class="modal fade" id="delUserModal" tabindex="-1" role="dialog" aria-labelledby="delUserModal" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="modal-title" id="delUserModalLabel">Supprimer l'utilisateur</h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>La suppresion de votre profil entrainera aussi la suppresion de toutes vos publications. Et vous ne serez plus authorisé à acceder au back-office<span>Etes-vous sur de vouloir supprimer votre profil ?</span></p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-        <a class="btn btn-success" id="updateBtnModal" href="<?= $requestUrl ?>/admin/profile/del/?id=<?=$user['id']?>">Confirmer</a>
-      </div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="delUserModalLabel">Supprimer l'utilisateur</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>La suppresion de votre profil entrainera aussi la suppresion de toutes vos publications. Et vous ne serez plus authorisé à acceder au back-office<span>Etes-vous sur de vouloir supprimer votre profil ?</span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                <a class="btn btn-success" id="updateBtnModal" href="<?= $requestUrl ?>/admin/profile/del/?id=<?= $user['id'] ?>">Confirmer</a>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <!-- Row -->
