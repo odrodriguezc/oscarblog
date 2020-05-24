@@ -192,4 +192,15 @@ class ArticlesModel extends MasterModel
     {
         return $this->dbh->queryOne("SELECT {$action} FROM {$this->table} WHERE id=?", [$id]);
     }
+
+    public function findByCategory(int $id)
+    {
+        return $this->dbh->query("SELECT post.*,  user.id AS authorId, user.username AS authorName, category.id, category.title as categoryTitle, category.description as categoryDescription 
+        FROM {$this->table} 
+        INNER JOIN user ON post.authorId = user.id 
+        INNER JOIN post_has_category ON post.id = post_has_category.postId
+        INNER JOIN category ON post_has_category.categoryId = category.id
+        WHERE post_has_category.categoryId = $id
+        ORDER BY post.createdAt DESC", [$id]);
+    }
 }

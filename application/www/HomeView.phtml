@@ -9,12 +9,12 @@
 
 <!-- flexslider function -->
 <script>
-			$(window).on('load', function() {
-				$('.flexslider').flexslider({
-					directionNav: true,
-					controlNav: true
-				});
-			});
+  $(window).on('load', function() {
+    $('.flexslider').flexslider({
+      directionNav: true,
+      controlNav: true
+    });
+  });
 </script>
 
 
@@ -28,10 +28,10 @@
           <img src="<?= $wwwUrl ?>/images/slider/1.jpg" alt="Retrouvez toute nos idées cadeaux pour les fêtes de noël" />
         </li>
         <li>
-          <img src="<?= $wwwUrl ?>/images/slider/2.jpg" alt="Retrouvez toute la collection des thés numéro 25 et notre nouvelle édition limitée"/>
+          <img src="<?= $wwwUrl ?>/images/slider/2.jpg" alt="Retrouvez toute la collection des thés numéro 25 et notre nouvelle édition limitée" />
         </li>
         <li>
-          <img src="<?= $wwwUrl ?>/images/slider/3.jpg" alt="Retrouvez toute la collection des thés numéro 25 et notre nouvelle édition limitée"/>
+          <img src="<?= $wwwUrl ?>/images/slider/3.jpg" alt="Retrouvez toute la collection des thés numéro 25 et notre nouvelle édition limitée" />
         </li>
       </ul>
     </div>
@@ -39,46 +39,46 @@
   </section>
 
   <section class="blog">
-    
-   <!-- Post Article -->
-   <?php if (isset($articlesList) && is_array($articlesList)):?>
-        <?php foreach ($articlesList as $key => $article) : ?> 
-    <article class="post">
-        <header class="post">
-            <h1 class="title"><a href="<?= $requestUrl ?>/articles/article/?id=<?= $article['id']?>"><?=$article['title']?></a> </h1>
-            <h4 class="subtitle"><?=$article['metaTitle']?>  </h4>
-         </header>
-      
-        <section class="body-post">
-            <img class="post-img small-img" src="<?= $wwwUrl ?>/assets/images/posts/sm_<?=$article['picture'] != 'NULL' ? $article['picture'] : 'default_picture.jpg' ?> " alt="article">
-            <p><?=$article['summary']?> </p>
-        </section>
-      
-        <footer class="post">
+
+    <!-- Post Article -->
+    <?php if (isset($articlesList) && is_array($articlesList)) : ?>
+      <?php foreach ($articlesList as $key => $article) : ?>
+        <article class="post">
+          <header class="post">
+            <h1 class="title"><a href="<?= $requestUrl ?>/articles/article/?id=<?= $article['id'] ?>"><?= $article['title'] ?></a> </h1>
+            <h4 class="subtitle"><?= $article['metaTitle'] ?> </h4>
+          </header>
+
+          <section class="body-post">
+            <img class="post-img small-img" src="<?= $wwwUrl ?>/assets/images/posts/sm_<?= $article['picture'] != 'NULL' ? $article['picture'] : 'default_picture.jpg' ?> " alt="article">
+            <p><?= $article['summary'] ?> </p>
+          </section>
+
+          <footer class="post">
             <aside class="post flex">
-                <p class="post references">Ecrit par 
-                    <a id="post-author" href="#"><?=$article['authorName']?> </a> at <span id="post-date"> <?=$article['createdAt']?> </span>
-                </p>
+              <p class="post references">Ecrit par
+                <a id="post-author" href="#"><?= $article['authorName'] ?> </a> at <span id="post-date"> <?= $article['createdAt'] ?> </span>
+              </p>
             </aside>
             <div class="reactions">
-                <a class="likes" href="<?= $requestUrl ?>/articles/action/?id=<?=$article['id']?>&action=likes" data-id="<?=$article['id']?>">
-                    <i class="fas fa-heart"></i>
-                </a>  
-                <span data-id="<?=$article['id']?>" class="likesCount"> <?=$article['likes']?> </span>
-                
-                <a class="dislikes" href="<?= $requestUrl ?>/articles/action/?id=<?=$article['id']?>&action=dislikes" data-id="<?=$article['id']?>"><i class="fas fa-heart-broken"></i>
-                </a>
-                 <span class="dislikesCount" data-id="<?=$article['id']?>">  <?=$article['dislikes']?> </span> 
-                <a class="share" class="open-modal share-items" href="#modal-open"  data-id="<?=$article['id']?>" data-title="<?=$article['title']?>"><i class="fas fa-share"></i>
-                </a>
-                <span class="shareCount" data-id="<?=$article['id']?>">   <?=$article['share']?></span>
+              <a class="likes" href="<?= $requestUrl ?>/articles/action/?id=<?= $article['id'] ?>&action=likes" data-id="<?= $article['id'] ?>">
+                <i class="fas fa-heart"></i>
+              </a>
+              <span data-id="<?= $article['id'] ?>" class="likesCount"> <?= $article['likes'] ?> </span>
+
+              <a class="dislikes" href="<?= $requestUrl ?>/articles/action/?id=<?= $article['id'] ?>&action=dislikes" data-id="<?= $article['id'] ?>"><i class="fas fa-heart-broken"></i>
+              </a>
+              <span class="dislikesCount" data-id="<?= $article['id'] ?>"> <?= $article['dislikes'] ?> </span>
+              <a class="share" class="open-modal share-items" href="#modal-open" data-id="<?= $article['id'] ?>" data-title="<?= $article['title'] ?>"><i class="fas fa-share"></i>
+              </a>
+              <span class="shareCount" data-id="<?= $article['id'] ?>"> <?= $article['share'] ?></span>
             </div>
-        </footer>
-    </article>
-        <?php endforeach ?>
+          </footer>
+        </article>
+      <?php endforeach ?>
     <?php endif ?>
 
-      <!-- Go up Nav -->
+    <!-- Go up Nav -->
     <div class="nav-bar go-up">
       <nav class="flex">
         <a href="#">Go up</a>
@@ -91,129 +91,94 @@
   <aside class="sidebar">
 
     <section class="weather">
-     <h1>
-      <span id="city"></span>
-      <span id="cityWeather" class="tooltip">Ecrivez une autre ville</span>
-     </h1> 
-     <i id="weatherIcon" class=""></i>
-     <h2>
-      <span id="temperature"> </span> C°  - <span id="conditions"></span>
-     </h2>
+      <h1>
+        <span id="city"></span>
+        <span id="cityWeather" class="tooltip">Ecrivez une autre ville</span>
+      </h1>
+      <i id="weatherIcon" class=""></i>
+      <h2>
+        <span id="temperature"> </span> C° - <span id="conditions"></span>
+      </h2>
     </section>
 
     <section class="trends">
-
-
+      <div class="stats">
+        <h3>Stats</h3>
+        <h5 class="flex"><span>Week </span> <span> Month</span></h5>
+        <canvas class="center" id="weekRing" width="300" height="200"></canvas>
+      </div>
     </section>
 
-   <section class="categories">
-     <h2>Categories</h2>
-     <nav class="">
-       <ul class="categories-list">
-       <?php if (isset($catList) && is_array($catList)):?>
-        <?php foreach ($catList as $key => $cat) : ?> 
-          <li class="category-item">
-            <a href="#"><?=$cat['title']?></a>
-            <a href="#"><span class="rond-counter">(<?=$cat['post']?>)</span></a>
-          </li>
-        <?php endforeach ?>
-      <?php endif ?>
-       </ul>
-     </nav>
-   </section>
+    <section class="categories">
+      <h2>Categories</h2>
+      <nav class="">
+        <ul class="categories-list">
+          <?php if (isset($catList) && is_array($catList)) : ?>
+            <?php foreach ($catList as $key => $cat) : ?>
+              <li class="category-item">
+                <a href="<?= $requestUrl ?>/articles/bycat/?id=<?= $cat['id'] ?>"><?= $cat['title'] ?></a>
+                <a href="<?= $requestUrl ?>/articles/bycat/?id=<?= $cat['id'] ?>"><span class="rond-counter">(<?= $cat['post'] ?>)</span></a>
+              </li>
+            <?php endforeach ?>
+          <?php endif ?>
+        </ul>
+      </nav>
+    </section>
 
-   <section class="follow-me">
+    <section class="follow-me">
       <h2>Subscribe</h2>
       <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
       <form action="" method="post">
         <input type="text" name="email" id="email" placeholder="write your email">
         <input class="btn" type="submit" value="Send">
       </form>
-   </section>
-
-   <section class="recomended">
-     <h2>Recomended</h2>
-     <ul>
-       <li><a href="#"></a>www.3wacademy.fr</li>
-       <li><a href="#"></a>www.3wacademy.fr</li>
-       <li><a href="#"></a>www.3wacademy.fr</li>
-       <li><a href="#"></a>www.3wacademy.fr</li>
-       <li><a href="#"></a>www.3wacademy.fr</li>
-       <li><a href="#"></a>www.3wacademy.fr</li>
-       <li><a href="#"></a>www.3wacademy.fr</li>
-     </ul>
-
     </section>
 
-    <section class="archive">
-     <h2>Archives</h2>
-     <nav class="">
-       <ul class="archive-list">
-          <li class="">
-            <a href="#">2020</a>
-            <a href="#"><span class="rond-counter">3</span></a>
-          </li>
-          <li>
-            <a href="#">2019</a>
-            <a href="#"><span class="rond-counter">3</span></a>
-          </li>
-          <li>
-            <a href="#">2018</a>
-            <a href="#"><span class="rond-counter">3</span></a>
-          </li>
-          <li>
-            <a href="#">2017</a>
-            <a href="#"><span class="rond-counter">3</span></a>
-          </li>
-          <li>
-            <a href="#">2016</a>
-            <a href="#"><span class="rond-counter">3</span></a>
-            </li>
-          <li>
-            <a href="#">2015</a>
-            <a href="#"><span class="rond-counter">3</span></a>
-            </li>
-          <li>
-            <a href="#">2014</a>
-            <a href="#"><span class="rond-counter">3</span></a>
-          </li>
-       </ul>
-     </nav>
-   </section>
+    <section class="recomended">
+      <h2>Recomended</h2>
+      <ul>
+        <li><a href="#"></a>www.3wacademy.fr</li>
+        <li><a href="#"></a>www.3wacademy.fr</li>
+        <li><a href="#"></a>www.3wacademy.fr</li>
+        <li><a href="#"></a>www.3wacademy.fr</li>
+        <li><a href="#"></a>www.3wacademy.fr</li>
+        <li><a href="#"></a>www.3wacademy.fr</li>
+        <li><a href="#"></a>www.3wacademy.fr</li>
+      </ul>
+
+    </section>
   </aside>
 </div>
 
 <div id="modal-open" class="modal-dialog">
-    <div class="modal-content">
+  <div class="modal-content">
     <a href="#close" title="Close" class="modal-close"><i class="fas fa-times"></i></a>
     <h4>Share</h4>
     <nav class="post-share">
-        <ul class="share-buttons">
+      <ul class="share-buttons">
         <li class="share-items">
-            <a class="share-facebook" href=""><i class="fab fa-facebook" target="_blank"></i>Facebook  
-            </a>
+          <a class="share-facebook" href=""><i class="fab fa-facebook" target="_blank"></i>Facebook
+          </a>
         </li>
         <li class="share-items">
-            <a class="share-twitter" href="" target="_blank"><i class="fab fa-twitter"></i>Twitter
-            </a>
+          <a class="share-twitter" href="" target="_blank"><i class="fab fa-twitter"></i>Twitter
+          </a>
         </li>
         <li class="share-items">
-            <a class="share-linkedin" href="" target="_blank"><i class="fab fa-linkedin"></i>Linkedin
-        </a>
+          <a class="share-linkedin" href="" target="_blank"><i class="fab fa-linkedin"></i>Linkedin
+          </a>
         </li>
         <li class="share-items">
-            <a class="share-email" href="" target="_blank"><i class="far fa-envelope"></i>Mail
-        </a>
+          <a class="share-email" href="" target="_blank"><i class="far fa-envelope"></i>Mail
+          </a>
         </li>
-        </ul>
+      </ul>
     </nav>
-    </div>
+  </div>
 </div>
 
 
-			
-<script src="<?= $wwwUrl ?>/js/weather.js"></script>
-<script src="<?= $wwwUrl ?>/js/articles.js"></script>
-	
-			
 
+<script src="<?= $wwwUrl ?>/js/weather.js"></script>
+<script src="<?= $wwwUrl ?>/js/stats.js"></script>
+<script src="<?= $wwwUrl ?>/js/articles.js"></script>

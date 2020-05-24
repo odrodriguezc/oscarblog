@@ -1,0 +1,99 @@
+<!-- Main Content -->
+<section class="gallery articles main container-80">
+    <!-- Post Article -->
+    <?php if (isset($articlesList) && is_array($articlesList)) : ?>
+        <article class="post">
+            <header class="post">
+                <h1 class="title"><?= $articlesList[0]['categoryTitle'] ?> </h1>
+            </header>
+
+
+            <section class="body-post">
+                <img class="post-img img-big" src="<?= $wwwUrl ?>/assets/images/posts/md_<?= $articlesList['picture'] ?? 'default_picture.jpg' ?>" alt="article">
+                <div class="post-content">
+                    <?= $articlesList[0]['categoryDescription'] ?>
+                </div>
+            </section>
+        </article>
+    <?php endif ?>
+
+</section>
+
+<section class="articles container-80 all">
+    <!-- Post Article -->
+    <?php if (isset($articlesList) && is_array($articlesList)) : ?>
+        <?php foreach ($articlesList as $key => $article) : ?>
+            <article class="post">
+                <header class="post">
+                    <h1 class="title"><a href="<?= $requestUrl ?>/articles/article/?id=<?= $article['id'] ?>"><?= $article['title'] ?></a> </h1>
+                    <h4 class="subtitle left"><?= $article['metaTitle'] ?> </h4>
+                </header>
+
+                <section class="body-post">
+                    <img class="post-img small-img" src="<?= $wwwUrl ?>/assets/images/posts/sm_<?= $article['picture'] != 'NULL' ? $article['picture'] : 'default_picture.jpg' ?> " alt="article">
+                    <p><?= $article['summary'] ?> </p>
+                </section>
+
+                <footer class="post">
+                    <aside class="post flex">
+                        <p class="post references">Ecrit par
+                            <a id="post-author" href="#"><?= $article['authorName'] ?> </a> at <span id="post-date"> <?= $article['createdAt'] ?> </span>
+                        </p>
+                    </aside>
+                    <div class="reactions">
+                        <a class="likes" href="<?= $requestUrl ?>/articles/action/?id=<?= $article['id'] ?>&action=likes" data-id="<?= $article['id'] ?>">
+                            <i class="fas fa-heart"></i>
+                        </a>
+                        <span data-id="<?= $article['id'] ?>" class="likesCount"> <?= $article['likes'] ?> </span>
+
+                        <a class="dislikes" href="<?= $requestUrl ?>/articles/action/?id=<?= $article['id'] ?>&action=dislikes" data-id="<?= $article['id'] ?>"><i class="fas fa-heart-broken"></i>
+                        </a>
+                        <span class="dislikesCount" data-id="<?= $article['id'] ?>"> <?= $article['dislikes'] ?> </span>
+                        <a class="share" class="open-modal share-items" href="#modal-open" data-id="<?= $article['id'] ?>" data-title="<?= $article['title'] ?>"><i class="fas fa-share"></i>
+                        </a>
+                        <span class="shareCount" data-id="<?= $article['id'] ?>"> <?= $article['share'] ?></span>
+                    </div>
+                </footer>
+            </article>
+        <?php endforeach ?>
+    <?php endif ?>
+
+
+
+    <!-- Go up Nav -->
+    <div class="nav-bar go-up">
+        <nav class="flex">
+            <a href="#"><i class="fas fa-angle-double-up"></i>Go up</a>
+            <a href="#"><i class="fas fa-angle-double-right"></i>More</a>
+        </nav>
+    </div>
+</section>
+
+<div id="modal-open" class="modal-dialog">
+    <div class="modal-content">
+        <a href="#close" title="Close" class="modal-close"><i class="fas fa-times"></i></a>
+        <h4>Share</h4>
+        <nav class="post-share">
+            <ul class="share-buttons">
+                <li class="share-items">
+                    <a class="share-facebook" href=""><i class="fab fa-facebook" target="_blank"></i>Facebook
+                    </a>
+                </li>
+                <li class="share-items">
+                    <a class="share-twitter" href="" target="_blank"><i class="fab fa-twitter"></i>Twitter
+                    </a>
+                </li>
+                <li class="share-items">
+                    <a class="share-linkedin" href="" target="_blank"><i class="fab fa-linkedin"></i>Linkedin
+                    </a>
+                </li>
+                <li class="share-items">
+                    <a class="share-email" href="" target="_blank"><i class="far fa-envelope"></i>Mail
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<script src="<?= $wwwUrl ?>/js/articles.js"></script>

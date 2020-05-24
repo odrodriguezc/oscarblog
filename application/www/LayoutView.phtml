@@ -83,10 +83,12 @@
 	</header>
 
 
-	<main>
 
+	<main>
 		<!-- Affichage du template lié à la vue -->
-		<?php include $this->viewData['template'] ?>
+		<?php //var_dump($collections);
+		//die();
+		include $this->viewData['template'] ?>
 
 	</main>
 
@@ -94,76 +96,27 @@
 	<!-- Footer -->
 	<footer>
 		<section class="carrousel flex blur">
-			<div class="img-min">
-				<img src="https://picsum.photos/id/141/200/150/" alt="image 1">
-				<div class="fluid-leyend">
-					<a href="#">
-						<h5 class="h5">gallery</h5>
-					</a>
-					<a href="#">
-						<h3 class="h3">Title lorem romea</h3>
-					</a>
-				</div>
-			</div>
 
-			<div class="img-min">
-				<img src="https://picsum.photos/id/351/200/150/" alt="image 1">
-				<div class="fluid-leyend">
-					<a href="#">
-						<h5 class="h5">gallery</h5>
-					</a>
-					<a href="#">
-						<h3 class="h3">Title lorem romea</h3>
-					</a>
-				</div>
-			</div>
+			<?php if (isset($collections) && !empty($collections)) : ?>
+				<?php $count = 0 ?>
+				<?php foreach ($collections as $key => $col) : ?>
+					<?php $count++ ?>
+					<?php if ($count === 6) {
+						break;
+					} ?>
+					<div class="img-min">
+						<img src="<?= $wwwUrl ?>/assets/images/gallery/sm_<?= $col[0]['uniqueName'] ?>" alt="<?= $col[0]['label'] ?>">
+						<div class="fluid-leyend">
+							<a href="<?= $requestUrl ?>/gallery/collection/?id=<?= $col[0]['collectionId'] ?>">
+								<h5 class="h5"><?= $col[0]['collectionTitle'] ?></h5>
+							</a>
 
-			<div class="img-min">
-				<img src="https://picsum.photos/id/144/200/150/" alt="image 1">
-				<div class="fluid-leyend">
-					<a href="#">
-						<h5 class="h5">gallery</h5>
-					</a>
-					<a href="#">
-						<h3 class="h3">Title lorem romea</h3>
-					</a>
-				</div>
-			</div>
+						</div>
+					</div>
+				<?php endforeach ?>
+			<?php endif ?>
 
-			<div class="img-min">
-				<img src="https://picsum.photos/id/111/200/150/" alt="image 1">
-				<div class="fluid-leyend">
-					<a href="#">
-						<h5 class="h5">gallery</h5>
-					</a>
-					<a href="#">
-						<h3 class="h3">Title lorem romea</h3>
-					</a>
-				</div>
-			</div>
 
-			<div class="img-min">
-				<img src="https://picsum.photos/id/121/200/150/" alt="image 1">
-				<div class="fluid-leyend">
-					<a href="#">
-						<h5 class="h5">gallery</h5>
-					</a>
-					<a href="#">
-						<h3 class="h3">Title lorem romea</h3>
-					</a>
-				</div>
-			</div>
-			<div class="img-min">
-				<img src="https://picsum.photos/id/121/200/150/" alt="image 1">
-				<div class="fluid-leyend">
-					<a href="#">
-						<h5 class="h5">gallery</h5>
-					</a>
-					<a href="#">
-						<h3 class="h3">Title lorem romea</h3>
-					</a>
-				</div>
-			</div>
 		</section>
 		<div class="bar ">
 			<nav class="nav-bar container-80 flex">
