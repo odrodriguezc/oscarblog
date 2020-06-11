@@ -46,10 +46,6 @@ class StatsController
 		echo (json_encode($stats, JSON_NUMERIC_CHECK));
 		die();
 
-
-		return [
-			'_raw_template' => true
-		];
 	}
 
 	public function httpPostMethod(Http $http, array $formFields)

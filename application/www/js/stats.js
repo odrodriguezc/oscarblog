@@ -6,7 +6,7 @@ let test;
 
 
 async function stats() {
-    const data = await fetch('http://www.oscarblog.com/index.php/admin/stats/')
+    const data = await fetch(`http://odrodriguezc.sites.3wa.io/oscarblog/index.php/admin/stats`)
         .then(result => result.json())
         .then(json => graphicStats(analitycs(json)))
 }
@@ -22,10 +22,16 @@ function analitycs(data) {
     for (let i = 0; i < week.length; i++) {
         totalWeek += week[i];
     }
+    
+    if(totalWeek === 0){
+        stats.week=[25,25,25,25];
+    } else {
+        week.forEach((element) => {
+            stats.week.push((element * 100) / totalWeek)
+        });
+        
+    }
 
-    week.forEach((element) => {
-        stats.week.push((element * 100) / totalWeek)
-    });
 
     let month = Object.values(data.month);
     let totalMonth = 0;
@@ -33,9 +39,13 @@ function analitycs(data) {
         totalMonth += month[i];
     }
 
-    month.forEach((element) => {
-        stats.month.push((element * 100) / totalMonth)
-    });
+    if (totalMonth === 0){
+        stats.month = [25,25,25,25];
+    } else {
+        month.forEach((element) => {
+            stats.month.push((element * 100) / totalMonth)
+        });
+    }
 
     console.log(stats);
 
@@ -45,6 +55,8 @@ function analitycs(data) {
 
 
 function graphicStats(data) {
+    
+  
 
     let canvas = document.getElementById('weekRing');
     let context = canvas.getContext('2d');
@@ -61,6 +73,7 @@ function graphicStats(data) {
 
     let largeur_rect = 15;
     let legendes = ['Created Posts', 'Published posts', 'Coments', 'Pics'];
+    
 
     for (let i = 0; i < data.week.length; i++) {
         let angles_degre = (data.week[i] / 100) * 360; // conversion pourcentage -> angle en degré

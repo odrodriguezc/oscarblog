@@ -148,7 +148,8 @@ class MicroKernel
                     [
                         $exception->getMessage(),
                         "<strong>Fichier</strong> : " . $exception->getFile(),
-                        "<strong>Ligne</strong> : " . $exception->getLine()
+                        "<strong>Ligne</strong> : " . $exception->getLine(),
+                        
                     ]
                 )
             );
